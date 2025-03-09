@@ -1,0 +1,10 @@
+main:
+  - title: "Algebra"
+    url: /algebra/
+  - title: "Number Theory"
+    url: /categories/
+  - title: "Probability"
+    url: /aaa/
+  - title: "About"
+    url: /about/
+

@@ -1,0 +1,47 @@
+# Run [bundle exec jekyll serve] to test the site locally
+
+# page build set up
+markdown: kramdown
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  mathjax:
+    process_escapes: true
+  syntax_highlighter_opts:
+    guess_lang: false
+
+remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+plugins:
+- jekyll-remote-theme # add this line to the plugins list if you already have one
+- jekyll-include-cache
+- jekyll-paginate
+- jekyll-sitemap
+- jekyll-gist
+- jekyll-feed
+- jemoji
+
+
+
+# Site settings
+title: Tianhao's Homepage
+email: tianhw11@uci.edu
+
+author:
+  name   : Tianhao Wang
+  avatar : "/assets/images/bio-photo.jpg"
+  bio    : "I am a fifth year Math Ph.D student at UC Irvine, working on arithmetic algebraic geometry"
+  links:
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      url: "https://tianhaow.github.io"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/TianhaoW"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:tianhw11@uci.edu"
+
+
+
+
+
