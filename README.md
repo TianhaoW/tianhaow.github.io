@@ -6,4 +6,4 @@ This is some block latex
 
 $$A\to B\to C$$
 
-[test](test.md)
+[test](math/test.md)

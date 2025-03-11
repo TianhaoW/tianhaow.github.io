@@ -1,10 +1,15 @@
-main:
-  - title: "Algebra"
-    url: /algebra/
-  - title: "Number Theory"
-    url: /categories/
-  - title: "Probability"
-    url: /aaa/
-  - title: "About"
-    url: /about/
-
+- name: Math Notes
+  link: /math
+  dropdown:
+    - name: Linear Algebra
+      link: /math/la
+    - name: Algebra
+      link: /math/algebra
+    - name: Algebraic Geometry
+      link: /math/ag
+    - name: Probability
+      link: /math/prob
+- name: Teaching
+  link: /
+- name: Machine Learning Related
+  link: /
