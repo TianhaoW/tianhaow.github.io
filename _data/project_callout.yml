@@ -1,0 +1,10 @@
+height: is-medium
+style: has-background-light
+items:
+  - title: "U.S. Agricultural Futures Market"
+    description: "A comprehensive study of U.S. agricultural futures markets using market data, weather records, and USDA reports. We built an LSTM-based model to forecast commodity prices, with plans to explore alternative architectures for improved accuracy."
+    img: "/imgs/wheat.png"
+    call_to_action_name: "View Page"
+    call_to_action_link: "https://tianhaow.github.io/ErdosAgriDerivPredict/"
+    call_to_action_secondary_name: "View on Github"
+    call_to_action_secondary_link: "https://github.com/TianhaoW/ErdosAgriDerivPredict"

@@ -7,9 +7,13 @@
       link: /math/algebra
     - name: Algebraic Geometry
       link: /math/ag
+    - name: Number Theory
+      link: /math/nt
     - name: Probability
       link: /math/prob
 - name: Teaching
-  link: /
-- name: Machine Learning Related
-  link: /
+  link: /teaching
+- name: Quantitative Finance Seminar
+  link: https://tianhaow.github.io/AllofQuant/
+- name: Projects
+  link: /projects

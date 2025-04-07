@@ -5,7 +5,8 @@ title: Tianhao's Homepage
 ## About me
 I am a fifth year Math Ph.D. student at UC Irvine working on Arithmetic 
 Algebraic Geometry. I am about to graduate in 2026 June, and I am currently looking for 
-internship opportunities in quantitative finance and data science.
+internship opportunities in quantitative finance and data science. Here is 
+an pdf version of my [Resume](resources/cv.pdf). 
 
 ## Education
 - **University of California, Irvine**. *Ph.D. in Mathematics, Sept 2020 - 
@@ -18,8 +19,7 @@ internship opportunities in quantitative finance and data science.
   - Cum Laude Honor, Dean's Award for Excellence
 
 ## Skills
-- **Programing:** Proficient programing skills in Python, C++ 
-- **Math:** 
+- **Programing:** Proficient programing skills in Python, C++
 - **Machine Learning:** 
 - **Math Finance:** 
 
@@ -55,3 +55,7 @@ internship opportunities in quantitative finance and data science.
 - Member of the *Phi Beta Kappa* honor society (since 2018)
 
 ## Other Activities
+
+## Contact：
+- Email: tianhw11\<at\>uci\<dot\>edu
+- Office: Rowland Hall 410V, University of California, Irvine.
