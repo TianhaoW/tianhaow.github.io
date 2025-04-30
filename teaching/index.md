@@ -23,17 +23,17 @@ permalink: /teaching
 
 ## Courses at University of California, San Diego
 
-| Term         | Courses                                                                 |
-|--------------|-------------------------------------------------------------------------|
-| Fall 2019    | Math 105: Intro to Number Theory, Math 20E: Vector Calculus II          |
-| Summer 2019  | Math 105: Intro to Number Theory                                        |
-| Spring 2019  | Math 20E: Vector Calculus II                                            |
-| Winter 2018  | Math 20E: Vector Calculus II                                            |
-| Fall 2018    | Math 20C: Vector Calculus I                                             |
-| Spring 2018  | Math 20C: Vector Calculus I                                             |
-| Winter 2017  | Math 18: Linear Algebra                                                 |
-| Fall 2017    | Math 18: Linear Algebra                                                 |
-| Spring 2017  | Math 18: Linear Algebra                                                 |
-| Winter 2017  | Math 18: Linear Algebra                                                 |
+| Term        | Courses                                                                 |
+|-------------|-------------------------------------------------------------------------|
+| Fall 2019   | Math 105: Intro to Number Theory, Math 20E: Vector Calculus II          |
+| Summer 2019 | Math 105: Intro to Number Theory                                        |
+| Spring 2019 | Math 20E: Vector Calculus II                                            |
+| Winter 2018 | Math 20E: Vector Calculus II                                            |
+| Fall 2018   | Math 20C: Vector Calculus I                                             |
+| Spring 2018 | Math 20C: Vector Calculus I                                             |
+| Winter 2017 | Math 18: Linear Algebra                                                 |
+| Fall 2017   | Math 18: Linear Algebra                                                 |
+| Spring 2017 | Math 18: Linear Algebra                                                 |
+| Winter 2016 | Math 18: Linear Algebra                                                 |
 
 

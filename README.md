@@ -1,3 +1,3 @@
 # Tianhao's Homepage
 
-This github repo serves as my homepage.
+This Github repo serves as my website.
