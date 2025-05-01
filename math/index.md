@@ -2,9 +2,5 @@
 layout: page
 title: Math Notes
 permalink: /math
+math_cardgrid: math_index_cardgrids
 ---
-- [Linear Algebra](la/index.md)
-- [Algebra](algebra/index.md)
-- [Algebraic Geometry](ag/index.md)
-- [Number Theory](nt/index.md)
-- [Probability](prob/index.md)

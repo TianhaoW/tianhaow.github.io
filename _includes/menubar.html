@@ -1,0 +1,44 @@
+{% assign menus = site.data[page.menubar] %}
+{% assign normalized_url = page.url | remove: '.html' | remove: '/' %}
+
+<aside class="menu">
+  {% for menu in site.data[page.menubar] %}
+    <p class="menu-label">{{ menu.label }}</p>
+    <ul class="menu-list">
+      {% for category in menu.items %}
+        {% assign category_path = category.link | remove: '.html' | remove: '/' %}
+        {% assign category_open = normalized_url contains category_path %}
+        <li>
+          <a href="{{ category.link | relative_url }}" class="{% if page.url == category.link %}is-active{% endif %}">
+            {{ category.name }}
+          </a>
+          {% if category.items %}
+            <ul {% unless category_open %}style="display: none;"{% endunless %}>
+              {% for topic in category.items %}
+                {% assign topic_path = topic.link | remove: '.html' | remove: '/' %}
+                {% assign topic_open = normalized_url contains topic_path %}
+                <li>
+                  <a href="{{ topic.link | relative_url }}" class="{% if page.url == topic.link %}is-active{% endif %}">
+                    {{ topic.name }}
+                  </a>
+                  {% if topic.items %}
+                    <ul {% unless topic_open %}style="display: none;"{% endunless %}>
+                      {% for note in topic.items %}
+                        <li>
+                          <a href="{{ note.link | relative_url }}" class="{% if page.url == note.link %}is-active{% endif %}">
+                            {{ note.name }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</aside>
+

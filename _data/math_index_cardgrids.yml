@@ -1,0 +1,17 @@
+items:
+- title: Algebraic Geometry
+  link: /math/ag/
+  description: null
+- title: Algebra
+  link: /math/algebra/
+  description: Commutative Algebra, Galois Theory, Group Theory, Homological Algebra,
+    Ring Theory
+- title: Linear Algebra
+  link: /math/la/
+  description: null
+- title: Number Theory
+  link: /math/nt/
+  description: null
+- title: Probability
+  link: /math/prob/
+  description: null
