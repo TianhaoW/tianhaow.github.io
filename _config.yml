@@ -20,15 +20,17 @@ email: tianhw11@uci.edu
 # This will always fix the navigation bar at the top
 fixed_navbar: top
 
-defaults:
-  -
-    scope:
-      path: "math/ag"
-    values:
-      title: Algebraic Geometry
-      layout: page
-      toc: true
-      toc_title: Table of Contents
+#include:
+#  - math
+#
+#defaults:
+#  - scope:
+#      path: "math/"
+#    values:
+#      menubar: algebra
+#      toc: true
+#      toc_title: Table of Contents
+
 
 
 

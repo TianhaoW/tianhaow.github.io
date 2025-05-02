@@ -1,3 +1,7 @@
-# Algebraic Geometry
+---
+hide_hero: true
+menubar: math_menubar
+permalink: /math/ag/
+---
 
-- [Somelink](test.md)
+# Algebraic Geometry

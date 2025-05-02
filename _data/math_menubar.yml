@@ -1,0 +1,35 @@
+- label: Math Notes
+  items:
+  - name: Algebraic Geometry
+    link: /math/ag/
+    items: []
+  - name: Algebra
+    link: /math/algebra/
+    items:
+    - name: Commutative Algebra
+      link: /math/algebra/Commutative_Algebra/
+      items: []
+    - name: Galois Theory
+      link: /math/algebra/Galois_Theory/
+      items:
+      - name: Algebraic Elements
+        link: /math/algebra/Galois_Theory/Algebraic_Elements/
+      - name: Test
+        link: /math/algebra/Galois_Theory/test/
+      - name: Test2
+        link: /math/algebra/Galois_Theory/test2/
+    - name: Group Theory
+      link: /math/algebra/Group_Theory/
+      items: []
+    - name: Ring Theory
+      link: /math/algebra/Ring_Theory/
+      items: []
+  - name: Linear Algebra
+    link: /math/la/
+    items: []
+  - name: Number Theory
+    link: /math/nt/
+    items: []
+  - name: Probability
+    link: /math/prob/
+    items: []
