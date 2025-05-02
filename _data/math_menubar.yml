@@ -13,11 +13,11 @@
       link: /math/algebra/Galois_Theory/
       items:
       - name: Algebraic Elements
-        link: /math/algebra/Galois_Theory/Algebraic_Elements/
+        link: /math/algebra/Galois_Theory/Algebraic_Elements
       - name: Test
-        link: /math/algebra/Galois_Theory/test/
+        link: /math/algebra/Galois_Theory/test
       - name: Test2
-        link: /math/algebra/Galois_Theory/test2/
+        link: /math/algebra/Galois_Theory/test2
     - name: Group Theory
       link: /math/algebra/Group_Theory/
       items: []

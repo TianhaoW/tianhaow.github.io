@@ -105,7 +105,7 @@ def generate_menubar_structure():
                 slug = slug_from_filename(note_file.name)
                 note_entry = {
                     "name": note_name,
-                    "link": f"/math/{category}/{topic}/{slug}/"
+                    "link": f"/math/{category}/{topic}/{slug}"
                 }
                 topic_entry["items"].append(note_entry)
 
