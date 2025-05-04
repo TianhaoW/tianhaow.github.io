@@ -8,3 +8,4 @@ permalink: /math/algebra/Galois_Theory/
 - [Algebraic Elements](10_Algebraic_Elements.md)
 - [Test](20_test.md)
 - [Test2](100_test2.md)
+- [Test3](110_test3.md)
