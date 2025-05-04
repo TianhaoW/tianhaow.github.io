@@ -6,26 +6,29 @@
   - name: Algebra
     link: /math/algebra/
     items:
-    - name: Commutative Algebra
-      link: /math/algebra/Commutative_Algebra/
-      items: []
-    - name: Galois Theory
-      link: /math/algebra/Galois_Theory/
-      items:
-      - name: Algebraic Elements
-        link: /math/algebra/Galois_Theory/Algebraic_Elements
-      - name: Test
-        link: /math/algebra/Galois_Theory/test
-      - name: Test2
-        link: /math/algebra/Galois_Theory/test2
-      - name: Test3
-        link: /math/algebra/Galois_Theory/test3
     - name: Group Theory
       link: /math/algebra/Group_Theory/
       items: []
     - name: Ring Theory
       link: /math/algebra/Ring_Theory/
       items: []
+    - name: Galois Theory
+      link: /math/algebra/Galois_Theory/
+      items:
+      - name: Algebraic Elements
+        link: /math/algebra/Galois_Theory/Algebraic_Elements
+      - name: Field Extensions
+        link: /math/algebra/Galois_Theory/Field_Extensions
+      - name: Algebraic Closure
+        link: /math/algebra/Galois_Theory/Algebraic_Closure
+    - name: Commutative Algebra
+      link: /math/algebra/Commutative_Algebra/
+      items: []
+    - name: Miscellaneous
+      link: /math/algebra/Miscellaneous/
+      items:
+      - name: Zorn'S Lemma
+        link: /math/algebra/Miscellaneous/Zorn's_Lemma
   - name: Linear Algebra
     link: /math/la/
     items: []

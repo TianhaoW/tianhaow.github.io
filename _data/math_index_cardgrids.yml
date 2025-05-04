@@ -4,7 +4,8 @@ items:
   description: null
 - title: Algebra
   link: /math/algebra/
-  description: Commutative Algebra, Galois Theory, Group Theory, Ring Theory
+  description: Group Theory, Ring Theory, Miscellaneous, Galois Theory, Commutative
+    Algebra
 - title: Linear Algebra
   link: /math/la/
   description: null

@@ -6,6 +6,5 @@ permalink: /math/algebra/Galois_Theory/
 
 ## Galois Theory
 - [Algebraic Elements](10_Algebraic_Elements.md)
-- [Test](20_test.md)
-- [Test2](100_test2.md)
-- [Test3](110_test3.md)
+- [Field Extensions](20_Field_Extensions.md)
+- [Algebraic Closure](30_Algebraic_Closure.md)

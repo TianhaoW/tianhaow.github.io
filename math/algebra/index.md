@@ -6,14 +6,16 @@ permalink: /math/algebra/
 
 # Algebra
 
-## Commutative Algebra
-
-## Galois Theory
-- [Algebraic Elements](./Galois_Theory/10_Algebraic_Elements.md)
-- [Test](./Galois_Theory/20_test.md)
-- [Test2](./Galois_Theory/100_test2.md)
-- [Test3](./Galois_Theory/110_test3.md)
-
 ## Group Theory
 
 ## Ring Theory
+
+## Galois Theory
+- [Algebraic Elements](./2_Galois_Theory/10_Algebraic_Elements.md)
+- [Field Extensions](./2_Galois_Theory/20_Field_Extensions.md)
+- [Algebraic Closure](./2_Galois_Theory/30_Algebraic_Closure.md)
+
+## Commutative Algebra
+
+## Miscellaneous
+- [Zorn'S Lemma](./20_Miscellaneous/Zorn's_Lemma.md)

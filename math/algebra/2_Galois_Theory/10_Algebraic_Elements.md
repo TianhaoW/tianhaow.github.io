@@ -133,3 +133,30 @@ if and only if each $\alpha_i$ is algebraic over $F$.
 > $$ F[\alpha_1, \ldots, \alpha_n] = F(\alpha_1, \ldots, \alpha_n). $$
 >
 > Conversely, if $F[\alpha_1, \ldots, \alpha_n]$ is a field, then by [Zariski’s Lemma](https://en.m.wikipedia.org/wiki/Zariski%27s_lemma), it must be a finite extension of $F$. Hence, each $\alpha_i$ is algebraic over $F$.
+
+---
+
+**Lemma.**  
+Let $F$ be a field, and let $p(x) \in F[x]$ be a non-constant polynomial. Then there exists a field extension $E/F$ in which $p(x)$ has a root.
+
+> **Proof.**  
+> Let $m(x)$ be an irreducible factor of $p(x)$ in $F[x]$. Consider the quotient ring:
+>
+> $$ E = F[x]/(m(x)) $$
+>
+> Since $m(x)$ is irreducible, this quotient is a field, and $E$ is a field extension of $F$. The element:
+>
+> $$ \alpha = x + (m(x)) \in E $$
+>
+> satisfies $m(\alpha) = 0$, and hence is also a root of $p(x)$.
+
+{% include notification.html 
+status="is-info is-light"
+icon="false"
+message="
+
+**Remark.**  
+The significance of this lemma is that **every non-constant polynomial in $F[x]$ has a root in some field extension of $F$**.  
+Even if we don't know the explicit form of the root or the extension, we can still reason about roots confidently and rigorously.  
+This allows us to speak about 'a root of $p(x)$' without worrying whether it lives in $F$ — it always exists *somewhere*.
+" %}
