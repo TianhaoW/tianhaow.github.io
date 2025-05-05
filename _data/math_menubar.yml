@@ -21,6 +21,10 @@
         link: /math/algebra/Galois_Theory/Field_Extensions
       - name: Algebraic Closure
         link: /math/algebra/Galois_Theory/Algebraic_Closure
+      - name: Finite Fields
+        link: /math/algebra/Galois_Theory/Finite_Fields
+      - name: Spliting Fields
+        link: /math/algebra/Galois_Theory/Spliting_Fields
     - name: Commutative Algebra
       link: /math/algebra/Commutative_Algebra/
       items: []

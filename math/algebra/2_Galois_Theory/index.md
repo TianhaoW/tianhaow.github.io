@@ -8,3 +8,5 @@ permalink: /math/algebra/Galois_Theory/
 - [Algebraic Elements](10_Algebraic_Elements.md)
 - [Field Extensions](20_Field_Extensions.md)
 - [Algebraic Closure](30_Algebraic_Closure.md)
+- [Finite Fields](40_Finite_Fields.md)
+- [Spliting Fields](50_Spliting_Fields.md)

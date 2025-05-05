@@ -33,7 +33,9 @@ A field $F$ is called **algebraically closed** if any of the following equivalen
 
 1. Every non-constant polynomial $p(x) \in F[x]$ has a root in $F$.  
 2. Every non-constant polynomial $p(x) \in F[x]$ splits completely as  
+   
    $$ p(x) = c \prod_{i=1}^n (x - \alpha_i),\quad \alpha_i \in F $$
+
 3. If $E/F$ is an algebraic extension, then $E = F$.
 
 > **Proof (Sketch).**  

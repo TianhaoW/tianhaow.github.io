@@ -14,6 +14,8 @@ permalink: /math/algebra/
 - [Algebraic Elements](./2_Galois_Theory/10_Algebraic_Elements.md)
 - [Field Extensions](./2_Galois_Theory/20_Field_Extensions.md)
 - [Algebraic Closure](./2_Galois_Theory/30_Algebraic_Closure.md)
+- [Finite Fields](./2_Galois_Theory/40_Finite_Fields.md)
+- [Spliting Fields](./2_Galois_Theory/50_Spliting_Fields.md)
 
 ## Commutative Algebra
 
