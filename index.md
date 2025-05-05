@@ -23,7 +23,7 @@ You can view my [résumé (PDF)]({{ "/resources/CV.pdf" | relative_url }}).
 - **Programming**: Python, C/C++
 - **Mathematics**: Statistics, Stochastic Processes, Itô Calculus, Martingale 
   Theory, SDEs
-- **Quantitative Finance**: Fixed Income, Portfolio Theory, Option Pricing, Greeks, Delta/Gamma Hedging
+- **Quantitative Finance**: Fixed Income, Portfolio Theory, Option Pricing, Greeks, Delta/Gamma Hedging, Statistical Arbitrage
 - **Data Science**: pandas, polars, SQL, NumPy, statsmodels, seaborn, matplotlib
 - **Machine Learning**: scikit-learn, PyTorch, Gradient Boosting, Deep 
   Learning, LSTM, Encoder-Decoder Architectures, Deep Q-learning

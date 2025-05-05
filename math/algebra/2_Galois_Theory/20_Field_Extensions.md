@@ -15,7 +15,8 @@ where $\dim_F E$ denotes the dimension of $E$ as an $F$-vector space. We say tha
 ---
 
 **Definition / Lemma.**  
-Let $E/F$ be a field extension, and let $\alpha \in E$ be algebraic over $F$ with minimal polynomial $m_{\alpha, F}(x)$ of degree $d$. We define the **degree** of $\alpha$ over $F$ as $d$. Moreover:
+Let $E/F$ be a field extension, and let $\alpha \in E$ be algebraic over $F$ with minimal polynomial $m_{\alpha, F}(x)$ of degree $d$.
+We define the **degree** of $\alpha$ over $F$ as $d$, denoted by $\deg (\alpha,F) = d.$ Moreover:
 1.  
    $$ F(\alpha) = \left\{ c_0 + c_1 \alpha + \cdots + c_{d-1} \alpha^{d-1} : c_i \in F \right\} $$
 2.  
