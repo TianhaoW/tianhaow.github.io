@@ -38,6 +38,17 @@ Conversely, for any such $p$ and $n$:
 ---
 
 **Lemma.**  
+Let $\mathbb{F}\_{p^n}$ be a finite field, and $\alpha\in\mathbb{F}\_{p^n}$ be a generator to the cyclic group ${\mathbb{F}_{p^n}}^\times$.
+Then, $\mathbb{F}\_{p^n} = \mathbb{F}\_{p}(\alpha)$ is a **simple extension** over $\mathbb{F}\_p$.
+
+> **Proof.**  
+> We have $0\cup \langle \alpha\rangle = \{0, 1,\alpha,\ldots,\alpha^{p^n-1}\}\subset \mathbb{F}\_p(\alpha)$. 
+> Therefore, we know that $|\mathbb{F}\_{p}(\alpha)| \geq p^n$. Since $\mathbb{F}\_p(\alpha)\subset\mathbb{F}\_{p^n}$ where
+> $\mathbb{F}\_{p^n}$ has $p^n$ elements, we know that $\mathbb{F}\_p(\alpha) = \mathbb{F}_{p^n}$.
+
+---
+
+**Lemma.**  
 $\mathbb{F}_{p^m}$ can be embedded into $\mathbb{F}\_{p^n}$ if and only if $m \mid n$.
 
 > **Proof.**  

@@ -15,7 +15,9 @@ permalink: /math/algebra/
 - [Field Extensions](./2_Galois_Theory/20_Field_Extensions.md)
 - [Algebraic Closure](./2_Galois_Theory/30_Algebraic_Closure.md)
 - [Finite Fields](./2_Galois_Theory/40_Finite_Fields.md)
-- [Spliting Fields](./2_Galois_Theory/50_Spliting_Fields.md)
+- [Field Automorphisms](./2_Galois_Theory/50_Field_Automorphisms.md)
+- [Splitting Fields](./2_Galois_Theory/60_Splitting_Fields.md)
+- [Isomorphism Extension Theorem](./2_Galois_Theory/70_Isomorphism_Extension_Theorem.md)
 
 ## Commutative Algebra
 

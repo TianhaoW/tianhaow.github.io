@@ -9,4 +9,6 @@ permalink: /math/algebra/Galois_Theory/
 - [Field Extensions](20_Field_Extensions.md)
 - [Algebraic Closure](30_Algebraic_Closure.md)
 - [Finite Fields](40_Finite_Fields.md)
-- [Spliting Fields](50_Spliting_Fields.md)
+- [Field Automorphisms](50_Field_Automorphisms.md)
+- [Splitting Fields](60_Splitting_Fields.md)
+- [Isomorphism Extension Theorem](70_Isomorphism_Extension_Theorem.md)
