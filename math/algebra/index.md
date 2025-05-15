@@ -18,6 +18,8 @@ permalink: /math/algebra/
 - [Field Automorphisms](./2_Galois_Theory/50_Field_Automorphisms.md)
 - [Splitting Fields](./2_Galois_Theory/60_Splitting_Fields.md)
 - [Isomorphism Extension Theorem](./2_Galois_Theory/70_Isomorphism_Extension_Theorem.md)
+- [Normal Extensions](./2_Galois_Theory/80_Normal_Extensions.md)
+- [Separable Extensions](./2_Galois_Theory/90_Separable_Extensions.md)
 
 ## Commutative Algebra
 

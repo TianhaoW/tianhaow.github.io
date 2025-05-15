@@ -29,6 +29,10 @@
         link: /math/algebra/Galois_Theory/Splitting_Fields
       - name: Isomorphism Extension Theorem
         link: /math/algebra/Galois_Theory/Isomorphism_Extension_Theorem
+      - name: Normal Extensions
+        link: /math/algebra/Galois_Theory/Normal_Extensions
+      - name: Separable Extensions
+        link: /math/algebra/Galois_Theory/Separable_Extensions
     - name: Commutative Algebra
       link: /math/algebra/Commutative_Algebra/
       items: []

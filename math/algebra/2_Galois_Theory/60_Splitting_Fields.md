@@ -66,3 +66,38 @@ Then $E$ is a field extension of $F$ in which every $p(x) \in \mathcal{P}$ split
 respect to this property. Therefore, $E$ is the unique splitting field of $\mathcal{P}$ over $F$ inside $\overline{F}$.
 
 "%}
+
+---
+
+**Theorem.**  
+Let $E$ be the splitting field of a set of polynomials $\mathcal{P} \subset F[x]$ over a field $F$, inside a fixed algebraic closure $\overline{F}$. Then for every $\sigma \in \operatorname{Aut}(\overline{F}/F)$, we have:
+
+$$
+\sigma(E) = E
+$$
+
+That is, the splitting field $E$ is stable under the action of all automorphisms of $\overline{F}$ fixing $F$.
+
+> **Proof.**  
+> First suppose $\mathcal{P}$ is a finite set of polynomials. Then, by a previous remark, $E$ is also the splitting field of a single polynomial 
+> $p(x) = \prod_{f \in \mathcal{P}} f(x)$, and we can write
+>
+> $$ E = F(\alpha_1, \ldots, \alpha_k) $$
+>
+> where the $\alpha_i \in \overline{F}$ are all roots of $p(x)$. Let $\sigma \in \operatorname{Aut}(\overline{F}/F)$. Since $\sigma$ fixes $F$ pointwise and $p(x) \in F[x]$, we have:
+>
+> $$ p(\sigma(\alpha_i)) = \sigma(p(\alpha_i)) = \sigma(0) = 0 $$
+>
+> so $\sigma(\alpha_i)$ is also a root of $p(x)$ and hence belongs to $\{ \alpha_1, \ldots, \alpha_k \} \subset E$. Therefore,
+>
+> $$ \sigma(E) = \sigma(F(\alpha_1, \ldots, \alpha_k)) = F(\sigma(\alpha_1), \ldots, \sigma(\alpha_k)) \subset E $$
+>
+> and since $\sigma$ is invertible, we must have equality: $\sigma(E) = E$.
+>
+> Now suppose $\mathcal{P}$ is an infinite set. Then, by a previous remark, we may write
+>
+> $$ E = \bigcup_{i \in I} E_i $$
+>
+> where each $E_i$ is the splitting field of a finite subset $\mathcal{P}_i \subset \mathcal{P}$. 
+> By the finite case, we know that $\sigma(E_i) = E_i$ for all $i$. Now for any $e \in E$, there exists some $i$ such that $e \in E_i$, and hence $\sigma(e) \in E_i \subset E$. Therefore, $\sigma(E) \subset E$. Applying the same argument to $\sigma^{-1}$ gives the reverse inclusion, so $\sigma(E) = E$.
+ 
