@@ -35,3 +35,26 @@ Let $E/F$ be a field extension. Then $E/F$ is a finite normal extension if and o
 > $$ p(x) := \prod_{i=1}^n m_i(x).$$
 > 
 > Then we can show that $E$ is the splitting field of $p(x)$ over $F$.
+
+---
+
+
+{% include notification.html 
+status="is-info is-light"
+icon="false"
+message="
+**Remark.**  
+A tower of normal extensions does not necessarily yield a normal extension. Consider the following chain:
+
+$$
+\mathbb{Q} \subset \mathbb{Q}(\sqrt{2}) \subset \mathbb{Q}(\sqrt[4]{2})
+$$
+
+Both intermediate extensions are normal:
+
+- $\mathbb{Q}(\sqrt{2})/\mathbb{Q}$ is normal because it is the splitting field of $x^2 - 2$ over $\mathbb{Q}$.
+- $\mathbb{Q}(\sqrt[4]{2})/\mathbb{Q}(\sqrt{2})$ is normal because it is the splitting field of $x^2 - \sqrt{2}$ over $\mathbb{Q}(\sqrt{2})$
+
+However, the composite extension $\mathbb{Q}(\sqrt[4]{2})/\mathbb{Q}$ is **not** normal, since the minimal polynomial $x^4 - 2$ does not split completely over $\mathbb{Q}(\sqrt[4]{2})$. 
+
+"%}
