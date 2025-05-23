@@ -11,7 +11,17 @@
       items: []
     - name: Ring Theory
       link: /math/algebra/Ring_Theory/
-      items: []
+      items:
+      - name: Irreducible, Prime and Associate
+        link: /math/algebra/Ring_Theory/Irreducible,_Prime_and_Associate
+      - name: Factorization in Noetherian Domains
+        link: /math/algebra/Ring_Theory/Factorization_in_Noetherian_Domains
+      - name: Hilbert Basis Theorem
+        link: /math/algebra/Ring_Theory/Hilbert_Basis_Theorem
+      - name: Greatest Common Divisors in UFDs
+        link: /math/algebra/Ring_Theory/Greatest_Common_Divisors_in_UFDs
+      - name: Gauss Lemma
+        link: /math/algebra/Ring_Theory/Gauss_Lemma
     - name: Galois Theory
       link: /math/algebra/Galois_Theory/
       items:
@@ -39,7 +49,7 @@
     - name: Miscellaneous
       link: /math/algebra/Miscellaneous/
       items:
-      - name: Zorn'S Lemma
+      - name: Zorn's Lemma
         link: /math/algebra/Miscellaneous/Zorn's_Lemma
   - name: Linear Algebra
     link: /math/la/

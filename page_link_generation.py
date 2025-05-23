@@ -20,12 +20,12 @@ CARDGRID_YML = "_data/math_index_cardgrids.yml"
 MENUBAR_YML = "_data/math_menubar.yml"
 
 def title_from_folder(folder):
-    return FOLDER_NAME_MAP.get(folder, folder.replace("_", " ").title())
+    return FOLDER_NAME_MAP.get(folder, folder.replace("_", " "))
 
 def title_from_filename(filename):
     stem = Path(filename).stem
     name = re.sub(r'^\d+_', '', stem)
-    return name.replace("_", " ").title()
+    return name.replace("_", " ")
 
 def slug_from_filename(filename):
     stem = Path(filename).stem

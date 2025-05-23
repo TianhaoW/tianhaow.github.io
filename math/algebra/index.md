@@ -9,6 +9,11 @@ permalink: /math/algebra/
 ## Group Theory
 
 ## Ring Theory
+- [Irreducible, Prime and Associate](./1_Ring_Theory/50_Irreducible,_Prime_and_Associate.md)
+- [Factorization in Noetherian Domains](./1_Ring_Theory/60_Factorization_in_Noetherian_Domains.md)
+- [Hilbert Basis Theorem](./1_Ring_Theory/70_Hilbert_Basis_Theorem.md)
+- [Greatest Common Divisors in UFDs](./1_Ring_Theory/80_Greatest_Common_Divisors_in_UFDs.md)
+- [Gauss Lemma](./1_Ring_Theory/90_Gauss_Lemma.md)
 
 ## Galois Theory
 - [Algebraic Elements](./2_Galois_Theory/10_Algebraic_Elements.md)
@@ -24,4 +29,4 @@ permalink: /math/algebra/
 ## Commutative Algebra
 
 ## Miscellaneous
-- [Zorn'S Lemma](./20_Miscellaneous/Zorn's_Lemma.md)
+- [Zorn's Lemma](./20_Miscellaneous/Zorn's_Lemma.md)

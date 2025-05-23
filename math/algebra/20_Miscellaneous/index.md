@@ -5,4 +5,4 @@ permalink: /math/algebra/Miscellaneous/
 ---
 
 ## Miscellaneous
-- [Zorn'S Lemma](Zorn's_Lemma.md)
+- [Zorn's Lemma](Zorn's_Lemma.md)
