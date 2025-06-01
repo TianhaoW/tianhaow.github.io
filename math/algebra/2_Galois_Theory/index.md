@@ -13,4 +13,4 @@ permalink: /math/algebra/Galois_Theory/
 - [Splitting Fields](60_Splitting_Fields.md)
 - [Isomorphism Extension Theorem](70_Isomorphism_Extension_Theorem.md)
 - [Normal Extensions](80_Normal_Extensions.md)
-- [Separable Extensions](90_Separable_Extensions.md)
+- [Separable Polynomials](90_Separable_Polynomials.md)

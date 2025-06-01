@@ -9,4 +9,4 @@ permalink: /math/algebra/Ring_Theory/
 - [Factorization in Noetherian Domains](60_Factorization_in_Noetherian_Domains.md)
 - [Hilbert Basis Theorem](70_Hilbert_Basis_Theorem.md)
 - [Greatest Common Divisors in UFDs](80_Greatest_Common_Divisors_in_UFDs.md)
-- [Gauss Lemma](90_Gauss_Lemma.md)
+- [Gauss's Lemma](90_Gauss's_Lemma.md)

@@ -20,8 +20,8 @@
         link: /math/algebra/Ring_Theory/Hilbert_Basis_Theorem
       - name: Greatest Common Divisors in UFDs
         link: /math/algebra/Ring_Theory/Greatest_Common_Divisors_in_UFDs
-      - name: Gauss Lemma
-        link: /math/algebra/Ring_Theory/Gauss_Lemma
+      - name: Gauss's Lemma
+        link: /math/algebra/Ring_Theory/Gauss's_Lemma
     - name: Galois Theory
       link: /math/algebra/Galois_Theory/
       items:
@@ -41,8 +41,8 @@
         link: /math/algebra/Galois_Theory/Isomorphism_Extension_Theorem
       - name: Normal Extensions
         link: /math/algebra/Galois_Theory/Normal_Extensions
-      - name: Separable Extensions
-        link: /math/algebra/Galois_Theory/Separable_Extensions
+      - name: Separable Polynomials
+        link: /math/algebra/Galois_Theory/Separable_Polynomials
     - name: Commutative Algebra
       link: /math/algebra/Commutative_Algebra/
       items: []

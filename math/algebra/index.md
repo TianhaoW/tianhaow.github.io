@@ -13,7 +13,7 @@ permalink: /math/algebra/
 - [Factorization in Noetherian Domains](./1_Ring_Theory/60_Factorization_in_Noetherian_Domains.md)
 - [Hilbert Basis Theorem](./1_Ring_Theory/70_Hilbert_Basis_Theorem.md)
 - [Greatest Common Divisors in UFDs](./1_Ring_Theory/80_Greatest_Common_Divisors_in_UFDs.md)
-- [Gauss Lemma](./1_Ring_Theory/90_Gauss_Lemma.md)
+- [Gauss's Lemma](./1_Ring_Theory/90_Gauss's_Lemma.md)
 
 ## Galois Theory
 - [Algebraic Elements](./2_Galois_Theory/10_Algebraic_Elements.md)
@@ -24,7 +24,7 @@ permalink: /math/algebra/
 - [Splitting Fields](./2_Galois_Theory/60_Splitting_Fields.md)
 - [Isomorphism Extension Theorem](./2_Galois_Theory/70_Isomorphism_Extension_Theorem.md)
 - [Normal Extensions](./2_Galois_Theory/80_Normal_Extensions.md)
-- [Separable Extensions](./2_Galois_Theory/90_Separable_Extensions.md)
+- [Separable Polynomials](./2_Galois_Theory/90_Separable_Polynomials.md)
 
 ## Commutative Algebra
 

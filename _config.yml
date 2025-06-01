@@ -20,6 +20,7 @@ email: tianhw11@uci.edu
 # This will always fix the navigation bar at the top
 fixed_navbar: top
 
+# support the comments
 disqus:
   shortname: tianhaow-github-io
 

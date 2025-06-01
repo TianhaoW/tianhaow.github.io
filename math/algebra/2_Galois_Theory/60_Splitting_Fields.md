@@ -103,7 +103,7 @@ That is, the splitting field $E$ is stable under the action of all automorphisms
 
 **Theorem (Galois Action on Roots).**  
 Let $E$ be the splitting field of a nonconstant polynomial $p(x) \in F[x]\setminus F$ inside a fixed algebraic closure $\overline{F}$, 
-and let $X = \{ \alpha_1, \ldots, \alpha_n \} \subset \overline{F}$ be the set of roots of $p(x)$. Then $\operatorname{Aut}(E/F)$ acts on $X$ via:
+and let $X = \\{ \alpha_1, \ldots, \alpha_n \\} \subset \overline{F}$ be the set of roots of $p(x)$. Then $\operatorname{Aut}(E/F)$ acts on $X$ via:
 
 $$ \sigma \cdot \alpha := \sigma(\alpha) $$
 
