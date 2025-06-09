@@ -43,6 +43,8 @@
         link: /math/algebra/Galois_Theory/Normal_Extensions
       - name: Separable Polynomials
         link: /math/algebra/Galois_Theory/Separable_Polynomials
+      - name: Separable Extensions and Perfect Fields
+        link: /math/algebra/Galois_Theory/Separable_Extensions_and_Perfect_Fields
     - name: Commutative Algebra
       link: /math/algebra/Commutative_Algebra/
       items: []

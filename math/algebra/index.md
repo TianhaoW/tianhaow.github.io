@@ -25,6 +25,7 @@ permalink: /math/algebra/
 - [Isomorphism Extension Theorem](./2_Galois_Theory/70_Isomorphism_Extension_Theorem.md)
 - [Normal Extensions](./2_Galois_Theory/80_Normal_Extensions.md)
 - [Separable Polynomials](./2_Galois_Theory/90_Separable_Polynomials.md)
+- [Separable Extensions and Perfect Fields](./2_Galois_Theory/100_Separable_Extensions_and_Perfect_Fields.md)
 
 ## Commutative Algebra
 

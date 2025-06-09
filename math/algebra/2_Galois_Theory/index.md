@@ -14,3 +14,4 @@ permalink: /math/algebra/Galois_Theory/
 - [Isomorphism Extension Theorem](70_Isomorphism_Extension_Theorem.md)
 - [Normal Extensions](80_Normal_Extensions.md)
 - [Separable Polynomials](90_Separable_Polynomials.md)
+- [Separable Extensions and Perfect Fields](100_Separable_Extensions_and_Perfect_Fields.md)
