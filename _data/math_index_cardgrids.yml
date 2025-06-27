@@ -1,7 +1,7 @@
 items:
 - title: Algebraic Geometry
   link: /math/ag/
-  description: null
+  description: Variety, Scheme Theory
 - title: Algebra
   link: /math/algebra/
   description: Group Theory, Ring Theory, Miscellaneous, Galois Theory, Commutative

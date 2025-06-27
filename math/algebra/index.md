@@ -26,6 +26,13 @@ permalink: /math/algebra/
 - [Normal Extensions](./2_Galois_Theory/80_Normal_Extensions.md)
 - [Separable Polynomials](./2_Galois_Theory/90_Separable_Polynomials.md)
 - [Separable Extensions and Perfect Fields](./2_Galois_Theory/100_Separable_Extensions_and_Perfect_Fields.md)
+- [Galois Extensions](./2_Galois_Theory/110_Galois_Extensions.md)
+- [Galois Correspondence Theorem](./2_Galois_Theory/120_Galois_Correspondence_Theorem.md)
+- [Galois Group of Finite Fields](./2_Galois_Theory/130_Galois_Group_of_Finite_Fields.md)
+- [Cyclotomic Polynomials](./2_Galois_Theory/140_Cyclotomic_Polynomials.md)
+- [Cyclotomic Extensions](./2_Galois_Theory/150_Cyclotomic_Extensions.md)
+- [Kummer's Theory](./2_Galois_Theory/160_Kummer's_Theory.md)
+- [Solvability by Radicals](./2_Galois_Theory/170_Solvability_by_Radicals.md)
 
 ## Commutative Algebra
 

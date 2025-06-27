@@ -2,7 +2,19 @@
   items:
   - name: Algebraic Geometry
     link: /math/ag/
-    items: []
+    items:
+    - name: Variety
+      link: /math/ag/Variety/
+      items:
+      - name: Affine and Projective Space
+        link: /math/ag/Variety/Affine_and_Projective_Space
+      - name: Projective Change of Coordinate
+        link: /math/ag/Variety/Projective_Change_of_Coordinate
+      - name: Projective Equivalence and Plane Conics
+        link: /math/ag/Variety/Projective_Equivalence_and_Plane_Conics
+    - name: Scheme Theory
+      link: /math/ag/Scheme_Theory/
+      items: []
   - name: Algebra
     link: /math/algebra/
     items:
@@ -45,6 +57,20 @@
         link: /math/algebra/Galois_Theory/Separable_Polynomials
       - name: Separable Extensions and Perfect Fields
         link: /math/algebra/Galois_Theory/Separable_Extensions_and_Perfect_Fields
+      - name: Galois Extensions
+        link: /math/algebra/Galois_Theory/Galois_Extensions
+      - name: Galois Correspondence Theorem
+        link: /math/algebra/Galois_Theory/Galois_Correspondence_Theorem
+      - name: Galois Group of Finite Fields
+        link: /math/algebra/Galois_Theory/Galois_Group_of_Finite_Fields
+      - name: Cyclotomic Polynomials
+        link: /math/algebra/Galois_Theory/Cyclotomic_Polynomials
+      - name: Cyclotomic Extensions
+        link: /math/algebra/Galois_Theory/Cyclotomic_Extensions
+      - name: Kummer's Theory
+        link: /math/algebra/Galois_Theory/Kummer's_Theory
+      - name: Solvability by Radicals
+        link: /math/algebra/Galois_Theory/Solvability_by_Radicals
     - name: Commutative Algebra
       link: /math/algebra/Commutative_Algebra/
       items: []
