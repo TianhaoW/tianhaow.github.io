@@ -53,7 +53,13 @@
                             {% include latest-posts.html %}
                         </div>
                     {% endif %}
+
                 </div>
+                {% if site.disqus.shortname %}
+                <div class="my-4">
+                    {% include disqus.html %}
+                </div>
+                {% endif %}
             </div>
         </section>
 <!--        Hiding the footer-->

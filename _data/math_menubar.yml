@@ -79,6 +79,15 @@
       items:
       - name: Zorn's Lemma
         link: /math/algebra/Miscellaneous/Zorn's_Lemma
+    - name: Qualifying Exam Preparation
+      link: /math/algebra/Qualifying_Exam_Preparation/
+      items:
+      - name: Group Actions
+        link: /math/algebra/Qualifying_Exam_Preparation/Group_Actions
+      - name: Sylow's Theorems
+        link: /math/algebra/Qualifying_Exam_Preparation/Sylow's_Theorems
+      - name: Semi-direct Product
+        link: /math/algebra/Qualifying_Exam_Preparation/Semi-direct_Product
   - name: Linear Algebra
     link: /math/la/
     items: []

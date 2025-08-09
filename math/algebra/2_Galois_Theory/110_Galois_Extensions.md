@@ -2,6 +2,7 @@
 hide_hero: true
 menubar: math_menubar
 permalink: /math/algebra/Galois_Theory/Galois_Extensions
+comment: true
 ---
 ## Galois Extensions
 

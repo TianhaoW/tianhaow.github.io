@@ -2,6 +2,7 @@
 hide_hero: true
 menubar: math_menubar
 permalink: /math/algebra/Miscellaneous/Zorn's_Lemma
+comment: true
 ---
 ## Zorn's Lemma
 

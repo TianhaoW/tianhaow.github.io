@@ -38,3 +38,8 @@ permalink: /math/algebra/
 
 ## Miscellaneous
 - [Zorn's Lemma](./20_Miscellaneous/Zorn's_Lemma.md)
+
+## Qualifying Exam Preparation
+- [Group Actions](./30_Qualifying_Exam_Preparation/0_Group_Actions.md)
+- [Sylow's Theorems](./30_Qualifying_Exam_Preparation/1_Sylow's_Theorems.md)
+- [Semi-direct Product](./30_Qualifying_Exam_Preparation/2_Semi-direct_Product.md)

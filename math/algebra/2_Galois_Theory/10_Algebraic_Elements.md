@@ -2,6 +2,7 @@
 hide_hero: true
 menubar: math_menubar
 permalink: /math/algebra/Galois_Theory/Algebraic_Elements
+comment: true
 ---
 ## Algebraic Elements
 

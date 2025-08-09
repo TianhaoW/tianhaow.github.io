@@ -2,6 +2,7 @@
 hide_hero: true
 menubar: math_menubar
 permalink: /math/algebra/Galois_Theory/Separable_Polynomials
+comment: true
 ---
 ## Separable Polynomials
 

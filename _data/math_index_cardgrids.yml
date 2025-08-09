@@ -4,8 +4,8 @@ items:
   description: Variety, Scheme Theory
 - title: Algebra
   link: /math/algebra/
-  description: Group Theory, Ring Theory, Miscellaneous, Galois Theory, Commutative
-    Algebra
+  description: Group Theory, Ring Theory, Miscellaneous, Galois Theory, Qualifying
+    Exam Preparation, Commutative Algebra
 - title: Linear Algebra
   link: /math/la/
   description: null
