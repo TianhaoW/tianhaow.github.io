@@ -55,7 +55,7 @@
                     {% endif %}
 
                 </div>
-                {% if site.disqus.shortname %}
+                {% if site.disqus.shortname and page.comment %}
                 <div class="my-4">
                     {% include disqus.html %}
                 </div>
