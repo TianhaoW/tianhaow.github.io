@@ -67,4 +67,5 @@ $$|\mathrm{Syl}_p(G)| \equiv 1 \pmod{p}$$
 
    $$\rho: G \to S_{G/P} \cong S_{p+1}.$$ 
 
-   *Analyze $\ker \rho$.)*
+   *Analyze $\ker \rho$.)*  
+   *(Hint: You can also use the Burnside's normal p-complement theorem to overkill this problem. )*

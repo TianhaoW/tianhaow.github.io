@@ -132,7 +132,7 @@ Let $X = \\{H \leq G\\}$ be the set of all subgroups of $G$. Let $G$ act on $X$ 
 
 1. Let $G$ be a finite $p$-group. Show that $Z(G) \neq \\{e\\}$.
    *(Hint: Use the class equation.)*
-2. Let $G$ be a group of order $p^2$. Show that $G$ is abelian. Classify all such groups up to isomorphism.
+2. (**UCI 2023 Jan Algebra Qual**) Let $G$ be a group of order $p^2$. Show that $G$ is abelian. Classify all such groups up to isomorphism.
 3. Let $G$ be a finite group, and $H\leq G$ with $[G : H] = p$ where $p$ is the smallest prime divisor of $|G|$. Show that $H \trianglelefteq G$.
    *(Hint: Apply Example 3 and show that $\mathrm{Cor}(H) = H$.)*
 4. (**UCI 2024 June Algebra Qual**) Prove: If $H$ has finite index $n$ in $G$, then there exists a normal subgroup $K \trianglelefteq G$ with $K \leq H$ and $[G : K] \leq n!$. Do not assume $G$ is finite.

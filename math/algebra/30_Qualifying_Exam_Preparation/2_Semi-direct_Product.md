@@ -79,10 +79,8 @@ Let $H$ and $N$ be groups and $f \in \operatorname{Hom}(H, \operatorname{Aut}(N)
 2. (**UCI 2024 June Algebra Qual**) Prove that every group of order $15$ is cyclic. *(See Medium problem 1.)*
 3. (**UCI 2024 June Algebra Qual**) Determine whether every group of order $21$ is cyclic. *(See Medium problem 2.)*
 
----
-
 **Medium:**
 
 1. Let $p < q$ be primes with $p \nmid (q-1)$. Show that every group of order $pq$ is cyclic.
 2. Let $p < q$ be primes with $p \mid (q-1)$. Show that there exists a non-abelian group of order $pq$.
-3. Let $G$ be a group of order $2p$ where $p$ is odd. Show that $G$ is either cyclic or dihedral.
+3. Let $G$ be a group of order $2p$ where $p$ is an odd prime. Show that $G$ is either cyclic or dihedral.
