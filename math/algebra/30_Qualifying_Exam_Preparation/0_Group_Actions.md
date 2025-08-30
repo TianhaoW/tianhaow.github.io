@@ -118,7 +118,7 @@ Let $X = \\{H \leq G\\}$ be the set of all subgroups of $G$. Let $G$ act on $X$ 
 
 1. The stabilizer of $H$ is the **normalizer**:  
 
-   $$N_G(H) = \\{g\in G : gHg^{-1} = H\\},$$  
+   $$N_G(H) = \{g\in G : gHg^{-1} = H\},$$  
 
    which is the largest subgroup of $G$ in which $H$ is normal.
 2. The orbit of $H$ is the set of conjugates $\\{gHg^{-1} : g\in G\\}$.

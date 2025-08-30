@@ -43,3 +43,7 @@ permalink: /math/algebra/
 - [Group Actions](./30_Qualifying_Exam_Preparation/0_Group_Actions.md)
 - [Sylow's Theorems](./30_Qualifying_Exam_Preparation/1_Sylow's_Theorems.md)
 - [Semi-direct Product](./30_Qualifying_Exam_Preparation/2_Semi-direct_Product.md)
+- [Modules](./30_Qualifying_Exam_Preparation/20_Modules.md)
+- [Localization of Modules](./30_Qualifying_Exam_Preparation/22_Localization_of_Modules.md)
+- [Modules over PID](./30_Qualifying_Exam_Preparation/30_Modules_over_PID.md)
+- [Rational Canonical Form and Jordan Form](./30_Qualifying_Exam_Preparation/40_Rational_Canonical_Form_and_Jordan_Form.md)

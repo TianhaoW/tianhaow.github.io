@@ -88,6 +88,14 @@
         link: /math/algebra/Qualifying_Exam_Preparation/Sylow's_Theorems
       - name: Semi-direct Product
         link: /math/algebra/Qualifying_Exam_Preparation/Semi-direct_Product
+      - name: Modules
+        link: /math/algebra/Qualifying_Exam_Preparation/Modules
+      - name: Localization of Modules
+        link: /math/algebra/Qualifying_Exam_Preparation/Localization_of_Modules
+      - name: Modules over PID
+        link: /math/algebra/Qualifying_Exam_Preparation/Modules_over_PID
+      - name: Rational Canonical Form and Jordan Form
+        link: /math/algebra/Qualifying_Exam_Preparation/Rational_Canonical_Form_and_Jordan_Form
   - name: Linear Algebra
     link: /math/la/
     items: []
