@@ -59,3 +59,23 @@ Both intermediate extensions are normal:
 However, the composite extension $\mathbb{Q}(\sqrt[4]{2})/\mathbb{Q}$ is **not** normal, since the minimal polynomial $x^4 - 2$ does not split completely over $\mathbb{Q}(\sqrt[4]{2})$. 
 
 "%}
+
+---
+
+**Definition/Theorem (Normal Closure).**  
+Let $E/F$ be an algebraic extension, and fix an algebraic closure $\overline{F}$ of $F$ containing $E$.
+The **normal closure** of $E/F$ is the smallest subfield of $\overline{F}$ containing $E$ that is normal over $F$.
+
+More concretely, the normal closure of $E/F$ is the splitting field of the set $\{ m_{\alpha, F}(x) : \alpha \in E \}$ over $F$.  
+If $E = F(\alpha_1, \ldots, \alpha_n)$, then the normal closure of $E/F$ is the splitting field of the polynomial $\prod_{i=1}^n m_{\alpha_i, F}(x)$
+over $F$, which is the same as $F$ adjoinging all the conjugates of each $\alpha_i$.
+
+> **Proof.**  
+> Let $L$ be the splitting field of the set $\{ m_{\alpha, F}(x) : \alpha \in E \}$ over $F$. Then $L/F$ is normal by construction, and clearly $E \subset L$.  
+> 
+> Suppose $L'$ is another field extension of $F$ such that $E \subset L'$ and $L'/F$ is normal.
+> Then for each $\alpha \in E$, its minimal polynomial $m_{\alpha, F}(x)$ splits in $L'$ by normality. 
+> Hence, the splitting field $L$ of all such $m_{\alpha, F}(x)$ is contained in $L'$.  
+> 
+> Therefore, $L$ is the smallest subfield of $\overline{F}$ containing $E$ that is normal over $F$.
+
