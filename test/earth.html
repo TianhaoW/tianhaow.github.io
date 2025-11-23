@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Earth: Gesture Controlled</title>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- MediaPipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #050510;
+            color: white;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+
+        /* UI Overlay */
+        #ui-layer {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.7);
+        }
+
+        p.subtitle {
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Camera Preview */
+        #camera-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 160px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #00d2ff;
+            background: #000;
+            z-index: 20;
+            display: none; /* Hidden until activated */
+        }
+
+        #input_video {
+            width: 160px;
+            height: 120px;
+            object-fit: cover;
+            transform: scaleX(-1); /* Mirror effect */
+        }
+
+        #camera-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 210, 255, 0.2);
+            border: 1px solid #00d2ff;
+            color: #00d2ff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 20;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        #camera-btn:hover {
+            background: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 15px #00d2ff;
+        }
+
+        /* Virtual Cursor */
+        #hand-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 30;
+            display: none;
+            box-shadow: 0 0 10px #00ff00;
+            transition: width 0.1s, height 0.1s, background-color 0.1s;
+        }
+
+        #hand-cursor.pinched {
+            background-color: #00ff00;
+            width: 15px;
+            height: 15px;
+        }
+
+        /* Info Panel */
+        #info-panel {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 300px;
+            background: rgba(10, 20, 40, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            pointer-events: auto;
+            z-index: 15;
+        }
+
+        #info-panel.visible {
+            transform: translateX(0);
+        }
+
+        #region-title { margin: 0 0 10px 0; color: #00d2ff; font-size: 1.4rem; }
+        #region-coords { font-family: monospace; color: #aaa; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        #region-desc { line-height: 1.5; font-size: 0.95rem; color: #e0e0e0; }
+        #close-btn {
+            position: absolute; top: 10px; right: 15px; background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer;
+        }
+        #close-btn:hover { color: white; }
+
+        #hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            pointer-events: none;
+            text-align: center;
+            width: 80%;
+        }
+
+        #loading {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 1.2rem; color: #00d2ff; pointer-events: none; transition: opacity 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-layer">
+        <h1>Global Data Visualizer</h1>
+        <p class="subtitle">Gesture Enabled (Beta)</p>
+    </div>
+
+    <button id="camera-btn">ENABLE GESTURE CONTROL</button>
+
+    <div id="camera-container">
+        <video id="input_video"></video>
+    </div>
+
+    <div id="hand-cursor"></div>
+    <div id="loading">Loading Assets...</div>
+
+    <div id="info-panel">
+        <button id="close-btn">&times;</button>
+        <h2 id="region-title">Region</h2>
+        <span id="region-coords"></span>
+        <p id="region-desc"></p>
+    </div>
+
+    <div id="hint">Mouse: Drag to Rotate, Scroll to Zoom<br>Camera: Pinch & Move to Rotate, Move Closer to Zoom</div>
+
+    <div id="canvas-container"></div>
+
+    <script>
+        // --- Configuration ---
+        const config = {
+            rotationSpeed: 0.0005,
+            dragSensitivity: 0.005,
+            zoomSensitivity: 0.001,
+            minZoom: 2.5,
+            maxZoom: 8,
+            earthRadius: 2,
+            markerRadius: 0.05
+        };
+
+        // --- State ---
+        let scene, camera, renderer;
+        let earthGroup, earthMesh;
+        let markers = [];
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let targetRotation = { x: 0, y: 0 };
+        let currentRotation = { x: 0, y: 0 };
+        let cameraDistance = 5.5;
+
+        // Raycasting
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        // Gesture State
+        let isGestureActive = false;
+        let isPinching = false;
+        let handCursor = { x: 0, y: 0 };
+        let previousHandPos = { x: 0, y: 0 };
+        let initialZoomHandDistance = null;
+
+        // Data
+        const regions = [
+            { lat: 40.7128, lon: -74.0060, name: "New York", desc: "Financial capital, high-density urban environment." },
+            { lat: 34.0522, lon: -118.2437, name: "Los Angeles", desc: "Entertainment hub, Mediterranean climate." },
+            { lat: 51.5074, lon: -0.1278, name: "London", desc: "Historic cultural and financial center." },
+            { lat: 35.6762, lon: 139.6503, name: "Tokyo", desc: "Technology innovation leader, massive metropolis." },
+            { lat: -33.8688, lon: 151.2093, name: "Sydney", desc: "Major port, iconic architecture, coastal city." },
+            { lat: -23.5505, lon: -46.6333, name: "São Paulo", desc: "Cultural capital of Brazil, vast rainforest nearby." },
+            { lat: 30.0444, lon: 31.2357, name: "Cairo", desc: "Ancient history, desert landscape, Nile river." },
+            { lat: 19.0760, lon: 72.8777, name: "Mumbai", desc: "Bustling markets, film industry, rapid growth." }
+        ];
+
+        // --- Init Three.js ---
+        function init() {
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050510, 0.025);
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = cameraDistance;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Lights
+            scene.add(new THREE.AmbientLight(0x555555));
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            dirLight.position.set(5, 3, 5);
+            scene.add(dirLight);
+
+            earthGroup = new THREE.Group();
+            scene.add(earthGroup);
+
+            createEarth();
+            createStars();
+            addMarkers();
+
+            // Listeners
+            window.addEventListener('resize', onWindowResize, false);
+            const canvas = renderer.domElement;
+            canvas.addEventListener('mousedown', onPointerDown);
+            window.addEventListener('mousemove', onPointerMove);
+            window.addEventListener('mouseup', onPointerUp);
+            canvas.addEventListener('wheel', onZoom, { passive: false });
+
+            document.getElementById('close-btn').addEventListener('click', closeInfoPanel);
+            document.getElementById('camera-btn').addEventListener('click', startCamera);
+
+            animate();
+
+            // Hide loader after a brief moment
+            setTimeout(() => { document.getElementById('loading').style.opacity = 0; }, 1000);
+        }
+
+        function createEarth() {
+            // High res geometry for better sphere
+            const geometry = new THREE.SphereGeometry(config.earthRadius, 64, 64);
+
+            const loader = new THREE.TextureLoader();
+
+            // Using standard reliable textures
+            const earthTexture = loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg');
+            const bumpMap = loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg');
+            const specularMap = loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg');
+
+            const material = new THREE.MeshPhongMaterial({
+                map: earthTexture,
+                bumpMap: bumpMap,
+                bumpScale: 0.05,
+                specularMap: specularMap,
+                specular: new THREE.Color('grey'),
+                shininess: 5
+            });
+
+            earthMesh = new THREE.Mesh(geometry, material);
+            earthGroup.add(earthMesh);
+
+            // Atmosphere Halo
+            const atmosGeo = new THREE.SphereGeometry(config.earthRadius + 0.05, 64, 64);
+            const atmosMat = new THREE.MeshPhongMaterial({
+                color: 0x00aaff,
+                transparent: true,
+                opacity: 0.15,
+                side: THREE.BackSide,
+                blending: THREE.AdditiveBlending
+            });
+            const atmos = new THREE.Mesh(atmosGeo, atmosMat);
+            earthGroup.add(atmos);
+        }
+
+        function createStars() {
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsCount = 1500;
+            const posArray = new Float32Array(starsCount * 3);
+            for(let i = 0; i < starsCount * 3; i++) posArray[i] = (Math.random() - 0.5) * 80;
+            starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const starsMaterial = new THREE.PointsMaterial({ size: 0.05, color: 0xffffff, transparent: true, opacity: 0.8 });
+            scene.add(new THREE.Points(starsGeometry, starsMaterial));
+        }
+
+        function latLonToVector3(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            const x = -(radius * Math.sin(phi) * Math.cos(theta));
+            const z = (radius * Math.sin(phi) * Math.sin(theta));
+            const y = (radius * Math.cos(phi));
+            return new THREE.Vector3(x, y, z);
+        }
+
+        function addMarkers() {
+            const markerGeo = new THREE.SphereGeometry(config.markerRadius, 16, 16);
+            const markerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const markerGlowMat = new THREE.MeshBasicMaterial({ color: 0xff5555, transparent: true, opacity: 0.5 });
+
+            regions.forEach(region => {
+                const pos = latLonToVector3(region.lat, region.lon, config.earthRadius);
+                const marker = new THREE.Mesh(markerGeo, markerMat);
+                marker.position.copy(pos);
+                marker.userData = region;
+
+                const glow = new THREE.Mesh(new THREE.SphereGeometry(config.markerRadius * 2.5, 16, 16), markerGlowMat);
+                marker.add(glow);
+                earthGroup.add(marker);
+                markers.push(marker);
+            });
+        }
+
+        // --- Interaction Logic (Mouse) ---
+        function onPointerDown(event) {
+            if(isGestureActive) return; // Ignore mouse if using gesture
+            isDragging = true;
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+            checkIntersection(event.clientX, event.clientY);
+        }
+
+        function onPointerMove(event) {
+            if(isGestureActive) return;
+            // Update Raycaster for hover effect
+            updateRaycaster(event.clientX, event.clientY);
+
+            if (!isDragging) return;
+            const delta = { x: event.clientX - previousMousePosition.x, y: event.clientY - previousMousePosition.y };
+            targetRotation.y += delta.x * config.dragSensitivity;
+            targetRotation.x += delta.y * config.dragSensitivity;
+            targetRotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetRotation.x));
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+        }
+
+        function onPointerUp() { isDragging = false; }
+
+        function onZoom(event) {
+            event.preventDefault();
+            const zoomAmount = event.deltaY * config.zoomSensitivity;
+            updateZoom(zoomAmount * 5);
+        }
+
+        function updateZoom(delta) {
+            cameraDistance += delta;
+            cameraDistance = Math.max(config.minZoom, Math.min(config.maxZoom, cameraDistance));
+            camera.position.z = cameraDistance;
+        }
+
+        function updateRaycaster(x, y) {
+            mouse.x = (x / window.innerWidth) * 2 - 1;
+            mouse.y = -(y / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+        }
+
+        function checkIntersection(x, y, isClick = true) {
+            updateRaycaster(x, y);
+            const intersects = raycaster.intersectObjects(markers);
+            if (intersects.length > 0) {
+                document.body.style.cursor = 'pointer';
+                if(isClick) showRegionInfo(intersects[0].object.userData);
+                return true; // Hit
+            } else {
+                document.body.style.cursor = 'default';
+                return false;
+            }
+        }
+
+        // --- UI Logic ---
+        function showRegionInfo(data) {
+            const panel = document.getElementById('info-panel');
+            document.getElementById('region-title').textContent = data.name;
+            document.getElementById('region-coords').textContent = `LAT: ${data.lat.toFixed(2)} | LON: ${data.lon.toFixed(2)}`;
+            document.getElementById('region-desc').textContent = data.desc;
+            panel.classList.add('visible');
+        }
+        function closeInfoPanel() { document.getElementById('info-panel').classList.remove('visible'); }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- MediaPipe Gesture Logic ---
+
+        async function startCamera() {
+            const btn = document.getElementById('camera-btn');
+            btn.textContent = "INITIALIZING...";
+            document.getElementById('camera-container').style.display = 'block';
+
+            const videoElement = document.getElementById('input_video');
+
+            const hands = new Hands({locateFile: (file) => {
+                return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+            }});
+
+            hands.setOptions({
+                maxNumHands: 1,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.7,
+                minTrackingConfidence: 0.7
+            });
+
+            hands.onResults(onHandsResults);
+
+            const cameraObj = new Camera(videoElement, {
+                onFrame: async () => { await hands.send({image: videoElement}); },
+                width: 320,
+                height: 240
+            });
+
+            await cameraObj.start();
+
+            btn.style.display = 'none';
+            document.getElementById('hand-cursor').style.display = 'block';
+            isGestureActive = true;
+        }
+
+        function onHandsResults(results) {
+            const cursor = document.getElementById('hand-cursor');
+
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                const landmarks = results.multiHandLandmarks[0];
+
+                // 1. Cursor Position (Index Finger Tip: 8)
+                // Mirror X for intuitive control
+                const x = (1 - landmarks[8].x) * window.innerWidth;
+                const y = landmarks[8].y * window.innerHeight;
+
+                cursor.style.left = `${x}px`;
+                cursor.style.top = `${y}px`;
+
+                // 2. Pinch Detection (Thumb Tip: 4, Index Tip: 8)
+                const dx = landmarks[8].x - landmarks[4].x;
+                const dy = landmarks[8].y - landmarks[4].y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+
+                // Threshold for pinch
+                const pinchThreshold = 0.05;
+                const currentlyPinching = distance < pinchThreshold;
+
+                if (currentlyPinching) {
+                    cursor.classList.add('pinched');
+
+                    if (!isPinching) {
+                        // Pinch Start (Click)
+                        const hit = checkIntersection(x, y, true);
+                        if (!hit) {
+                            // Start Drag
+                            previousHandPos = { x: x, y: y };
+                        }
+                    } else {
+                        // Pinch Dragging
+                        // Calculate delta
+                        const deltaX = x - previousHandPos.x;
+                        const deltaY = y - previousHandPos.y;
+
+                        targetRotation.y += deltaX * config.dragSensitivity * 0.5;
+                        targetRotation.x += deltaY * config.dragSensitivity * 0.5;
+                        targetRotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetRotation.x));
+
+                        previousHandPos = { x: x, y: y };
+                    }
+                    isPinching = true;
+                } else {
+                    cursor.classList.remove('pinched');
+                    isPinching = false;
+                    checkIntersection(x, y, false); // Just hover check
+                }
+
+                // 3. Zoom Detection (Based on Z-depth of wrist/palm)
+                // landmarks[0].z is relative depth.
+                // Negative is closer to camera.
+                const zDepth = landmarks[0].z;
+
+                // Simple mapping: zDepth usually ranges -0.1 to 0.1 approx in standard view
+                // We map this to zoom.
+                // Deadzone to prevent jitter
+                if (zDepth < -0.05) updateZoom(-0.05); // Move In
+                if (zDepth > 0.05) updateZoom(0.05);   // Move Out
+
+            } else {
+                // No hand detected
+                isPinching = false;
+                cursor.classList.remove('pinched');
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth Rotation
+            earthGroup.rotation.y += (targetRotation.y - earthGroup.rotation.y) * 0.1;
+            earthGroup.rotation.x += (targetRotation.x - earthGroup.rotation.x) * 0.1;
+
+            // Auto spin slowly if idle
+            if (!isDragging && !isPinching) {
+                targetRotation.y += config.rotationSpeed;
+            }
+
+            // Pulse markers
+            const time = Date.now() * 0.002;
+            markers.forEach(marker => {
+                if(marker.children.length > 0) marker.children[0].scale.setScalar(1 + Math.sin(time) * 0.2);
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>
