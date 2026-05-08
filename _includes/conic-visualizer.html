@@ -1,14 +1,14 @@
 <section>
 <div style="font-size:0.55em; text-align:left;">
   <div style="color:#2d318f; font-size:1.35em; font-weight:bold; margin-bottom:0.55em;">
-    Conics in the Affine Plane {Z &ne; 0}
+    Poncelet's Porism
   </div>
   <div style="display:flex; gap:1.8em; align-items:flex-start;">
 
     <div style="width:300px; flex-shrink:0; display:flex; flex-direction:column; gap:0.45em;">
       <div>
         <div style="font-weight:600; margin-bottom:0.2em;">
-          Conic <em>A</em> <span style="color:#2d318f; font-weight:normal;">(blue)</span>
+          Outer ellipse <em>A</em> <span style="color:#2d318f; font-weight:normal;">(blue)</span>
         </div>
         <input id="eq1" type="text" value="X^2+Y^2-4Z^2"
                style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
@@ -17,24 +17,37 @@
       </div>
       <div>
         <div style="font-weight:600; margin-bottom:0.2em;">
-          Conic <em>B</em> <span style="color:#c03030; font-weight:normal;">(red)</span>
+          Inner ellipse <em>B</em> <span style="color:#c03030; font-weight:normal;">(red)</span>
         </div>
-        <input id="eq2" type="text" value="XY-Z^2"
+        <input id="eq2" type="text" value="X^2+Y^2-Z^2"
                style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
                       font-family:monospace;font-size:0.95em;
                       border:1.5px solid #bbb;border-radius:4px;outline:none;">
       </div>
-      <button onclick="drawConics()"
-              style="padding:0.38em 0;background:#2d318f;color:#fff;
-                     border:none;border-radius:5px;cursor:pointer;
-                     font-size:1em;font-weight:600;margin-top:0.1em;">
-        Draw
-      </button>
-      <div style="margin-top:0.3em; font-size:0.88em; color:#555; line-height:1.5;">
+      <div style="display:flex; gap:0.5em; margin-top:0.1em;">
+        <button onclick="drawConics()"
+                style="flex:1;padding:0.38em 0;background:#2d318f;color:#fff;
+                       border:none;border-radius:5px;cursor:pointer;
+                       font-size:1em;font-weight:600;">
+          Draw
+        </button>
+        <button onclick="resetConstruction()"
+                style="flex:1;padding:0.38em 0;background:#e8e8f0;color:#2d318f;
+                       border:1.5px solid #2d318f;border-radius:5px;cursor:pointer;
+                       font-size:1em;font-weight:600;">
+          Reset
+        </button>
+      </div>
+      <div style="margin-top:0.3em; font-size:0.85em; color:#555; line-height:1.5;">
         Format: <code>aX^2+bY^2+cZ^2+dXY+eXZ+fYZ</code>
       </div>
-      <div id="int-list"
-           style="margin-top:0.2em;font-size:0.92em;line-height:1.9;color:#333;">
+      <div id="pon-warning"
+           style="display:none; margin-top:0.3em; font-size:0.88em; line-height:1.5;
+                  color:#b02020; background:#fff0f0;
+                  border:1px solid #f0c0c0; border-radius:4px; padding:0.4em 0.6em;">
+      </div>
+      <div id="pon-status"
+           style="margin-top:0.2em; font-size:0.92em; line-height:1.8; color:#333;">
       </div>
     </div>
 
@@ -49,6 +62,11 @@
 (function () {
   const R = 3;
 
+  // module-level state shared between draw(), click handler, and animation
+  let state = { cA: null, cB: null, startPt: null, clickReady: false, clickHandler: null,
+                result: null, animIdx: 0, animTimer: null };
+
+  // ── parsing ─────────────────────────────────────────────────────────────────
   function parse(raw) {
     let s = raw.replace(/[\s*]/g, '').toUpperCase()
                .replace(/=\s*0\s*$/, '').replace(/=.*$/, '');
@@ -70,11 +88,66 @@
     };
   }
 
+  // ── conic evaluation: aX²+bY²+c+dXY+eX+fY (affine, Z=1) ────────────────────
   function ev(o, x, y) {
     return o.a*x*x + o.b*y*y + o.c + o.d*x*y + o.e*x + o.f*y;
   }
 
-  function newton(c1, c2, x, y) {
+  // ── center of conic: solve ∂F/∂x=0, ∂F/∂y=0 ────────────────────────────────
+  function centerOf(co) {
+    const det = 4*co.a*co.b - co.d*co.d;
+    if (Math.abs(det) < 1e-12) return [0, 0];
+    return [
+      (-2*co.b*co.e + co.d*co.f) / det,
+      (-2*co.a*co.f + co.d*co.e) / det,
+    ];
+  }
+
+  // ── check if conic is a real ellipse ────────────────────────────────────────
+  // Conditions: quadratic part positive definite (4ab−d²>0, a>0)
+  // AND ev at center has opposite sign to a (so the ellipse has real points).
+  function isEllipse(co) {
+    if (4*co.a*co.b - co.d*co.d <= 0) return false;
+    if (co.a <= 0) return false;
+    const [cx, cy] = centerOf(co);
+    return ev(co, cx, cy) < 0;
+  }
+
+  // ── check ellipse B is strictly inside ellipse A ────────────────────────────
+  // Two checks: (1) center of B is in interior of A; (2) A and B don't intersect.
+  function isBInsideA(cA, cB) {
+    const [aCx, aCy] = centerOf(cA);
+    const [bCx, bCy] = centerOf(cB);
+    // Interior of A has ev < 0 (since a>0 and ev(center_A)<0 by isEllipse)
+    if (ev(cA, bCx, bCy) >= 0) return false;
+    // No real intersections
+    return findPts(cA, cB).length === 0;
+  }
+
+  // ── validate inputs; returns null if valid, error string otherwise ───────────
+  function validate(cA, cB) {
+    if (!isEllipse(cA)) return 'Conic A is not a real ellipse. Try X^2+Y^2-4Z^2.';
+    if (!isEllipse(cB)) return 'Conic B is not a real ellipse. Try X^2+Y^2-Z^2.';
+    if (!isBInsideA(cA, cB))
+      return 'Ellipse B must be strictly inside ellipse A with no intersections.';
+    return null;
+  }
+
+  // ── UI helpers ───────────────────────────────────────────────────────────────
+  function setWarning(msg) {
+    const w = document.getElementById('pon-warning');
+    if (!w) return;
+    if (msg) { w.textContent = msg; w.style.display = 'block'; }
+    else     { w.textContent = '';  w.style.display = 'none';  }
+  }
+
+  function setStatus(html) {
+    const s = document.getElementById('pon-status');
+    if (s) s.innerHTML = html;
+  }
+
+  // ── Newton for two conics ────────────────────────────────────────────────────
+  function newton2(c1, c2, x, y) {
     for (let k = 0; k < 80; k++) {
       const F = ev(c1, x, y), G = ev(c2, x, y);
       if (Math.abs(F) < 1e-11 && Math.abs(G) < 1e-11) return [x, y];
@@ -89,13 +162,14 @@
     return (Math.abs(F) < 1e-5 && Math.abs(G) < 1e-5) ? [x, y] : null;
   }
 
+  // ── find intersections of two conics (used in validation) ───────────────────
   function findPts(c1, c2) {
     const pts = [], N = 40, h = 2*R/N;
     for (let i = 0; i <= N; i++) {
       for (let j = 0; j <= N; j++) {
         const x0 = -R + i*h, y0 = -R + j*h;
         if (Math.abs(ev(c1, x0, y0)) < 2 && Math.abs(ev(c2, x0, y0)) < 2) {
-          const p = newton(c1, c2, x0, y0);
+          const p = newton2(c1, c2, x0, y0);
           if (p && Math.abs(p[0]) < R*1.1 && Math.abs(p[1]) < R*1.1 &&
               !pts.some(q => (q[0]-p[0])**2 + (q[1]-p[1])**2 < 1e-5))
             pts.push(p);
@@ -105,22 +179,279 @@
     return pts;
   }
 
-  function draw() {
+  // ── snap click to outer conic A via ray from center ─────────────────────────
+  // Ray: (Px + t·Dx, Py + t·Dy). Since P is A's center the linear term vanishes,
+  // leaving ev(A, P+tD) = Q·t² + C = 0, so t = √(−C/Q).
+  function snapToA(mx, my, cA) {
+    const [Px, Py] = centerOf(cA);
+    const Dx = mx - Px, Dy = my - Py;
+    const Q = cA.a*Dx*Dx + cA.b*Dy*Dy + cA.d*Dx*Dy;
+    const C = ev(cA, Px, Py);
+    if (Q <= 0 || C >= 0) return null;
+    const t = Math.sqrt(-C / Q);
+    return [Px + t*Dx, Py + t*Dy];
+  }
+
+  // ── draw the selected starting point (orange dot + ring) ────────────────────
+  function drawStartPoint(ctx, pt) {
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    const cx = x => (x + R) / (2*R) * W;
+    const cy = y => (R - y) / (2*R) * H;
+    const [px, py] = [cx(pt[0]), cy(pt[1])];
+    ctx.beginPath(); ctx.arc(px, py, 9, 0, 2*Math.PI);
+    ctx.strokeStyle = '#e67e00'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(px, py, 5, 0, 2*Math.PI);
+    ctx.fillStyle = '#e67e00'; ctx.fill();
+  }
+
+  // ── polar line of P=(px,py) w.r.t. conic co: returns {lA,lB,lC} s.t. lA·x+lB·y+lC=0 ──
+  // This is the locus of points whose tangent lines pass through P;
+  // intersecting this line with co gives the two tangency contact points.
+  function polarLine(co, px, py) {
+    return {
+      lA: co.a*px + co.d/2*py + co.e/2,
+      lB: co.b*py + co.d/2*px + co.f/2,
+      lC: co.e/2*px + co.f/2*py + co.c,
+    };
+  }
+
+  // ── intersect line lA·x+lB·y+lC=0 with conic co; returns 0 or 2 points ─────
+  function lineConicIntersect(line, co) {
+    const {lA, lB, lC} = line;
+    let alpha, beta, gamma;
+    if (Math.abs(lB) >= Math.abs(lA)) {
+      // parametrize x=t, y = s·t + off
+      const s = -lA/lB, off = -lC/lB;
+      alpha = co.a + co.b*s*s + co.d*s;
+      beta  = 2*co.b*s*off + co.d*off + co.e + co.f*s;
+      gamma = co.b*off*off + co.c + co.f*off;
+      const disc = beta*beta - 4*alpha*gamma;
+      if (Math.abs(alpha) < 1e-14 || disc < 0) return [];
+      const sq = Math.sqrt(Math.max(0, disc));
+      const t1 = (-beta + sq) / (2*alpha), t2 = (-beta - sq) / (2*alpha);
+      return [[t1, s*t1+off], [t2, s*t2+off]];
+    } else {
+      // parametrize y=t, x = s·t + off
+      const s = -lB/lA, off = -lC/lA;
+      alpha = co.a*s*s + co.b + co.d*s;
+      beta  = 2*co.a*s*off + co.d*off + co.e*s + co.f;
+      gamma = co.a*off*off + co.c + co.e*off;
+      const disc = beta*beta - 4*alpha*gamma;
+      if (Math.abs(alpha) < 1e-14 || disc < 0) return [];
+      const sq = Math.sqrt(Math.max(0, disc));
+      const t1 = (-beta + sq) / (2*alpha), t2 = (-beta - sq) / (2*alpha);
+      return [[s*t1+off, t1], [s*t2+off, t2]];
+    }
+  }
+
+  // ── two tangency contact points on B from external point P ──────────────────
+  function tangentPointsOnB(P, cB) {
+    return lineConicIntersect(polarLine(cB, P[0], P[1]), cB);
+  }
+
+  // ── draw a line through two math-coord points, extended across the canvas ───
+  function drawLine(ctx, P, Q, color, dashed) {
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    const toX = x => (x + R) / (2*R) * W;
+    const toY = y => (R - y) / (2*R) * H;
+    const dx = Q[0]-P[0], dy = Q[1]-P[1];
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(toX(P[0] - 6*dx), toY(P[1] - 6*dy));
+    ctx.lineTo(toX(P[0] + 6*dx), toY(P[1] + 6*dy));
+    ctx.strokeStyle = color || '#999';
+    ctx.lineWidth = 1.5;
+    if (dashed) ctx.setLineDash([6, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  // ── line through two math-coord points P, Q → {lA,lB,lC} s.t. lA·x+lB·y+lC=0 ─
+  function lineThroughPoints(P, Q) {
+    return {
+      lA: Q[1] - P[1],
+      lB: P[0] - Q[0],
+      lC: Q[0]*P[1] - Q[1]*P[0],
+    };
+  }
+
+  // ── one Poncelet step: P on A, prevQ is the tangency point used to arrive at P ─
+  // Returns { nextP, Q, line } or null if the geometry fails.
+  function ponceletStep(P, prevQ, cA, cB) {
+    const tPts = tangentPointsOnB(P, cB);
+    if (tPts.length < 2) return null;
+    const [Q1, Q2] = tPts;
+    let Q;
+    if (!prevQ) {
+      Q = Q1;
+    } else {
+      const d1 = (Q1[0]-prevQ[0])**2 + (Q1[1]-prevQ[1])**2;
+      const d2 = (Q2[0]-prevQ[0])**2 + (Q2[1]-prevQ[1])**2;
+      Q = d1 > d2 ? Q1 : Q2;
+    }
+    const line = lineThroughPoints(P, Q);
+    const pts = lineConicIntersect(line, cA);
+    if (pts.length < 2) return null;
+    const nextP = pts.find(p => (p[0]-P[0])**2 + (p[1]-P[1])**2 > 1e-6);
+    if (!nextP) return null;
+    return { nextP, Q, line };
+  }
+
+  // ── draw a filled circle at a math-coord point ───────────────────────────────
+  function drawVertex(ctx, pt, color) {
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    const toX = x => (x + R) / (2*R) * W;
+    const toY = y => (R - y) / (2*R) * H;
+    ctx.beginPath(); ctx.arc(toX(pt[0]), toY(pt[1]), 5, 0, 2*Math.PI);
+    ctx.fillStyle = color || '#e67e00'; ctx.fill();
+  }
+
+  // ── draw a segment between two math-coord points ─────────────────────────────
+  function drawSegment(ctx, P, Q) {
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    const toX = x => (x + R) / (2*R) * W;
+    const toY = y => (R - y) / (2*R) * H;
+    ctx.beginPath();
+    ctx.moveTo(toX(P[0]), toY(P[1]));
+    ctx.lineTo(toX(Q[0]), toY(Q[1]));
+    ctx.strokeStyle = '#2d318f'; ctx.lineWidth = 2; ctx.stroke();
+  }
+
+  // ── draw one step: tangency dot on B + edge + new vertex, all at given alpha ─
+  // ctx.globalAlpha is saved/restored so callers are unaffected.
+  function drawStep(ctx, step, alpha) {
+    const toX = x => (x + R) / (2*R) * ctx.canvas.width;
+    const toY = y => (R - y) / (2*R) * ctx.canvas.height;
+    ctx.save();
+    ctx.globalAlpha = (alpha === undefined) ? 1 : alpha;
+
+    ctx.beginPath(); ctx.arc(toX(step.Q[0]), toY(step.Q[1]), 3, 0, 2*Math.PI);
+    ctx.fillStyle = '#2a8a2a'; ctx.fill();
+
+    drawSegment(ctx, step.point, step.nextP);
+    drawVertex(ctx, step.nextP);
+
+    ctx.restore();
+  }
+
+  // ── full Poncelet construction loop with closure detection ──────────────────
+  // Returns { steps, closed } where each step is { point, nextP, Q }.
+  function buildConstruction(startP, cA, cB, maxSteps = 10) {
+    const results = [];
+    let P = startP, prevQ = null;
+    for (let i = 0; i < maxSteps; i++) {
+      const step = ponceletStep(P, prevQ, cA, cB);
+      if (!step) break;
+      results.push({ point: P, nextP: step.nextP, Q: step.Q });
+      prevQ = step.Q;
+      P = step.nextP;
+      if ((P[0]-startP[0])**2 + (P[1]-startP[1])**2 < 1e-4) {
+        return { steps: results, closed: true };
+      }
+    }
+    return { steps: results, closed: false };
+  }
+
+  // ── draw the full static construction using drawStep ────────────────────────
+  function drawConstruction(ctx, startP, result) {
+    const { steps, closed } = result;
+    const n = steps.length;
+    steps.forEach((s, i) => {
+      // Snap last edge endpoint to startP for a pixel-perfect close
+      const s2 = (closed && i === n - 1) ? { point: s.point, nextP: startP, Q: s.Q } : s;
+      drawStep(ctx, s2, 1);
+    });
+    // Start point ring drawn last so it sits on top of the closing vertex dot
+    drawStartPoint(ctx, startP);
+  }
+
+  // ── display result message after construction completes ─────────────────────
+  function showResult(result) {
+    const n = result.steps.length;
+    if (result.closed) {
+      const names = { 3:'triangle', 4:'quadrilateral', 5:'pentagon',
+                      6:'hexagon', 7:'heptagon', 8:'octagon', 9:'nonagon', 10:'decagon' };
+      const label = names[n] ? ' (' + names[n] + ')' : '';
+      setStatus('<strong style="color:#2d318f;">Poncelet ' + n + '-gon' + label + '!</strong>');
+    } else {
+      setStatus('Did not close within ' + n + ' steps.');
+    }
+  }
+
+  // ── animate construction: one step every 600 ms ──────────────────────────────
+  function startAnimation(canvas, ctx, startP, result) {
+    if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
+    state.result  = result;
+    state.animIdx = 0;
+    state.clickReady = false;
+    setStatus('Building construction…');
+    drawStartPoint(ctx, startP);
+
+    const { steps, closed } = result;
+    const n = steps.length;
+
+    function tick() {
+      const i = state.animIdx;
+      if (i >= n) {
+        if (closed) drawStartPoint(ctx, startP);  // ring on top of closing dot
+        showResult(result);
+        state.clickReady = true;
+        state.animTimer = null;
+        return;
+      }
+      const s = steps[i];
+      const s2 = (closed && i === n - 1) ? { point: s.point, nextP: startP, Q: s.Q } : s;
+      drawStep(ctx, s2, 1);
+      state.animIdx++;
+      state.animTimer = setTimeout(tick, 600);
+    }
+
+    state.animTimer = setTimeout(tick, 600);
+  }
+
+  // ── reset: clear construction, keep ellipses, wait for new click ─────────────
+  function resetConstruction() {
+    if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
+    state.result = null; state.animIdx = 0; state.startPt = null;
+    const canvas = document.getElementById('conicCanvas');
+    if (!canvas || !state.cA || !state.cB) return;
+    const ctx = canvas.getContext('2d');
+    drawBackground(ctx, state.cA, state.cB);
+    state.clickReady = true;
+    setStatus('<em style="color:#666;">Click on the outer ellipse to start.</em>');
+  }
+
+  // ── canvas click handler ──────────────────────────────────────────────────────
+  function onCanvasClick(e) {
+    if (!state.clickReady) return;
     const canvas = document.getElementById('conicCanvas');
     if (!canvas) return;
+    // Correct for Reveal.js CSS scaling
+    const rect = canvas.getBoundingClientRect();
+    const px = (e.clientX - rect.left) * (canvas.width  / rect.width);
+    const py = (e.clientY - rect.top)  * (canvas.height / rect.height);
+    // Canvas pixels → math coords
+    const mx = px / canvas.width  * 2*R - R;
+    const my = R - py / canvas.height * 2*R;
+    const pt = snapToA(mx, my, state.cA);
+    if (!pt) return;
+    state.startPt = pt;
     const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-    let c1, c2;
-    try {
-      c1 = parse(document.getElementById('eq1').value);
-      c2 = parse(document.getElementById('eq2').value);
-    } catch (e) { return; }
+    drawBackground(ctx, state.cA, state.cB);
+    const result = buildConstruction(pt, state.cA, state.cB);
+    startAnimation(canvas, ctx, pt, result);
+  }
+
+  // ── draw background: grid, axes, both ellipses ───────────────────────────────
+  function drawBackground(ctx, cA, cB) {
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    const cx = x => (x + R) / (2*R) * W;
+    const cy = y => (R - y) / (2*R) * H;
+    const dx = 2*R/W, dy = 2*R/H;
 
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, W, H);
-
-    const cx = x => (x + R) / (2*R) * W;
-    const cy = y => (R - y) / (2*R) * H;
 
     ctx.strokeStyle = '#ececec'; ctx.lineWidth = 0.8;
     for (let v = -R+1; v < R; v++) {
@@ -141,41 +472,60 @@
     ctx.textAlign = 'left';   ctx.fillText('x', W - W*0.055, cy(0) - W*0.018);
     ctx.textAlign = 'center'; ctx.fillText('y', cx(0) + W*0.025, W*0.05);
 
-    const dx = 2*R/W, dy = 2*R/H;
-    const img = ctx.createImageData(W, H);
+    const img  = ctx.createImageData(W, H);
     const data = img.data;
     for (let px = 0; px < W; px++) {
       for (let py = 0; py < H; py++) {
         const x = px/W*2*R - R, y = R - py/H*2*R;
-        const f0 = ev(c1,x,y), f1 = ev(c1,x+dx,y), f2 = ev(c1,x,y-dy);
-        const g0 = ev(c2,x,y), g1 = ev(c2,x+dx,y), g2 = ev(c2,x,y-dy);
-        const onA = f0*f1 < 0 || f0*f2 < 0;
-        const onB = g0*g1 < 0 || g0*g2 < 0;
+        const onA = ev(cA,x,y)*ev(cA,x+dx,y) < 0 || ev(cA,x,y)*ev(cA,x,y-dy) < 0;
+        const onB = ev(cB,x,y)*ev(cB,x+dx,y) < 0 || ev(cB,x,y)*ev(cB,x,y-dy) < 0;
         const idx = (py*W + px) * 4;
-        if      (onA && onB) { data[idx]=110; data[idx+1]=0;  data[idx+2]=130; data[idx+3]=255; }
-        else if (onA)        { data[idx]=45;  data[idx+1]=49; data[idx+2]=143; data[idx+3]=255; }
-        else if (onB)        { data[idx]=192; data[idx+1]=40; data[idx+2]=40;  data[idx+3]=255; }
+        if      (onA) { data[idx]=45;  data[idx+1]=49; data[idx+2]=143; data[idx+3]=255; }
+        else if (onB) { data[idx]=192; data[idx+1]=40; data[idx+2]=40;  data[idx+3]=255; }
       }
     }
     ctx.putImageData(img, 0, 0);
+  }
 
-    const pts = findPts(c1, c2);
-    ctx.fillStyle = '#e67e00';
-    pts.forEach(([x, y]) => {
-      ctx.beginPath();
-      ctx.arc(cx(x), cy(y), 5, 0, 2*Math.PI);
-      ctx.fill();
-    });
+  // ── main entry point (Draw button) ──────────────────────────────────────────
+  function draw() {
+    if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
+    const canvas = document.getElementById('conicCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let cA, cB;
+    try {
+      cA = parse(document.getElementById('eq1').value);
+      cB = parse(document.getElementById('eq2').value);
+    } catch (e) {
+      setWarning('Could not parse equation.');
+      return;
+    }
 
-    const list = document.getElementById('int-list');
-    if (!list) return;
-    list.innerHTML = pts.length === 0
-      ? '<em style="color:#888;">No real intersections found</em>'
-      : `<strong>${pts.length} intersection${pts.length > 1 ? 's' : ''}:</strong><br>`
-        + pts.map(([x, y]) => `&nbsp;(${x.toFixed(3)},&nbsp;${y.toFixed(3)})`).join('<br>');
+    const err = validate(cA, cB);
+    if (err) {
+      setWarning(err);
+      setStatus('');
+      ctx.fillStyle = '#f8f8f8';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+
+    setWarning(null);
+    setStatus('<em style="color:#666;">Click on the outer ellipse to start.</em>');
+
+    state.cA = cA; state.cB = cB; state.startPt = null; state.result = null; state.animIdx = 0;
+    if (state.clickHandler) canvas.removeEventListener('click', state.clickHandler);
+    state.clickHandler = onCanvasClick;
+    canvas.addEventListener('click', state.clickHandler);
+    state.clickReady = true;
+    canvas.style.cursor = 'crosshair';
+
+    drawBackground(ctx, cA, cB);
   }
 
   window.drawConics = draw;
+  window.resetConstruction = resetConstruction;
   setTimeout(draw, 0);
 })();
 </script>
