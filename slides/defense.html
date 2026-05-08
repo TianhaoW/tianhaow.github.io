@@ -1,0 +1,81 @@
+---
+layout: slides
+title: Tianhao's Denfense
+theme: white
+---
+<section>
+  <div class="title-slide">
+    <div class="ts-box">
+      <div class="ts-title-area">
+        <p>Frobenius Equidistribution and Arithmetic of Fibers in Algebraic Families</p>
+      </div>
+      <div class="ts-info-area">
+        <p class="ts-author">Tianhao Wang</p>
+        <p class="ts-institution">University of California, Irvine</p>
+        <p class="ts-date">May 14th, 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- This part is the conic-cisualizer -->
+{% include conic-visualizer.html %}
+
+<section data-markdown>
+<textarea data-template>
+
+- $X$: a geometrically integral scheme of finite type over $\mathbb{Z}$ or $\mathbb{F}_q$. 
+- $x_0\in |X|$: a closed point with finite residue field $\kappa(x_0)$. 
+- $\overline{\eta}$: a geometric generic point of $X$. 
+- $\overline{x}_0$: a geometric point above $x_0$, together with a choice of specialization $\overline{\eta}\leadsto \overline{x}_0$, which induces
+
+$$ \operatorname{sp}_{x_0}: \operatorname{Gal}\bigl(\overline{\kappa(x_0)}/\kappa(x_0)\bigr) \longrightarrow \pi_1(X,\overline{\eta}). $$
+
+---
+
+## Fragments
+
+Click forward to reveal items one by one:
+
+- First point <!-- .element: class="fragment" -->
+- Second point <!-- .element: class="fragment" -->
+- Third point  <!-- .element: class="fragment" -->
+
+---
+
+## HTML Components
+
+Columns via inline HTML:
+
+<div style="display:flex; gap:2rem; font-size:0.8em;">
+  <div style="flex:1; background:#f5f5f5; padding:1rem; border-radius:4px;">
+    <strong>Left</strong><br>Any HTML works here
+  </div>
+  <div style="flex:1; background:#eef; padding:1rem; border-radius:4px;">
+    <strong>Right</strong><br>Mix with Markdown below
+  </div>
+</div>
+
+Some **Markdown** after the HTML block
+
+---
+
+## Code
+
+```python
+def euler(n):
+    return sum(1 for k in range(1, n) if gcd(k, n) == 1)
+```
+
+---
+
+## Speaker Notes
+
+Press `S` to open the speaker view.
+
+Note:
+These notes are only visible in the speaker view.
+You can write anything here.
+
+</textarea>
+</section>

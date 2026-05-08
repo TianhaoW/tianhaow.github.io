@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/{{ page.theme | default: 'white' }}.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+  <style>
+    /* Title slide */
+    .title-slide {
+      text-align: center;
+      width: 100%;
+    }
+    .title-slide .ts-box {
+      border-radius: 9px;
+      overflow: hidden;
+      box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.25);
+    }
+    .title-slide .ts-title-area {
+      background: #2d318f;
+      padding: 0.8em 1.2em;
+    }
+    .title-slide .ts-title-area p {
+      color: #fff;
+      font-size: 1.1em;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .title-slide .ts-info-area {
+      background: #eef0fa;
+      padding: 0.7em 1.2em;
+    }
+    .title-slide .ts-author {
+      font-size: 0.88em;
+      color: #1a1a1a;
+      margin: 0 0 0.45em;
+    }
+    .title-slide .ts-institution {
+      font-size: 0.72em;
+      color: #555;
+      margin: 0 0 0.45em;
+    }
+    .title-slide .ts-date {
+      font-size: 0.82em;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    /* Theorem-style block: <div class="tblock" data-title="..."> ... </div>
+       Override --tblock-header per block for different colors. */
+    .tblock {
+      --tblock-header: #2d318f;
+      background: #f0f2ff;
+      border: 1.5px solid var(--tblock-header);
+      border-radius: 7px;
+      overflow: hidden;
+      margin: 0.5em 0;
+      padding: 0.5em 0.9em 0.6em;
+      padding-top: 0;
+      text-align: left;
+      font-size: 0.88em;
+      line-height: 1.6;
+    }
+    .tblock::before {
+      content: attr(data-title);
+      display: block;
+      background: var(--tblock-header);
+      color: #fff;
+      font-weight: bold;
+      padding: 0.22em 0.9em;
+      margin: 0 -0.9em 0.5em -0.9em;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    {{ content }}
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/math/math.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: {{ page.slide_number | default: false }},
+    plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+  });
+</script>
+</body>
+</html>

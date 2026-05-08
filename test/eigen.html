@@ -1,0 +1,669 @@
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Play, RotateCcw, Info, AlertTriangle, ArrowRight, Grid, Move, Check, MousePointer2, Layers, Calculator } from 'lucide-react';
+
+// --- MATH UTILITIES ---
+
+const round = (n) => {
+  if (Math.abs(n) < 1e-10) return 0;
+  return Math.round(n * 100) / 100;
+};
+
+// Determinant of 2x2
+const det = (m) => m[0][0] * m[1][1] - m[0][1] * m[1][0];
+
+// Matrix x Vector
+const mulMV = (m, v) => [
+  m[0][0] * v[0] + m[0][1] * v[1],
+  m[1][0] * v[0] + m[1][1] * v[1]
+];
+
+// Matrix x Matrix
+const mulMM = (A, B) => [
+  [A[0][0] * B[0][0] + A[0][1] * B[1][0], A[0][0] * B[0][1] + A[0][1] * B[1][1]],
+  [A[1][0] * B[0][0] + A[1][1] * B[1][0], A[1][0] * B[0][1] + A[1][1] * B[1][1]]
+];
+
+// Inverse of 2x2
+const inv = (m) => {
+  const d = det(m);
+  if (Math.abs(d) < 1e-6) return null;
+  return [
+    [m[1][1] / d, -m[0][1] / d],
+    [-m[1][0] / d, m[0][0] / d]
+  ];
+};
+
+// Calculate Eigenvalues and Eigenvectors for 2x2
+const calculateEigen = (m) => {
+  const a = 1;
+  const b = -(m[0][0] + m[1][1]);
+  const c = det(m);
+  const discriminant = b * b - 4 * a * c;
+
+  if (discriminant < 0) return { hasReal: false };
+
+  const l1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+  const l2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+
+  // Helper to find eigenvector for a given eigenvalue
+  const getEv = (lambda) => {
+    const m00 = m[0][0] - lambda;
+    const m01 = m[0][1];
+    
+    // Check if near zero matrix (identity case)
+    if (Math.abs(m00) < 1e-5 && Math.abs(m01) < 1e-5) return lambda === l1 ? [1, 0] : [0, 1];
+
+    if (Math.abs(m00) > Math.abs(m01)) {
+        return [m01, -m00]; // Orthogonal to row 1
+    } else {
+        const m10 = m[1][0];
+        const m11 = m[1][1] - lambda;
+        return [m11, -m10];
+    }
+  };
+
+  const rawV1 = getEv(l1);
+  const rawV2 = getEv(l2);
+
+  // Normalize
+  const norm = (v) => Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+  const n1 = norm(rawV1) || 1;
+  const n2 = norm(rawV2) || 1;
+
+  return {
+    hasReal: true,
+    l1, l2,
+    v1: [rawV1[0] / n1, rawV1[1] / n1],
+    v2: [rawV2[0] / n2, rawV2[1] / n2]
+  };
+};
+
+// --- COMPONENTS ---
+
+const MatrixInput = ({ value, onChange, label, disabled = false, readOnly = false }) => {
+  const handleChange = (r, c, val) => {
+    if (readOnly) return;
+    const newVal = parseFloat(val);
+    if (isNaN(newVal)) return;
+    const newMatrix = [...value];
+    newMatrix[r] = [...newMatrix[r]];
+    newMatrix[r][c] = newVal;
+    onChange(newMatrix);
+  };
+
+  return (
+    <div className="flex flex-col items-center p-2 bg-white rounded shadow-sm border border-slate-200">
+      <span className="text-xs font-bold text-slate-500 mb-1">{label}</span>
+      <div className="flex gap-1">
+        <div className="flex flex-col gap-1 border-l-2 border-r-2 border-slate-800 px-1 rounded-sm">
+          <div className="flex gap-2">
+            <input
+              disabled={disabled}
+              readOnly={readOnly}
+              className={`w-12 text-center text-sm p-1 bg-slate-50 ${readOnly ? 'text-slate-500' : 'text-slate-900 font-medium'}`}
+              value={round(value[0][0])}
+              onChange={(e) => handleChange(0, 0, e.target.value)}
+            />
+            <input
+              disabled={disabled}
+              readOnly={readOnly}
+              className={`w-12 text-center text-sm p-1 bg-slate-50 ${readOnly ? 'text-slate-500' : 'text-slate-900 font-medium'}`}
+              value={round(value[0][1])}
+              onChange={(e) => handleChange(0, 1, e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <input
+              disabled={disabled}
+              readOnly={readOnly}
+              className={`w-12 text-center text-sm p-1 bg-slate-50 ${readOnly ? 'text-slate-500' : 'text-slate-900 font-medium'}`}
+              value={round(value[1][0])}
+              onChange={(e) => handleChange(1, 0, e.target.value)}
+            />
+            <input
+              disabled={disabled}
+              readOnly={readOnly}
+              className={`w-12 text-center text-sm p-1 bg-slate-50 ${readOnly ? 'text-slate-500' : 'text-slate-900 font-medium'}`}
+              value={round(value[1][1])}
+              onChange={(e) => handleChange(1, 1, e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function LinearAlgebraLab() {
+  // --- STATE ---
+  const [matrixA, setMatrixA] = useState([[0.5, 0.5], [0.5, 0.5]]); 
+  const [customBasis, setCustomBasis] = useState({ v1: [2, 1], v2: [-1, 2] });
+  const [vectorX, setVectorX] = useState([2, 2]); // The input vector in STANDARD Basis (World coords)
+  const [viewMode, setViewMode] = useState('standard'); // 'standard', 'eigen', 'custom'
+  
+  // --- CALCULATIONS ---
+  const eigenData = useMemo(() => calculateEigen(matrixA), [matrixA]);
+  
+  // 1. Calculate Basis Matrices for all modes
+  const bases = useMemo(() => {
+    // Standard P is Identity
+    const std = { 
+        id: 'standard', name: 'Standard Basis', 
+        P: [[1,0],[0,1]], P_inv: [[1,0],[0,1]], 
+        gridColor: '#94a3b8', labels: ['x', 'y'],
+        v1: [1,0], v2: [0,1]
+    };
+
+    // Eigen P
+    let eigen = { id: 'eigen', name: 'Eigenbasis', gridColor: '#6366f1', labels: ['b1', 'b2'], disabled: !eigenData.hasReal };
+    if (eigenData.hasReal) {
+        const P = [[eigenData.v1[0], eigenData.v2[0]], [eigenData.v1[1], eigenData.v2[1]]];
+        eigen.P = P;
+        eigen.P_inv = inv(P);
+        eigen.v1 = eigenData.v1;
+        eigen.v2 = eigenData.v2;
+    }
+
+    // Custom P
+    const P_cust = [[customBasis.v1[0], customBasis.v2[0]], [customBasis.v1[1], customBasis.v2[1]]];
+    const custom = {
+        id: 'custom', name: 'Custom Basis', 
+        P: P_cust, P_inv: inv(P_cust),
+        gridColor: '#a855f7', labels: ['c1', 'c2'], disabled: false,
+        v1: customBasis.v1, v2: customBasis.v2
+    };
+
+    return { standard: std, eigen, custom };
+  }, [eigenData, customBasis]);
+
+  // 2. Identify Current Active Basis Data
+  const currentBasis = bases[viewMode];
+  const P = currentBasis.P || [[1,0],[0,1]];
+  const P_inv = currentBasis.P_inv;
+
+  // 3. World Space Vectors (Standard Basis)
+  // These are what we plot on screen at absolute coordinates
+  const vectorXWorld = vectorX;
+  const vectorYWorld = useMemo(() => mulMV(matrixA, vectorX), [matrixA, vectorX]);
+
+  // 4. Matrix D in current basis (for display in math section)
+  const transformInCurrentBasis = useMemo(() => {
+    if (!P_inv) return [[0,0],[0,0]];
+    const AP = mulMM(matrixA, P);
+    return mulMM(P_inv, AP);
+  }, [matrixA, P, P_inv]);
+
+  // 5. Pre-calculate coordinates for all bases (for the panel)
+  // We need BOTH v and T(v) coordinates
+  const previewCoords = useMemo(() => {
+     const getCoords = (basisData) => {
+         if (basisData.disabled || !basisData.P_inv) return null;
+         return {
+             v: mulMV(basisData.P_inv, vectorXWorld),
+             tv: mulMV(basisData.P_inv, vectorYWorld)
+         };
+     };
+     return {
+         standard: getCoords(bases.standard),
+         eigen: getCoords(bases.eigen),
+         custom: getCoords(bases.custom)
+     };
+  }, [bases, vectorXWorld, vectorYWorld]);
+
+
+  // --- INTERACTION ---
+  const svgRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDrag = (e) => {
+    if (!isDragging || !svgRef.current) return;
+    const svg = svgRef.current;
+    
+    // Get mouse position relative to SVG
+    const pt = svg.createSVGPoint();
+    pt.x = e.touches ? e.touches[0].clientX : e.clientX;
+    pt.y = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    // Transform to SVG ViewBox coordinates
+    const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+    
+    // SVG Y is flipped, but since we are working in World Space for everything now,
+    // and the SVG Group is flipped, we just need to invert Y again to match math space.
+    const visualX = svgP.x;
+    const visualY = -svgP.y;
+
+    // DIRECT UPDATE: We are dragging in World Space now.
+    // The vector stays attached to the mouse regardless of the background grid.
+    setVectorX([visualX, visualY]);
+  };
+
+  // --- RENDERING HELPERS ---
+  
+  // Renders a grid based on basis vectors v1, v2
+  const DynamicGrid = ({ v1, v2, color }) => {
+    if (!v1 || !v2) return null;
+
+    const lines = [];
+    const range = 20; // How many lines to draw
+    const extend = 50; // How long lines should be
+
+    // We want to draw the "Coordinate Grid".
+    // A coordinate grid for basis {u, v} consists of:
+    // 1. Lines where coordinate c1 is constant (lines parallel to v)
+    // 2. Lines where coordinate c2 is constant (lines parallel to u)
+    
+    // Line equation for c1 = k:  Point = k*u + t*v  (varying t)
+    // Line equation for c2 = k:  Point = t*u + k*v  (varying t)
+
+    for (let k = -range; k <= range; k++) {
+       // c1 = k lines (parallel to v2)
+       const start1 = [k * v1[0] - extend * v2[0], k * v1[1] - extend * v2[1]];
+       const end1   = [k * v1[0] + extend * v2[0], k * v1[1] + extend * v2[1]];
+       
+       // c2 = k lines (parallel to v1)
+       const start2 = [-extend * v1[0] + k * v2[0], -extend * v1[1] + k * v2[1]];
+       const end2   = [extend * v1[0] + k * v2[0], extend * v1[1] + k * v2[1]];
+
+       const isAxis = k === 0;
+
+       lines.push(
+         <line 
+            key={`c1-${k}`} x1={start1[0]} y1={start1[1]} x2={end1[0]} y2={end1[1]} 
+            stroke={color} 
+            strokeWidth={isAxis ? "0.08" : "0.03"} 
+            opacity={isAxis ? 1 : 0.4}
+         />,
+         <line 
+            key={`c2-${k}`} x1={start2[0]} y1={start2[1]} x2={end2[0]} y2={end2[1]} 
+            stroke={color} 
+            strokeWidth={isAxis ? "0.08" : "0.03"} 
+            opacity={isAxis ? 1 : 0.4}
+         />
+       );
+    }
+    return <g>{lines}</g>;
+  };
+
+  const Arrow = ({ start, end, color, label, isGhost = false, width = 0.08 }) => {
+    const angle = Math.atan2(end[1] - start[1], end[0] - start[0]);
+    const headLen = 0.4;
+    return (
+      <g>
+        <line 
+          x1={start[0]} y1={start[1]} 
+          x2={end[0]} y2={end[1]} 
+          stroke={color} 
+          strokeWidth={isGhost ? "0.05" : width} 
+          strokeDasharray={isGhost ? "0.2, 0.2" : ""}
+          opacity={isGhost ? 0.6 : 1}
+        />
+        <path 
+          d={`M ${end[0]} ${end[1]} L ${end[0] - headLen * Math.cos(angle - Math.PI / 6)} ${end[1] - headLen * Math.sin(angle - Math.PI / 6)} L ${end[0] - headLen * Math.cos(angle + Math.PI / 6)} ${end[1] - headLen * Math.sin(angle + Math.PI / 6)} Z`} 
+          fill={color} 
+          opacity={isGhost ? 0.6 : 1}
+        />
+        {label && (
+          <text 
+            className="text-[0.6px] font-bold font-sans fill-current select-none pointer-events-none"
+            style={{fill: color}}
+            // Use translate then scale to position correctly and un-flip the text relative to the group
+            transform={`translate(${end[0] + 0.3}, ${end[1] + 0.3}) scale(1, -1)`}
+          >
+            {label}
+          </text>
+        )}
+      </g>
+    );
+  };
+
+  const CoordinateRow = ({ basisId, label, color, data }) => {
+      const isActive = viewMode === basisId;
+      const basis = bases[basisId];
+      
+      if (basis.disabled) return (
+          <div className="flex items-center justify-between p-3 rounded bg-slate-50 text-slate-400 border border-slate-100 mb-2 opacity-60">
+             <span className="text-xs font-medium">{label}</span>
+             <span className="text-[10px] italic">Not available</span>
+          </div>
+      );
+
+      return (
+        <div className={`flex flex-col p-3 rounded-lg border mb-3 transition-all ${isActive ? 'bg-white shadow-md border-blue-200 ring-1 ring-blue-100' : 'bg-slate-50 border-slate-200 hover:border-blue-300'}`}>
+            <div className="flex justify-between items-center mb-3">
+                <span className={`text-xs font-bold uppercase tracking-wider ${isActive ? 'text-blue-700' : 'text-slate-600'}`}>
+                    {label}
+                </span>
+                {isActive ? (
+                    <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">ACTIVE VIEW</span>
+                ) : (
+                    <button 
+                        onClick={() => setViewMode(basisId)}
+                        className="px-2 py-1 text-[10px] bg-white border border-slate-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 rounded shadow-sm transition-colors flex items-center gap-1 group"
+                    >
+                        Switch Grid <ArrowRight size={10} className="group-hover:translate-x-0.5 transition-transform" />
+                    </button>
+                )}
+            </div>
+            
+            {data && (
+                <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-blue-50/50 p-1.5 rounded border border-blue-100 flex flex-col items-center">
+                        <span className="text-[9px] text-blue-400 font-bold mb-1">COORD [v]</span>
+                        <span className="font-mono text-xs font-bold text-blue-700">
+                             [{round(data.v[0])}, {round(data.v[1])}]
+                        </span>
+                    </div>
+                    <div className="bg-red-50/50 p-1.5 rounded border border-red-100 flex flex-col items-center">
+                        <span className="text-[9px] text-red-400 font-bold mb-1">COORD [T(v)]</span>
+                        <span className="font-mono text-xs font-bold text-red-700">
+                             [{round(data.tv[0])}, {round(data.tv[1])}]
+                        </span>
+                    </div>
+                </div>
+            )}
+        </div>
+      );
+  };
+
+  return (
+    <div className="flex flex-col h-screen bg-white text-slate-900 font-sans overflow-hidden selection:bg-blue-100">
+      
+      {/* HEADER */}
+      <header className="bg-white border-b px-6 py-3 flex justify-between items-center z-10 shrink-0">
+        <h1 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <Layers className="text-blue-600" size={20}/>
+            Linear Algebra Lab
+        </h1>
+        <div className="flex gap-2">
+          <button 
+             onClick={() => { setMatrixA([[0.5, 0.5], [0.5, 0.5]]); setVectorX([2, 2]); setViewMode('standard'); }}
+             className="px-3 py-1.5 text-xs font-medium border border-slate-200 hover:bg-slate-50 rounded flex items-center gap-2 transition-colors"
+          >
+            <RotateCcw size={14} /> Projection
+          </button>
+           <button 
+             onClick={() => { setMatrixA([[2, 0], [0, 0.5]]); setVectorX([1, 2]); setViewMode('standard'); }}
+             className="px-3 py-1.5 text-xs font-medium border border-slate-200 hover:bg-slate-50 rounded flex items-center gap-2 transition-colors"
+          >
+            <RotateCcw size={14} /> Scale
+          </button>
+           <button 
+             onClick={() => { setMatrixA([[1, 1], [0, 1]]); setVectorX([0, 2]); setViewMode('standard'); }}
+             className="px-3 py-1.5 text-xs font-medium border border-slate-200 hover:bg-slate-50 rounded flex items-center gap-2 transition-colors"
+          >
+            <RotateCcw size={14} /> Shear
+          </button>
+        </div>
+      </header>
+
+      <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+        
+        {/* LEFT: VISUALIZATION */}
+        <div className="flex-1 bg-slate-50 relative overflow-hidden flex flex-col">
+          
+          {/* CONTROL PANEL OVERLAY */}
+          <div className="absolute top-4 left-4 z-10 w-72 flex flex-col gap-2 max-h-[calc(100%-2rem)] overflow-y-auto pointer-events-none">
+              <div className="bg-white/95 backdrop-blur p-4 rounded-xl shadow-xl border border-slate-200 pointer-events-auto">
+                <h3 className="font-bold text-xs uppercase tracking-wider mb-4 flex items-center gap-2 text-slate-500 border-b pb-2">
+                  <Calculator size={14} /> Coordinate Systems
+                </h3>
+                
+                <CoordinateRow 
+                    basisId="standard" 
+                    label="Standard Basis" 
+                    data={previewCoords.standard} 
+                />
+                
+                <CoordinateRow 
+                    basisId="eigen" 
+                    label="Eigenbasis" 
+                    data={previewCoords.eigen} 
+                />
+
+                <CoordinateRow 
+                    basisId="custom" 
+                    label="Custom Basis" 
+                    data={previewCoords.custom} 
+                />
+              </div>
+          </div>
+
+          <div 
+            className="flex-1 cursor-crosshair touch-none select-none"
+            onMouseMove={handleDrag}
+            onTouchMove={handleDrag}
+            onMouseUp={() => setIsDragging(false)}
+            onTouchEnd={() => setIsDragging(false)}
+            onMouseLeave={() => setIsDragging(false)}
+          >
+            <svg 
+              ref={svgRef}
+              viewBox="-10 -10 20 20" 
+              className="w-full h-full bg-slate-50"
+              preserveAspectRatio="xMidYMid slice"
+            >
+              {/* Flip Y axis so +y is up */}
+              <g transform="scale(1, -1)">
+                
+                {/* 1. The Dynamic Grid */}
+                <DynamicGrid 
+                    v1={currentBasis.v1} 
+                    v2={currentBasis.v2} 
+                    color={currentBasis.gridColor} 
+                />
+
+                {/* 2. Standard Axes (Always visible as reference 0,0) */}
+                <line x1="-20" y1="0" x2="20" y2="0" stroke="#0f172a" strokeWidth="0.05" opacity="0.2" />
+                <line x1="0" y1="-20" x2="0" y2="20" stroke="#0f172a" strokeWidth="0.05" opacity="0.2" />
+                
+                {/* Axis Labels - Using robust transform to keep them upright */}
+                <text 
+                  className="text-[0.6px] font-bold fill-slate-400"
+                  transform={`translate(9, -0.5) scale(1, -1)`}
+                >
+                    {currentBasis.labels[0]}
+                </text>
+                <text 
+                  className="text-[0.6px] font-bold fill-slate-400"
+                  transform={`translate(0.5, -9) scale(1, -1)`}
+                >
+                    {currentBasis.labels[1]}
+                </text>
+
+                {/* 3. Basis Vectors Visualization (Ghosted if not standard) */}
+                {/* Show the vectors defining the CURRENT grid */}
+                <Arrow start={[0,0]} end={currentBasis.v1} color={currentBasis.gridColor} label={currentBasis.labels[0]} width={0.12} />
+                <Arrow start={[0,0]} end={currentBasis.v2} color={currentBasis.gridColor} label={currentBasis.labels[1]} width={0.12} />
+
+                {/* 4. The VECTORS (Plotted in WORLD/Standard coords always) */}
+                
+                {/* Input Vector V */}
+                <g 
+                  onMouseDown={(e) => { setIsDragging(true); e.stopPropagation(); }}
+                  onTouchStart={(e) => { setIsDragging(true); e.stopPropagation(); }}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                >
+                  <circle cx={vectorXWorld[0]} cy={vectorXWorld[1]} r="1" fill="transparent" />
+                  <Arrow start={[0,0]} end={vectorXWorld} color="#2563eb" label="v" width={0.15} />
+                  <circle 
+                    cx={vectorXWorld[0]} cy={vectorXWorld[1]} 
+                    r="0.4" 
+                    fill="white" 
+                    stroke="#2563eb" 
+                    strokeWidth="0.1"
+                    className="drop-shadow-sm"
+                  /> 
+                </g>
+
+                {/* Transformed Vector T(v) */}
+                <Arrow start={[0,0]} end={vectorYWorld} color="#ef4444" label="T(v)" width={0.12} />
+                
+                {/* Connecting Line */}
+                <line 
+                  x1={vectorXWorld[0]} y1={vectorXWorld[1]} 
+                  x2={vectorYWorld[0]} y2={vectorYWorld[1]} 
+                  stroke="#cbd5e1" strokeWidth="0.04" strokeDasharray="0.3, 0.3" 
+                />
+
+              </g>
+            </svg>
+
+            {/* Drag Help Text */}
+            <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none transition-opacity duration-300 ${isDragging ? 'opacity-0' : 'opacity-100'}`}>
+                <div className="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm text-xs text-slate-500 flex items-center gap-2 border border-slate-200">
+                    <MousePointer2 size={14} className="animate-bounce text-blue-500" /> Drag the blue vector to see how coordinates change
+                </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: CONTROLS & MATH */}
+        <div className="w-full md:w-[380px] bg-white border-l flex flex-col overflow-y-auto shadow-xl z-20">
+          
+          <div className="p-6 space-y-8">
+            
+            {/* 1. Define Transformation */}
+            <section>
+              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                1. Linear Transformation T
+              </h2>
+              <div className="flex gap-4 items-start">
+                 <MatrixInput label="Matrix A" value={matrixA} onChange={setMatrixA} />
+                 <div className="text-xs text-slate-500 flex-1 pt-2">
+                   <p className="mb-2 leading-relaxed">Matrix A defines the transformation in standard basis.</p>
+                   <div className="grid grid-cols-2 gap-2">
+                       <div className="bg-slate-50 p-2 rounded border border-slate-100 text-center">
+                           <span className="block text-[9px] text-slate-400 uppercase mb-1">Det(A)</span>
+                           <span className="font-mono font-bold text-slate-700">{round(det(matrixA))}</span>
+                       </div>
+                       <div className="bg-slate-50 p-2 rounded border border-slate-100 text-center">
+                           <span className="block text-[9px] text-slate-400 uppercase mb-1">Trace(A)</span>
+                           <span className="font-mono font-bold text-slate-700">{round(matrixA[0][0] + matrixA[1][1])}</span>
+                       </div>
+                   </div>
+                 </div>
+              </div>
+            </section>
+
+            {/* 2. Define Basis */}
+            <section>
+               <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                2. Coordinate System Basis
+              </h2>
+              
+              <div className="space-y-4">
+                {/* Eigen Information */}
+                <div className={`p-4 rounded-xl text-sm border transition-colors ${eigenData.hasReal ? 'bg-indigo-50 border-indigo-100' : 'bg-red-50 border-red-100'}`}>
+                   <div className="flex justify-between items-start mb-3">
+                        <span className="font-bold text-indigo-900 flex items-center gap-2">
+                            Eigenbasis Definition
+                        </span>
+                        {!eigenData.hasReal && <span className="text-[10px] text-red-600 font-bold px-2 py-0.5 bg-red-100 rounded-full">Complex</span>}
+                   </div>
+                   
+                   {eigenData.hasReal ? (
+                     <div className="space-y-2 font-mono text-indigo-800 text-xs">
+                        <div className="flex items-center justify-between bg-white/60 p-2 rounded shadow-sm">
+                          <span className="opacity-60 font-sans">λ₁={round(eigenData.l1)}</span>
+                          <span className="font-bold">v₁=[{round(eigenData.v1[0])}, {round(eigenData.v1[1])}]</span>
+                        </div>
+                        <div className="flex items-center justify-between bg-white/60 p-2 rounded shadow-sm">
+                          <span className="opacity-60 font-sans">λ₂={round(eigenData.l2)}</span>
+                          <span className="font-bold">v₂=[{round(eigenData.v2[0])}, {round(eigenData.v2[1])}]</span>
+                        </div>
+                     </div>
+                   ) : (
+                     <div className="text-red-600 text-xs">
+                       Transformation includes rotation. No real eigenvectors found.
+                     </div>
+                   )}
+                </div>
+
+                {/* Custom Basis Input */}
+                <div className={`p-4 rounded-xl text-sm border transition-colors bg-slate-50 border-slate-100`}>
+                  <div className="font-bold text-slate-700 mb-3 flex items-center gap-2">
+                      Custom Basis Definition
+                  </div>
+                  <div className="flex gap-4 justify-center">
+                    <div className="flex flex-col gap-1 items-center">
+                      <span className="text-[10px] font-mono text-slate-400">c1 vector</span>
+                      <div className="flex gap-1">
+                        <input className="w-10 p-1.5 text-xs border rounded text-center font-mono focus:ring-2 ring-purple-200 outline-none" value={customBasis.v1[0]} onChange={(e) => setCustomBasis({...customBasis, v1: [parseFloat(e.target.value)||0, customBasis.v1[1]]})}/>
+                        <input className="w-10 p-1.5 text-xs border rounded text-center font-mono focus:ring-2 ring-purple-200 outline-none" value={customBasis.v1[1]} onChange={(e) => setCustomBasis({...customBasis, v1: [customBasis.v1[0], parseFloat(e.target.value)||0]})}/>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1 items-center">
+                      <span className="text-[10px] font-mono text-slate-400">c2 vector</span>
+                      <div className="flex gap-1">
+                        <input className="w-10 p-1.5 text-xs border rounded text-center font-mono focus:ring-2 ring-purple-200 outline-none" value={customBasis.v2[0]} onChange={(e) => setCustomBasis({...customBasis, v2: [parseFloat(e.target.value)||0, customBasis.v2[1]]})}/>
+                        <input className="w-10 p-1.5 text-xs border rounded text-center font-mono focus:ring-2 ring-purple-200 outline-none" value={customBasis.v2[1]} onChange={(e) => setCustomBasis({...customBasis, v2: [customBasis.v2[0], parseFloat(e.target.value)||0]})}/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* 3. The Math Behind It */}
+            <section className="border-t pt-6">
+              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+                3. Matrix Representation D
+              </h2>
+              
+              <div className="space-y-6">
+                
+                {/* The Transformation Equation */}
+                <div className="flex items-center gap-1 justify-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+                   <div className="flex flex-col items-center">
+                     <span className="text-[10px] text-slate-400 font-mono mb-1">D</span>
+                     <MatrixInput value={transformInCurrentBasis} label="" readOnly={true} onChange={()=>{}} />
+                   </div>
+                   <div className="text-slate-300 px-1">×</div>
+                   <div className="flex flex-col items-center">
+                     <span className="text-[10px] text-slate-400 font-mono mb-1">[v]</span>
+                     <div className="bg-white border border-slate-200 px-2 py-2 rounded text-center min-w-[3.5rem] shadow-sm">
+                       <div className="text-xs font-mono font-bold text-blue-600">{previewCoords[viewMode]?.v[0] ? round(previewCoords[viewMode].v[0]) : 0}</div>
+                       <div className="text-xs font-mono font-bold text-blue-600">{previewCoords[viewMode]?.v[1] ? round(previewCoords[viewMode].v[1]) : 0}</div>
+                     </div>
+                   </div>
+                   <div className="text-slate-300 px-1">=</div>
+                   <div className="flex flex-col items-center">
+                     <span className="text-[10px] text-slate-400 font-mono mb-1">[Tv]</span>
+                     <div className="bg-white border border-slate-200 px-2 py-2 rounded text-center min-w-[3.5rem] shadow-sm">
+                       <div className="text-xs font-mono font-bold text-red-500">{previewCoords[viewMode]?.tv[0] ? round(previewCoords[viewMode].tv[0]) : 0}</div>
+                       <div className="text-xs font-mono font-bold text-red-500">{previewCoords[viewMode]?.tv[1] ? round(previewCoords[viewMode].tv[1]) : 0}</div>
+                     </div>
+                   </div>
+                </div>
+
+                <div className="text-xs text-slate-500 leading-relaxed bg-blue-50/50 p-3 rounded border border-blue-100">
+                  {viewMode === 'standard' && (
+                    <p>Current view is standard. Matrix D is identical to Matrix A.</p>
+                  )}
+                  {viewMode === 'eigen' && (
+                    <p>
+                      <strong>Diagonalization achieved!</strong> In the Eigenbasis, Matrix D is diagonal. 
+                      Multiplication becomes simple scalar scaling: <br/>
+                      <code className="block mt-2 bg-white p-2 rounded border border-blue-200 font-mono">
+                        x' = {round(transformInCurrentBasis[0][0])}x <br/>
+                        y' = {round(transformInCurrentBasis[1][1])}y
+                      </code>
+                    </p>
+                  )}
+                  {viewMode === 'custom' && (
+                     <p>
+                       Matrix D represents transformation T relative to the custom basis C.
+                       Computed as <code className="font-bold">P⁻¹AP</code>.
+                     </p>
+                  )}
+                </div>
+
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,182 @@
+<section>
+<div style="font-size:0.55em; text-align:left;">
+  <div style="color:#2d318f; font-size:1.35em; font-weight:bold; margin-bottom:0.55em;">
+    Conics in the Affine Plane {Z &ne; 0}
+  </div>
+  <div style="display:flex; gap:1.8em; align-items:flex-start;">
+
+    <div style="width:300px; flex-shrink:0; display:flex; flex-direction:column; gap:0.45em;">
+      <div>
+        <div style="font-weight:600; margin-bottom:0.2em;">
+          Conic <em>A</em> <span style="color:#2d318f; font-weight:normal;">(blue)</span>
+        </div>
+        <input id="eq1" type="text" value="X^2+Y^2-4Z^2"
+               style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
+                      font-family:monospace;font-size:0.95em;
+                      border:1.5px solid #bbb;border-radius:4px;outline:none;">
+      </div>
+      <div>
+        <div style="font-weight:600; margin-bottom:0.2em;">
+          Conic <em>B</em> <span style="color:#c03030; font-weight:normal;">(red)</span>
+        </div>
+        <input id="eq2" type="text" value="XY-Z^2"
+               style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
+                      font-family:monospace;font-size:0.95em;
+                      border:1.5px solid #bbb;border-radius:4px;outline:none;">
+      </div>
+      <button onclick="drawConics()"
+              style="padding:0.38em 0;background:#2d318f;color:#fff;
+                     border:none;border-radius:5px;cursor:pointer;
+                     font-size:1em;font-weight:600;margin-top:0.1em;">
+        Draw
+      </button>
+      <div style="margin-top:0.3em; font-size:0.88em; color:#555; line-height:1.5;">
+        Format: <code>aX^2+bY^2+cZ^2+dXY+eXZ+fYZ</code>
+      </div>
+      <div id="int-list"
+           style="margin-top:0.2em;font-size:0.92em;line-height:1.9;color:#333;">
+      </div>
+    </div>
+
+    <canvas id="conicCanvas" width="400" height="400"
+            style="border:1px solid #ddd;border-radius:6px;flex-shrink:0;
+                   box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
+    </canvas>
+
+  </div>
+</div>
+<script>
+(function () {
+  const R = 3;
+
+  function parse(raw) {
+    let s = raw.replace(/[\s*]/g, '').toUpperCase()
+               .replace(/=\s*0\s*$/, '').replace(/=.*$/, '');
+    if (s[0] !== '-') s = '+' + s;
+    const p = '([+-]?\\d*\\.?\\d*)';
+    function get(pat) {
+      let t = 0, m, rx = new RegExp(p + pat, 'g');
+      while ((m = rx.exec(s)) !== null) {
+        const c = m[1];
+        t += (c === '' || c === '+') ? 1 : c === '-' ? -1 : parseFloat(c);
+      }
+      return t;
+    }
+    return {
+      a: get('X\\^2'), b: get('Y\\^2'), c: get('Z\\^2'),
+      d: get('XY') + get('YX'),
+      e: get('XZ') + get('ZX'),
+      f: get('YZ') + get('ZY'),
+    };
+  }
+
+  function ev(o, x, y) {
+    return o.a*x*x + o.b*y*y + o.c + o.d*x*y + o.e*x + o.f*y;
+  }
+
+  function newton(c1, c2, x, y) {
+    for (let k = 0; k < 80; k++) {
+      const F = ev(c1, x, y), G = ev(c2, x, y);
+      if (Math.abs(F) < 1e-11 && Math.abs(G) < 1e-11) return [x, y];
+      const Fx = 2*c1.a*x + c1.d*y + c1.e, Fy = 2*c1.b*y + c1.d*x + c1.f;
+      const Gx = 2*c2.a*x + c2.d*y + c2.e, Gy = 2*c2.b*y + c2.d*x + c2.f;
+      const det = Fx*Gy - Fy*Gx;
+      if (Math.abs(det) < 1e-14) break;
+      x -= (Gy*F - Fy*G) / det;
+      y -= (Fx*G - Gx*F) / det;
+    }
+    const F = ev(c1, x, y), G = ev(c2, x, y);
+    return (Math.abs(F) < 1e-5 && Math.abs(G) < 1e-5) ? [x, y] : null;
+  }
+
+  function findPts(c1, c2) {
+    const pts = [], N = 40, h = 2*R/N;
+    for (let i = 0; i <= N; i++) {
+      for (let j = 0; j <= N; j++) {
+        const x0 = -R + i*h, y0 = -R + j*h;
+        if (Math.abs(ev(c1, x0, y0)) < 2 && Math.abs(ev(c2, x0, y0)) < 2) {
+          const p = newton(c1, c2, x0, y0);
+          if (p && Math.abs(p[0]) < R*1.1 && Math.abs(p[1]) < R*1.1 &&
+              !pts.some(q => (q[0]-p[0])**2 + (q[1]-p[1])**2 < 1e-5))
+            pts.push(p);
+        }
+      }
+    }
+    return pts;
+  }
+
+  function draw() {
+    const canvas = document.getElementById('conicCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    let c1, c2;
+    try {
+      c1 = parse(document.getElementById('eq1').value);
+      c2 = parse(document.getElementById('eq2').value);
+    } catch (e) { return; }
+
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, W, H);
+
+    const cx = x => (x + R) / (2*R) * W;
+    const cy = y => (R - y) / (2*R) * H;
+
+    ctx.strokeStyle = '#ececec'; ctx.lineWidth = 0.8;
+    for (let v = -R+1; v < R; v++) {
+      ctx.beginPath(); ctx.moveTo(cx(v), 0);    ctx.lineTo(cx(v), H);    ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,     cy(v)); ctx.lineTo(W,     cy(v)); ctx.stroke();
+    }
+    ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.moveTo(0,     cy(0)); ctx.lineTo(W,     cy(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx(0), 0);     ctx.lineTo(cx(0), H);     ctx.stroke();
+
+    ctx.fillStyle = '#999'; ctx.font = `${Math.round(W*0.032)}px sans-serif`;
+    for (let v = -R+1; v < R; v++) {
+      if (v === 0) continue;
+      ctx.textAlign = 'center'; ctx.fillText(v, cx(v), cy(0) + W*0.038);
+      ctx.textAlign = 'right';  ctx.fillText(v, cx(0) - W*0.013, cy(v) + W*0.012);
+    }
+    ctx.fillStyle = '#888'; ctx.font = `italic ${Math.round(W*0.038)}px serif`;
+    ctx.textAlign = 'left';   ctx.fillText('x', W - W*0.055, cy(0) - W*0.018);
+    ctx.textAlign = 'center'; ctx.fillText('y', cx(0) + W*0.025, W*0.05);
+
+    const dx = 2*R/W, dy = 2*R/H;
+    const img = ctx.createImageData(W, H);
+    const data = img.data;
+    for (let px = 0; px < W; px++) {
+      for (let py = 0; py < H; py++) {
+        const x = px/W*2*R - R, y = R - py/H*2*R;
+        const f0 = ev(c1,x,y), f1 = ev(c1,x+dx,y), f2 = ev(c1,x,y-dy);
+        const g0 = ev(c2,x,y), g1 = ev(c2,x+dx,y), g2 = ev(c2,x,y-dy);
+        const onA = f0*f1 < 0 || f0*f2 < 0;
+        const onB = g0*g1 < 0 || g0*g2 < 0;
+        const idx = (py*W + px) * 4;
+        if      (onA && onB) { data[idx]=110; data[idx+1]=0;  data[idx+2]=130; data[idx+3]=255; }
+        else if (onA)        { data[idx]=45;  data[idx+1]=49; data[idx+2]=143; data[idx+3]=255; }
+        else if (onB)        { data[idx]=192; data[idx+1]=40; data[idx+2]=40;  data[idx+3]=255; }
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    const pts = findPts(c1, c2);
+    ctx.fillStyle = '#e67e00';
+    pts.forEach(([x, y]) => {
+      ctx.beginPath();
+      ctx.arc(cx(x), cy(y), 5, 0, 2*Math.PI);
+      ctx.fill();
+    });
+
+    const list = document.getElementById('int-list');
+    if (!list) return;
+    list.innerHTML = pts.length === 0
+      ? '<em style="color:#888;">No real intersections found</em>'
+      : `<strong>${pts.length} intersection${pts.length > 1 ? 's' : ''}:</strong><br>`
+        + pts.map(([x, y]) => `&nbsp;(${x.toFixed(3)},&nbsp;${y.toFixed(3)})`).join('<br>');
+  }
+
+  window.drawConics = draw;
+  setTimeout(draw, 0);
+})();
+</script>
+</section>
