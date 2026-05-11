@@ -1,60 +1,73 @@
 <section>
 <div style="font-size:0.55em; text-align:left;">
-  <div style="color:#2d318f; font-size:1.35em; font-weight:bold; margin-bottom:0.55em;">
-    Poncelet's Porism
+  <div class="slide-title">
+    Poncelet&rsquo;s Porism &amp; Griffiths&#8211;Harris Theorem
   </div>
-  <div style="display:flex; gap:1.8em; align-items:flex-start;">
-
-    <div style="width:300px; flex-shrink:0; display:flex; flex-direction:column; gap:0.45em;">
-      <div>
-        <div style="font-weight:600; margin-bottom:0.2em;">
-          Outer ellipse <em>A</em> <span style="color:#2d318f; font-weight:normal;">(blue)</span>
-        </div>
-        <input id="eq1" type="text" value="X^2+Y^2-4Z^2"
-               style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
-                      font-family:monospace;font-size:0.95em;
-                      border:1.5px solid #bbb;border-radius:4px;outline:none;">
+  <!-- Control panel: two-line horizontal layout above the canvases -->
+  <div style="display:flex; align-items:flex-end; gap:1.2em; margin-bottom:0.7em;">
+    <!-- Label + input for A -->
+    <div style="flex:1; display:flex; flex-direction:column; gap:0.2em;">
+      <div style="font-weight:600;">
+        Outer ellipse <em>A</em> <span style="color:#2d318f; font-weight:normal;">(blue)</span>
       </div>
-      <div>
-        <div style="font-weight:600; margin-bottom:0.2em;">
-          Inner ellipse <em>B</em> <span style="color:#c03030; font-weight:normal;">(red)</span>
-        </div>
-        <input id="eq2" type="text" value="X^2+Y^2-Z^2"
-               style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
-                      font-family:monospace;font-size:0.95em;
-                      border:1.5px solid #bbb;border-radius:4px;outline:none;">
-      </div>
-      <div style="display:flex; gap:0.5em; margin-top:0.1em;">
-        <button onclick="drawConics()"
-                style="flex:1;padding:0.38em 0;background:#2d318f;color:#fff;
-                       border:none;border-radius:5px;cursor:pointer;
-                       font-size:1em;font-weight:600;">
-          Draw
-        </button>
-        <button onclick="resetConstruction()"
-                style="flex:1;padding:0.38em 0;background:#e8e8f0;color:#2d318f;
-                       border:1.5px solid #2d318f;border-radius:5px;cursor:pointer;
-                       font-size:1em;font-weight:600;">
-          Reset
-        </button>
-      </div>
-      <div style="margin-top:0.3em; font-size:0.85em; color:#555; line-height:1.5;">
-        Format: <code>aX^2+bY^2+cZ^2+dXY+eXZ+fYZ</code>
-      </div>
-      <div id="pon-warning"
-           style="display:none; margin-top:0.3em; font-size:0.88em; line-height:1.5;
-                  color:#b02020; background:#fff0f0;
-                  border:1px solid #f0c0c0; border-radius:4px; padding:0.4em 0.6em;">
-      </div>
-      <div id="pon-status"
-           style="margin-top:0.2em; font-size:0.92em; line-height:1.8; color:#333;">
-      </div>
+      <input id="eq1" type="text" value="X^2+Y^2-4Z^2"
+             placeholder="aX^2+bY^2+cZ^2+dXY+eXZ+fYZ"
+             style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
+                    font-family:monospace;font-size:0.95em;
+                    border:1.5px solid #bbb;border-radius:4px;outline:none;">
     </div>
+    <!-- Label + input for B -->
+    <div style="flex:1; display:flex; flex-direction:column; gap:0.2em;">
+      <div style="font-weight:600;">
+        Inner ellipse <em>B</em> <span style="color:#c03030; font-weight:normal;">(red)</span>
+      </div>
+      <input id="eq2" type="text" value="X^2+Y^2-Z^2"
+             placeholder="aX^2+bY^2+cZ^2+dXY+eXZ+fYZ"
+             style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
+                    font-family:monospace;font-size:0.95em;
+                    border:1.5px solid #bbb;border-radius:4px;outline:none;">
+    </div>
+    <!-- Buttons stacked vertically -->
+    <div style="display:flex; flex-direction:column; gap:0.35em; flex-shrink:0;">
+      <button onclick="drawConics()"
+              style="padding:0.38em 1.2em;background:#2d318f;color:#fff;
+                     border:none;border-radius:5px;cursor:pointer;
+                     font-size:1em;font-weight:600;">
+        Draw
+      </button>
+      <button onclick="resetConstruction()"
+              style="padding:0.38em 1.2em;background:#e8e8f0;color:#2d318f;
+                     border:1.5px solid #2d318f;border-radius:5px;cursor:pointer;
+                     font-size:1em;font-weight:600;">
+        Reset
+      </button>
+    </div>
+  </div>
+
+  <!-- Warning + status below controls -->
+  <div id="pon-warning"
+       style="display:none; margin-bottom:0.3em; font-size:0.88em; line-height:1.5;
+              color:#b02020; background:#fff0f0;
+              border:1px solid #f0c0c0; border-radius:4px; padding:0.4em 0.6em;">
+  </div>
+  <div id="pon-status"
+       style="margin-bottom:0.4em; font-size:0.92em; line-height:1.8; color:#333;">
+  </div>
+
+  <!-- Canvases side by side -->
+  <div style="display:flex; gap:1.4em; align-items:flex-start;">
 
     <canvas id="conicCanvas" width="400" height="400"
             style="border:1px solid #ddd;border-radius:6px;flex-shrink:0;
                    box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
     </canvas>
+
+    <div id="ec-panel" style="display:none;flex-direction:column;align-items:center;flex-shrink:0;">
+      <canvas id="ecCanvas" width="400" height="400"
+              style="border:1px solid #ddd;border-radius:6px;
+                     box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
+      </canvas>
+    </div>
 
   </div>
 </div>
@@ -64,7 +77,8 @@
 
   // module-level state shared between draw(), click handler, and animation
   let state = { cA: null, cB: null, startPt: null, clickReady: false, clickHandler: null,
-                result: null, animIdx: 0, animTimer: null };
+                result: null, animIdx: 0, animTimer: null,
+                ecPoly: null, ecView: null, ecImageData: null, ecP: null, ecCurrent: null };
 
   // ── parsing ─────────────────────────────────────────────────────────────────
   function parse(raw) {
@@ -177,6 +191,247 @@
       }
     }
     return pts;
+  }
+
+  // ══ Griffiths-Harris: matrix, pencil polynomial, group law ══════════════════
+
+  // ── conic {a,b,c,d,e,f} → negated 3×3 symmetric matrix ─────────────────────
+  // Negating the standard matrix flips det sign: det(M_eff) > 0 for real ellipses,
+  // which guarantees f(0) = det(M_B_eff) > 0, so P = (0, √f(0)) is always real.
+  function conicToMatrix(co) {
+    return [
+      [-co.a,      -co.d/2, -co.e/2],
+      [-co.d/2,    -co.b,   -co.f/2],
+      [-co.e/2,    -co.f/2, -co.c  ],
+    ];
+  }
+
+  // ── polynomial arithmetic (coefficients: [p0, p1, p2, …] for p0+p1·x+…) ────
+  function polyMul(a, b) {
+    const r = new Array(a.length + b.length - 1).fill(0);
+    for (let i = 0; i < a.length; i++)
+      for (let j = 0; j < b.length; j++)
+        r[i+j] += a[i]*b[j];
+    return r;
+  }
+  function polyAdd(a, b) {
+    const n = Math.max(a.length, b.length);
+    return Array.from({length: n}, (_, i) => (a[i]||0) + (b[i]||0));
+  }
+  function polySub(a, b) {
+    const n = Math.max(a.length, b.length);
+    return Array.from({length: n}, (_, i) => (a[i]||0) - (b[i]||0));
+  }
+  function evalPoly(p, x) {
+    let v = 0, xk = 1;
+    for (let k = 0; k < p.length; k++) { v += p[k]*xk; xk *= x; }
+    return v;
+  }
+
+  // ── symbolic det of 3×3 pencil xmA+mB via cofactor expansion ────────────────
+  // Each entry (i,j) is the linear poly [mB[i][j], mA[i][j]].
+  function pencilPoly(mA, mB) {
+    const M = mA.map((row, i) => row.map((v, j) => [mB[i][j], v]));
+    const sub = (r1, c1, r2, c2) => polySub(polyMul(M[r1][c1], M[r2][c2]),
+                                             polyMul(M[r1][c2], M[r2][c1]));
+    // det = M00·(M11·M22−M12·M21) − M01·(M10·M22−M12·M20) + M02·(M10·M21−M11·M20)
+    return polyAdd(
+      polySub(polyMul(M[0][0], sub(1,1,2,2)),
+              polyMul(M[0][1], sub(1,0,2,2))),
+              polyMul(M[0][2], sub(1,0,2,1))
+    );
+  }
+
+  // ── check pencil polynomial is a non-degenerate cubic ───────────────────────
+  // Δ > 0 ↔ three distinct real roots ↔ smooth elliptic curve over ℝ.
+  function isNonDegenerate(p) {
+    if (Math.abs(p[3] || 0) < 1e-9) return false;
+    const [p0, p1, p2, p3] = p;
+    const Delta = 18*p3*p2*p1*p0 - 4*p2**3*p0 + p2**2*p1**2 - 4*p3*p1**3 - 27*p3**2*p0**2;
+    return Delta > 1e-6;
+  }
+
+  // ── GH Step 2: coordinate system for the E canvas ───────────────────────────
+  // Scans f to locate all real roots; sets x-range to cover them plus x=0 (where P is).
+  function computeEcView(poly) {
+    const W = 400, H = 400;
+    const N = 800, scanMin = -12, scanMax = 1.5;
+    const hh = (scanMax - scanMin) / N;
+    let roots = [], maxFval = 0;
+    for (let i = 0; i < N; i++) {
+      const x0 = scanMin + i * hh, x1 = x0 + hh;
+      const f0 = evalPoly(poly, x0), f1 = evalPoly(poly, x1);
+      if (f0 * f1 < 0) {
+        let lo = x0, hi = x1;
+        for (let k = 0; k < 40; k++) {
+          const mid = (lo + hi) / 2;
+          if (evalPoly(poly, lo) * evalPoly(poly, mid) < 0) hi = mid; else lo = mid;
+        }
+        roots.push((lo + hi) / 2);
+      }
+      if (f0 > maxFval) maxFval = f0;
+    }
+    const r1    = roots.length ? Math.min(...roots) : -1;
+    const rLast = roots.length ? Math.max(...roots) : 0;
+    const xMin  = Math.min(r1, -0.3) - 0.5;
+    const xMax  = Math.max(rLast + 0.3, 0.5);
+    const yMax  = Math.max(1.5, Math.min(Math.sqrt(Math.max(maxFval, 0)) * 1.2, 12));
+    const toCanvasX = x  => (x  - xMin) / (xMax - xMin) * W;
+    const toCanvasY = y  => (yMax - y)  / (2 * yMax)    * H;
+    const toMathX   = px => xMin + px / W * (xMax - xMin);
+    const toMathY   = py => yMax - py / H * (2 * yMax);
+    return { xMin, xMax, yMax, W, H, toCanvasX, toCanvasY, toMathX, toMathY };
+  }
+
+  // ── pre-render y²=f(x) onto an ImageData (reused every animation tick) ──────
+  function buildEcImageData(ctx, poly, view) {
+    const { W, H, toMathX, toMathY, xMin, xMax, yMax } = view;
+    const img  = ctx.createImageData(W, H);
+    const data = img.data;
+    const dxPx = (xMax - xMin) / W;
+    const dyPx = 2 * yMax / H;
+    // White background
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 255; data[i+1] = 255; data[i+2] = 255; data[i+3] = 255;
+    }
+    // Light blue tint where the curve has real points (f(x) > 0)
+    for (let px = 0; px < W; px++) {
+      const fx = evalPoly(poly, toMathX(px));
+      if (fx <= 0) continue;
+      const yc    = Math.sqrt(fx);
+      const pyTop = Math.max(0,   Math.ceil(view.toCanvasY(yc)));
+      const pyBot = Math.min(H-1, Math.floor(view.toCanvasY(-yc)));
+      for (let py = pyTop; py <= pyBot; py++) {
+        const idx = (py * W + px) * 4;
+        data[idx] = 232; data[idx+1] = 238; data[idx+2] = 255; data[idx+3] = 255;
+      }
+    }
+    // Curve pixels via sign-change raster on g(x,y) = y² − f(x)
+    for (let px = 0; px < W; px++) {
+      const x   = toMathX(px);
+      const fx  = evalPoly(poly, x);
+      const fxr = evalPoly(poly, x + dxPx);
+      for (let py = 0; py < H; py++) {
+        const y  = toMathY(py);
+        const g  = y*y - fx;
+        const gr = y*y - fxr;
+        const gd = (y - dyPx)*(y - dyPx) - fx;
+        if (g * gr < 0 || g * gd < 0) {
+          const idx = (py * W + px) * 4;
+          data[idx] = 70; data[idx+1] = 70; data[idx+2] = 70; data[idx+3] = 255;
+        }
+      }
+    }
+    return img;
+  }
+
+  // ── draw axes and grid over the curve raster ─────────────────────────────────
+  function drawEcBackground(ctx, view) {
+    const { xMin, xMax, yMax, W, H, toCanvasX, toCanvasY } = view;
+    ctx.save();
+    ctx.strokeStyle = '#ddd'; ctx.lineWidth = 0.8;
+    for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+      ctx.beginPath(); ctx.moveTo(toCanvasX(x), 0); ctx.lineTo(toCanvasX(x), H); ctx.stroke();
+    }
+    for (let y = 1; y <= Math.floor(yMax); y++) {
+      ctx.beginPath(); ctx.moveTo(0, toCanvasY(y));  ctx.lineTo(W, toCanvasY(y));  ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, toCanvasY(-y)); ctx.lineTo(W, toCanvasY(-y)); ctx.stroke();
+    }
+    ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(0, toCanvasY(0)); ctx.lineTo(W, toCanvasY(0)); ctx.stroke();
+    const ax0 = toCanvasX(0);
+    if (ax0 > 0 && ax0 < W) {
+      ctx.beginPath(); ctx.moveTo(ax0, 0); ctx.lineTo(ax0, H); ctx.stroke();
+    }
+    ctx.fillStyle = '#999'; ctx.font = `${Math.round(W * 0.037)}px sans-serif`;
+    for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+      if (x === 0) continue;
+      ctx.textAlign = 'center'; ctx.fillText(x, toCanvasX(x), toCanvasY(0) + W * 0.05);
+    }
+    for (let y = 1; y <= Math.floor(yMax); y++) {
+      ctx.textAlign = 'right';
+      ctx.fillText( y, ax0 - 4, toCanvasY(y)  + 4);
+      ctx.fillText(-y, ax0 - 4, toCanvasY(-y) + 4);
+    }
+    ctx.restore();
+  }
+
+  // ── draw one point on the E canvas (null = skip) ────────────────────────────
+  function drawEcPoint(ctx, view, Q, color, ring, label) {
+    if (!Q) return;
+    const px = view.toCanvasX(Q.x), py = view.toCanvasY(Q.y);
+    if (px < -15 || px > view.W + 15 || py < -15 || py > view.H + 15) return;
+    ctx.save();
+    if (ring) {
+      ctx.beginPath(); ctx.arc(px, py, 9, 0, 2*Math.PI);
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(px, py, 5, 0, 2*Math.PI);
+    ctx.fillStyle = color; ctx.fill();
+    if (label) {
+      ctx.fillStyle = color; ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left'; ctx.fillText(label, px + 9, py - 5);
+    }
+    ctx.restore();
+  }
+
+  // ── full E canvas redraw: raster + axes + P (gold) + currentPt (blue) ───────
+  function drawEcFrame(ctx, view, imageData, currentPt, P, kLabel) {
+    ctx.putImageData(imageData, 0, 0);
+    drawEcBackground(ctx, view);
+    if (P)         drawEcPoint(ctx, view, P,         '#c8860a', true,  'P');
+    if (currentPt) drawEcPoint(ctx, view, currentPt, '#2d318f', false, kLabel || null);
+    // title drawn inside the canvas
+    ctx.save();
+    ctx.font = 'italic 12px sans-serif';
+    ctx.fillStyle = '#555';
+    ctx.textAlign = 'center';
+    ctx.fillText('E : y² = det(xA + B)', view.W / 2, view.H - 7);
+    ctx.restore();
+  }
+
+  // ── O = ∞ indicator at top of E canvas ──────────────────────────────────────
+  function drawInfinity(ctx) {
+    ctx.save();
+    ctx.fillStyle = '#2d318f'; ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText('O (∞)', ctx.canvas.width / 2, 18);
+    ctx.restore();
+  }
+
+  // ── GH Step 3: group law on E: y² = p₃x³ + p₂x² + p₁x + p₀ ────────────────
+  // Finite points are {x, y}; null represents O (identity = point at infinity).
+
+  // The fixed increment point P lives at x=0; f(0)=poly[0]>0 by our matrix convention.
+  function pointP(poly) {
+    return { x: 0, y: Math.sqrt(poly[0]) };
+  }
+
+  // Negate a point: -(x,y) = (x,-y).
+  function negPoint(Q) {
+    return Q ? { x: Q.x, y: -Q.y } : null;
+  }
+
+  // Chord-and-tangent addition on y² = p₃x³ + p₂x² + p₁x + p₀.
+  // Returns null when the sum is O (point at infinity).
+  function addPoints(poly, Q1, Q2) {
+    if (!Q1) return Q2;
+    if (!Q2) return Q1;
+    const [p0, p1, p2, p3] = poly;
+    const EPS = 1e-9;
+    // Q1 = −Q2 → O
+    if (Math.abs(Q1.x - Q2.x) < EPS && Math.abs(Q1.y + Q2.y) < EPS) return null;
+    let m;
+    if (Math.abs(Q1.x - Q2.x) < EPS) {
+      // Tangent case (Q1 = Q2): slope = f′(x) / (2y)
+      if (Math.abs(Q1.y) < EPS) return null;  // 2-torsion: 2Q = O
+      m = (3*p3*Q1.x*Q1.x + 2*p2*Q1.x + p1) / (2 * Q1.y);
+    } else {
+      m = (Q2.y - Q1.y) / (Q2.x - Q1.x);
+    }
+    // Third intersection x via Vieta: x1+x2+x3 = (m²−p2)/p3
+    const x3 = m*m/p3 - p2/p3 - Q1.x - Q2.x;
+    const y3 = m*(x3 - Q1.x) + Q1.y;
+    return { x: x3, y: -y3 };
   }
 
   // ── snap click to outer conic A via ray from center ─────────────────────────
@@ -373,7 +628,11 @@
       const names = { 3:'triangle', 4:'quadrilateral', 5:'pentagon',
                       6:'hexagon', 7:'heptagon', 8:'octagon', 9:'nonagon', 10:'decagon' };
       const label = names[n] ? ' (' + names[n] + ')' : '';
-      setStatus('<strong style="color:#2d318f;">Poncelet ' + n + '-gon' + label + '!</strong>');
+      const ecNote = (state.ecCurrent === null && state.ecPoly)
+        ? '&ensp;<span style="color:#555;font-size:0.9em;">'
+          + 'On E: <strong>' + n + 'P&nbsp;=&nbsp;O</strong>&thinsp;(n&#x2011;torsion)</span>'
+        : '';
+      setStatus('<strong style="color:#2d318f;">Poncelet ' + n + '-gon' + label + '!</strong>' + ecNote);
     } else {
       setStatus('Did not close within ' + n + ' steps.');
     }
@@ -382,14 +641,29 @@
   // ── animate construction: one step every 600 ms ──────────────────────────────
   function startAnimation(canvas, ctx, startP, result) {
     if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
-    state.result  = result;
-    state.animIdx = 0;
+    state.result    = result;
+    state.animIdx   = 0;
     state.clickReady = false;
+    // GH: reset EC animation — start at O (identity), will advance by P each tick
+    state.ecCurrent = null;
     setStatus('Building construction…');
     drawStartPoint(ctx, startP);
 
     const { steps, closed } = result;
     const n = steps.length;
+
+    // Helper: advance EC point and redraw the E canvas
+    function stepEc() {
+      if (!state.ecPoly || !state.ecView || !state.ecImageData || !state.ecP) return;
+      const ecCanvas = document.getElementById('ecCanvas');
+      if (!ecCanvas) return;
+      const ecCtx = ecCanvas.getContext('2d');
+      state.ecCurrent = addPoints(state.ecPoly, state.ecCurrent, state.ecP);
+      // state.animIdx was just incremented, so it equals the current multiple of P
+      const kLabel = state.ecCurrent ? state.animIdx + 'P' : null;
+      drawEcFrame(ecCtx, state.ecView, state.ecImageData, state.ecCurrent, state.ecP, kLabel);
+      if (!state.ecCurrent) drawInfinity(ecCtx);  // reached O = ∞
+    }
 
     function tick() {
       const i = state.animIdx;
@@ -404,6 +678,7 @@
       const s2 = (closed && i === n - 1) ? { point: s.point, nextP: startP, Q: s.Q } : s;
       drawStep(ctx, s2, 1);
       state.animIdx++;
+      stepEc();  // advance kP on the E canvas in sync with this Poncelet edge
       state.animTimer = setTimeout(tick, 600);
     }
 
@@ -418,6 +693,12 @@
     if (!canvas || !state.cA || !state.cB) return;
     const ctx = canvas.getContext('2d');
     drawBackground(ctx, state.cA, state.cB);
+    // GH: restore E canvas to initial state (curve + P, no current point)
+    const ecCanvas = document.getElementById('ecCanvas');
+    if (ecCanvas && state.ecImageData && state.ecView) {
+      state.ecCurrent = null;
+      drawEcFrame(ecCanvas.getContext('2d'), state.ecView, state.ecImageData, null, state.ecP);
+    }
     state.clickReady = true;
     setStatus('<em style="color:#666;">Click on the outer ellipse to start.</em>');
   }
@@ -508,6 +789,8 @@
       setStatus('');
       ctx.fillStyle = '#f8f8f8';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const ecPanelErr = document.getElementById('ec-panel');
+      if (ecPanelErr) ecPanelErr.style.display = 'none';
       return;
     }
 
@@ -522,6 +805,28 @@
     canvas.style.cursor = 'crosshair';
 
     drawBackground(ctx, cA, cB);
+
+    // GH: build and draw the elliptic curve E on the second canvas
+    const ecCanvas = document.getElementById('ecCanvas');
+    if (ecCanvas) {
+      const ecCtx = ecCanvas.getContext('2d');
+      state.ecPoly      = pencilPoly(conicToMatrix(cA), conicToMatrix(cB));
+      state.ecView      = computeEcView(state.ecPoly);
+      state.ecImageData = buildEcImageData(ecCtx, state.ecPoly, state.ecView);
+      state.ecP         = { x: 0, y: Math.sqrt(state.ecPoly[0]) };
+      state.ecCurrent   = null;
+      drawEcFrame(ecCtx, state.ecView, state.ecImageData, null, state.ecP);
+      if (!isNonDegenerate(state.ecPoly)) {
+        ecCtx.save();
+        ecCtx.fillStyle = '#a06000'; ecCtx.font = '10px sans-serif';
+        ecCtx.textAlign = 'center';
+        ecCtx.fillText('singular curve — try non-concentric ellipses',
+                       state.ecView.W / 2, state.ecView.H - 6);
+        ecCtx.restore();
+      }
+      const ecPanel = document.getElementById('ec-panel');
+      if (ecPanel) ecPanel.style.display = 'flex';
+    }
   }
 
   window.drawConics = draw;

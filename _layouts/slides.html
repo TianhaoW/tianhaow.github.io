@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/{{ page.theme | default: 'white' }}.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
   <style>
+    .reveal { --r-main-font-size: 32px; }
     /* Title slide */
     .title-slide {
       text-align: center;
@@ -48,9 +49,20 @@
       margin: 0;
     }
 
-    /* Theorem-style block: <div class="tblock" data-title="..."> ... </div>
-       Override --tblock-header per block for different colors. */
-    .tblock {
+    /* Slide section title: <div class="slide-title">...</div> */
+    .slide-title {
+      color: #2d318f;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #2d318f;
+      padding-bottom: 0.22em;
+      margin-bottom: 0.5em;
+    }
+
+    /* Theorem-style blocks. Variants: tblock (thm), tblock-def, tblock-ques, tblock-rmk.
+       Usage: <div class="tblock" data-title="Theorem (Foo)"> ... </div> */
+    .tblock, .tblock-def, .tblock-ques, .tblock-rmk {
       --tblock-header: #2d318f;
       background: #f0f2ff;
       border: 1.5px solid var(--tblock-header);
@@ -63,7 +75,7 @@
       font-size: 0.88em;
       line-height: 1.6;
     }
-    .tblock::before {
+    .tblock::before, .tblock-def::before, .tblock-ques::before, .tblock-rmk::before {
       content: attr(data-title);
       display: block;
       background: var(--tblock-header);
@@ -73,6 +85,9 @@
       margin: 0 -0.9em 0.5em -0.9em;
       letter-spacing: 0.02em;
     }
+    .tblock-def  { --tblock-header: #1a6b4a; background: #f0fff7; border-color: #1a6b4a; }
+    .tblock-ques { --tblock-header: #8f5500; background: #fff8f0; border-color: #8f5500; }
+    .tblock-rmk  { --tblock-header: #555566; background: #f5f5f8; border-color: #555566; }
   </style>
 </head>
 <body>

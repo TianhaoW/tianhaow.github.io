@@ -18,64 +18,621 @@ theme: white
   </div>
 </section>
 
-<!-- This part is the conic-cisualizer -->
+<!-- Frobenius slide: click once to cross it out, then advance -->
+<section>
+  <div class="slide-title">
+   The Frobenius at a Closed Point
+  </div>
+  <div style="position:relative; font-size:0.8em; text-align:left;">
+    <ul style="line-height:1.7;">
+      <li>$X$: a geometrically integral scheme of finite type over $\mathbb{Z}$ or $\mathbb{F}_q$.</li>
+      <li>$x_0\in |X|$: a closed point with finite residue field $\kappa(x_0)$.</li>
+      <li>$\overline{\eta}$: a geometric generic point of $X$.</li>
+      <li>Choose a specialization $\overline{\eta}\leadsto \overline{x}_0$, where $\overline{x}_0$ is a geometric point above $x_0$. The morphism $\overline{x}_0\to X$, together with this specialization, induces a homomorphism, well-defined up to conjugation,
+        $$ D_{x_0}: \operatorname{Gal}\bigl(\overline{\kappa(x_0)}/\kappa(x_0)\bigr) \longrightarrow \pi_1^{\mathrm{et}}(X,\overline{\eta}). $$
+        The image of $a\mapsto a^{|\kappa(x_0)|}$ under $D_{x_0}$ defines the <strong>Frobenius conjugacy class</strong>.
+      </li>
+    </ul>
+    <!-- Red cross appears on next click, before advancing to the next slide -->
+    <div class="fragment" style="position:absolute;inset:0;pointer-events:none;">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none"
+           style="position:absolute;inset:0;width:100%;height:100%;">
+        <line x1="2" y1="2" x2="98" y2="98" stroke="#cc0000" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+        <line x1="98" y1="2" x2="2" y2="98" stroke="#cc0000" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section data-markdown>
+<textarea data-template>
+
+<div class="slide-title">
+   The Setup
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.95em;">
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$X/\mathbb{F}_q$</td><td>an affine geometrically integral variety over $\mathbb{F}_q$</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$K = \mathbb{F}_q(x)$</td><td>the function field of $X$</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$A = \mathbb{F}_q[X]$</td><td>the coordinate ring of $X$</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$p(x,t) \in A[t]$</td><td>a separable polynomial</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$L/K$</td><td>the splitting field of $p(x,t)$ over $K$</td></tr>
+</table>
+
+<div class="tblock-ques fragment" data-title="Question">
+   How does the polynomial $p(x_0, t)\in \mathbb{F}_q[t]$ split as $x_0$ is ranging over elements in $\mathbb{F}_q$. 
+</div>
+
+---
+
+<div class="slide-title">
+   Geometric Intepretation
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.95em;">
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$Y$</td><td>the variety $\{p(x,t)=0\}\subset X\times\mathbb{A}^1$</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\pi: Y\to X$</td><td>the natural projection $(x,t)\mapsto x$</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\pi^{-1}(x_0)$</td><td>the fiber over $x_0$ (= roots of $p(x_0,t)$)</td></tr>
+  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$U\subset X$</td><td>open subset of $X$ where $p(x_0,t)$ has distinct roots</td></tr>
+</table>
+
+<div class="fragment" style="display:flex;gap:3.5em;justify-content:center;align-items:flex-start;margin-top:0.9em;">
+
+<div style="text-align:center;">
+<svg width="295" height="215" viewBox="0 0 295 215" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="cvr-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#333"/>
+    </marker>
+    <marker id="cvr-pi-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#666"/>
+    </marker>
+  </defs>
+  <!-- Three branches of C_p, all meeting at the ramification point (148,95) -->
+  <path d="M 285,40 C 220,40 180,87 148,95 C 116,103 72,130 12,130"
+        fill="none" stroke="#2d318f" stroke-width="2.2"/>
+  <path d="M 285,95 C 220,95 180,95 148,95 C 116,95 72,95 12,95"
+        fill="none" stroke="#2d318f" stroke-width="2.2"/>
+  <path d="M 285,150 C 220,150 180,103 148,95 C 116,87 72,60 12,60"
+        fill="none" stroke="#2d318f" stroke-width="2.2"/>
+  <!-- Ramification point -->
+  <circle cx="148" cy="95" r="4.5" fill="#c03030"/>
+  <!-- Vertical dashed line at x_0=0 -->
+  <line x1="148" y1="10" x2="148" y2="185" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Base line A^1 -->
+  <line x1="10" y1="185" x2="278" y2="185" stroke="#333" stroke-width="2" marker-end="url(#cvr-arr)"/>
+  <circle cx="148" cy="185" r="3.5" fill="#c03030"/>
+  <!-- Labels -->
+  <text x="283" y="200" font-size="12" fill="#333" font-family="serif" font-style="italic">X</text>
+  <text x="148" y="208" font-size="11" fill="#555" text-anchor="middle">x&#x2080; = 0</text>
+  <text x="266" y="78"  font-size="11" fill="#2d318f" font-family="serif" font-style="italic">Y</text>
+  <!-- π downward arrow on left side, below the lowest branch -->
+  <line x1="18" y1="142" x2="18" y2="179" stroke="#666" stroke-width="1.5" marker-end="url(#cvr-pi-arr)"/>
+  <text x="24" y="165" font-size="13" fill="#666" font-family="serif" font-style="italic">&#x3C0;</text>
+</svg>
+<div style="font-size:0.72em;color:#555;margin-top:0.1em;">Ramified cover; branch point at $x_0=0$</div>
+</div>
+
+<div style="text-align:center;">
+<img src="/imgs/3FoldCoveringOfCircleB.png" height="215" style="display:block;margin:auto;">
+<div style="font-size:0.72em;color:#555;margin-top:0.1em;">Unramified cover over $U$</div>
+</div>
+
+</div>
+
+---
+
+<div class="slide-title">
+   The Frobenius Conjugacy Class
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.95em;margin-bottom:0;">
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$r_1,\ldots,r_n\in\overline{K}$</td><td>the generic roots of $p(x,t)$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$x_0\in X(\mathbb{F}_q)$</td><td>an $\mathbb{F}_q$-rational point with $f(x_0,t)$ having distinct roots</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\overline{r_1},\ldots,\overline{r_n}\in \overline{\mathbb{F}_q}$</td><td>roots of the specialization $p(x_0,t)$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$G_K = \operatorname{Gal}(K^{\mathrm{sep}}/K)$</td><td>the absolute Galois group of $K$</td></tr>
+</table>
+<div style="display:flex;gap:2.2em;justify-content:center;align-items:flex-start;margin-top:-0.4em;">
+
+<!-- Diagram 1: Monodromy g' permutes sheets/fiber (upward: r1→r2→r3) -->
+<div style="text-align:center;">
+<svg width="300" height="238" viewBox="0 0 300 238" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="mon-ax" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#333"/>
+    </marker>
+    <marker id="mon-pa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#7b2fa6"/>
+    </marker>
+  </defs>
+  <!-- Base line X -->
+  <line x1="10" y1="220" x2="268" y2="220" stroke="#333" stroke-width="2" marker-end="url(#mon-ax)"/>
+  <text x="273" y="224" font-size="12" fill="#333" font-family="serif" font-style="italic">X</text>
+  <!-- Fiber dashed line at x=145 -->
+  <line x1="145" y1="62" x2="145" y2="214" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="145" y="232" font-size="10" fill="#555" text-anchor="middle" font-family="serif" font-style="italic">x&#x2080;</text>
+  <!-- Sheets: r₁ (bottom y=175), r₂ (mid y=130), r₃ (top y=85) -->
+  <path d="M 10,175 C 60,170 105,180 145,175 C 185,170 230,180 268,175" fill="none" stroke="#2d318f" stroke-width="2"/>
+  <path d="M 10,130 C 60,135 105,125 145,130 C 185,135 230,125 268,130" fill="none" stroke="#2d318f" stroke-width="2"/>
+  <path d="M 10,85  C 60,80  105,90  145,85  C 185,80  230,90  268,85"  fill="none" stroke="#2d318f" stroke-width="2"/>
+  <!-- Sheet labels (right end) -->
+  <text x="276" y="179" font-size="11" fill="#2d318f" font-family="serif" font-style="italic">r<tspan font-size="8.5" dy="2" dx="-0.5">1</tspan></text>
+  <text x="276" y="134" font-size="11" fill="#2d318f" font-family="serif" font-style="italic">r<tspan font-size="8.5" dy="2" dx="-0.5">2</tspan></text>
+  <text x="276" y="89"  font-size="11" fill="#2d318f" font-family="serif" font-style="italic">r<tspan font-size="8.5" dy="2" dx="-0.5">3</tspan></text>
+  <!-- Fiber dots -->
+  <circle cx="145" cy="175" r="3.5" fill="#c03030"/>
+  <circle cx="145" cy="130" r="3.5" fill="#c03030"/>
+  <circle cx="145" cy="85"  r="3.5" fill="#c03030"/>
+  <!-- Fiber labels with overline, to the LEFT of the fiber -->
+  <text x="132" y="170" font-size="11" fill="#c03030" text-anchor="end" font-family="serif" font-style="italic"><tspan text-decoration="overline">r</tspan><tspan font-size="8.5" dy="2.5" dx="-1">1</tspan></text>
+  <text x="132" y="125" font-size="11" fill="#c03030" text-anchor="end" font-family="serif" font-style="italic"><tspan text-decoration="overline">r</tspan><tspan font-size="8.5" dy="2.5" dx="-1">2</tspan></text>
+  <text x="132" y="80"  font-size="11" fill="#c03030" text-anchor="end" font-family="serif" font-style="italic"><tspan text-decoration="overline">r</tspan><tspan font-size="8.5" dy="2.5" dx="-1">3</tspan></text>
+  <!-- Monodromy arrows on fiber (RIGHT side, purple): r̄₁→r̄₂, r̄₂→r̄₃ -->
+  <path d="M 152,171 C 172,158 172,146 152,134" fill="none" stroke="#7b2fa6" stroke-width="1.8" marker-end="url(#mon-pa)"/>
+  <text x="174" y="156" font-size="10" fill="#7b2fa6" font-family="serif" font-style="italic">g</text>
+  <path d="M 152,126 C 172,113 172,101 152,89"  fill="none" stroke="#7b2fa6" stroke-width="1.8" marker-end="url(#mon-pa)"/>
+  <text x="174" y="111" font-size="10" fill="#7b2fa6" font-family="serif" font-style="italic">g</text>
+  <!-- Monodromy arrows on sheets (right end): r₁→r₂, r₂→r₃ -->
+  <path d="M 271,172 C 288,159 288,147 271,134" fill="none" stroke="#7b2fa6" stroke-width="1.8" marker-end="url(#mon-pa)"/>
+  <text x="293" y="156" font-size="10" fill="#7b2fa6" font-family="serif" font-style="italic">g</text>
+  <path d="M 271,127 C 288,114 288,102 271,89"  fill="none" stroke="#7b2fa6" stroke-width="1.8" marker-end="url(#mon-pa)"/>
+  <text x="293" y="111" font-size="10" fill="#7b2fa6" font-family="serif" font-style="italic">g</text>
+
+</svg>
+<div style="font-size:0.65em;color:#555;margin-top:0.12em;">
+   The monodromy action of $\pi_1^{\mathrm{et}}(X, \overline{\eta}) = G_K$ permuting the sheets $r_1,r_2,r_3$
+   specializes to permuting the points $\overline{r_1},\overline{r_2},\overline{r_3}$ on the fiber.</div>
+</div>
+
+<!-- Diagram 2: Frobenius σ_q / Frob_{x₀} cycles all three -->
+<div style="text-align:center;">
+<svg width="300" height="238" viewBox="0 0 300 238" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="frob-ax" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#333"/>
+    </marker>
+    <marker id="frob-oa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#b06000"/>
+    </marker>
+  </defs>
+  <!-- Base line X -->
+  <line x1="10" y1="220" x2="268" y2="220" stroke="#333" stroke-width="2" marker-end="url(#frob-ax)"/>
+  <text x="273" y="224" font-size="12" fill="#333" font-family="serif" font-style="italic">X</text>
+  <!-- Fiber dashed line at x=145 -->
+  <line x1="145" y1="62" x2="145" y2="214" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="145" y="232" font-size="10" fill="#555" text-anchor="middle" font-family="serif" font-style="italic">x&#x2080;</text>
+  <!-- Sheets (same geometry as diagram 1) -->
+  <path d="M 10,175 C 60,170 105,180 145,175 C 185,170 230,180 268,175" fill="none" stroke="#2d318f" stroke-width="2"/>
+  <path d="M 10,130 C 60,135 105,125 145,130 C 185,135 230,125 268,130" fill="none" stroke="#2d318f" stroke-width="2"/>
+  <path d="M 10,85  C 60,80  105,90  145,85  C 185,80  230,90  268,85"  fill="none" stroke="#2d318f" stroke-width="2"/>
+  <!-- Sheet labels (right end) -->
+  <text x="277" y="190" font-size="11" fill="#2d318f" font-family="serif" font-style="italic">r<tspan font-size="8.5" dy="2" dx="-0.5">1</tspan></text>
+  <text x="277" y="133" font-size="11" fill="#2d318f" font-family="serif" font-style="italic">r<tspan font-size="8.5" dy="2" dx="-0.5">2</tspan></text>
+  <text x="277" y="80"  font-size="11" fill="#2d318f" font-family="serif" font-style="italic">r<tspan font-size="8.5" dy="2" dx="-0.5">3</tspan></text>
+  <!-- Fiber dots -->
+  <circle cx="145" cy="175" r="3.5" fill="#c03030"/>
+  <circle cx="145" cy="130" r="3.5" fill="#c03030"/>
+  <circle cx="145" cy="85"  r="3.5" fill="#c03030"/>
+  <!-- Fiber labels with overline, to the RIGHT of the fiber -->
+  <text x="163" y="170" font-size="11" fill="#c03030" font-family="serif" font-style="italic"><tspan text-decoration="overline">r</tspan><tspan font-size="8.5" dy="2.5" dx="-1">1</tspan></text>
+  <text x="163" y="125" font-size="11" fill="#c03030" font-family="serif" font-style="italic"><tspan text-decoration="overline">r</tspan><tspan font-size="8.5" dy="2.5" dx="-1">2</tspan></text>
+  <text x="163" y="80"  font-size="11" fill="#c03030" font-family="serif" font-style="italic"><tspan text-decoration="overline">r</tspan><tspan font-size="8.5" dy="2.5" dx="-1">3</tspan></text>
+  <!-- Frobenius arrows on fiber (LEFT side, orange dashed): r̄₁→r̄₂, r̄₂→r̄₃, r̄₃→r̄₁ -->
+  <path d="M 138,171 C 118,158 118,146 138,134" fill="none" stroke="#b06000" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#frob-oa)"/>
+  <text x="114" y="156" font-size="10" fill="#b06000" text-anchor="end" font-family="serif" font-style="italic">&#x3C3;<tspan font-size="8" dy="1.5" dx="0.5">q</tspan></text>
+  <path d="M 138,126 C 118,113 118,101 138,89"  fill="none" stroke="#b06000" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#frob-oa)"/>
+  <text x="114" y="111" font-size="10" fill="#b06000" text-anchor="end" font-family="serif" font-style="italic">&#x3C3;<tspan font-size="8" dy="1.5" dx="0.5">q</tspan></text>
+  <!-- r̄₃ → r̄₁ wrap-around (bends far left) -->
+  <path d="M 136,81 C 80,81 80,179 140,177" fill="none" stroke="#b06000" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#frob-oa)"/>
+  <text x="68" y="125" font-size="10" fill="#b06000" text-anchor="end" font-family="serif" font-style="italic">&#x3C3;<tspan font-size="8" dy="1.5" dx="0.5">q</tspan></text>
+  <!-- Frobenius arrows on sheets (right end): r₁→r₂, r₂→r₃, r₃→r₁ wrap -->
+  <path d="M 271,172 C 288,159 288,147 271,134" fill="none" stroke="#b06000" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#frob-oa)"/>
+  <path d="M 271,127 C 288,114 288,102 271,89"  fill="none" stroke="#b06000" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#frob-oa)"/>
+  <!-- r₃ → r₁ wrap-around on sheets (bends left) -->
+  <path d="M 269,82 C 310,82 310,178 269,178" fill="none" stroke="#b06000" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#frob-oa)"/>
+  <text x="260" y="165" font-size="9.5" fill="#b06000" text-anchor="end" font-family="serif">Frob<tspan font-size="7.5" dy="1.5" dx="0.5">x&#x2080;</tspan></text>
+</svg>
+<div style="font-size:0.65em;color:#555;margin-top:0.12em;">
+  The Frobenius $\sigma_q: \alpha\mapsto\alpha^q$ permuting the fiber points 
+  is equivalent to the action of a special Frobenius element 
+  $\operatorname{Frob}_{x_0} \in \pi_1^{\mathrm{et}}(X, \overline{\eta})$ permuting the sheets in the same way.
+</div>
+</div>
+
+</div>
+
+---
+
+<div class="slide-title">
+  Splitting of Polynomial via Galois Theory
+</div>
+
+<div class="tblock fragment" data-title="Theorem" style="font-size:0.84em;">
+<table style="border:none;border-collapse:collapse;margin:0 0 0.45em;line-height:1.4;">
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$X/\mathbb{F}_q$</td><td>an affine geometrically integral variety with coordinate ring $A$ and function field $K$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$p(x,t)\in A[t]$</td><td>a separable polynomial</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$Y\subset X\times \mathbb{A}^1$</td><td>the variety defined by $p(x,t)$ with coordinate ring $B$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$x_0\in X(\mathbb{F}_q)$</td><td>an $\mathbb{F}_q$-rational point with $p(x_0,t)$ having distinct roots</td></tr>
+</table>
+Then:
+<ul style="margin:0.3em 0 0;padding-left:1.3em;">
+  <li style="margin:0.2em 0;">There is a bijection between the generic roots $r_1,\ldots,r_n$ and the roots $\overline{r_1},\ldots,\overline{r_n}$ of $p(x_0,t)$.</li>
+  <li style="margin:0.2em 0;">The splitting type $(f_1,\ldots,f_r)$ of $p(x_0,t)$ equals the cycle type of $\operatorname{Frob}_{x_0}$.</li>
+  <li style="margin:0.2em 0;">The fiber algebra $B/\mathfrak{m}_{x_0}B \cong L_1\times\cdots\times L_r$ where $[L_i:K]=f_i$.</li>
+</ul>
+</div>
+
+---
+
+<div class="slide-title">
+  Fundamental Exact Sequence and Frobenius Constraint
+</div>
+
+<div style="display:flex;gap:2em;align-items:center;margin-top:0.4em;">
+<div class="tblock fragment" data-title="Theorem (Fundamental Exact Sequence)" style="flex:4;font-size:0.84em;">
+  Let $\mathbb{F}_{q^m} = L\cap \overline{\mathbb{F}_q}$. We have the exact sequence
+  \[1\to \operatorname{Gal}(L/K\mathbb{F}_q)\to \operatorname{Gal}(L/K) \xrightarrow{\pi} \operatorname{Gal}(\mathbb{F}_{q^m}/\mathbb{F}_q) \to 1.\]
+  <ul style="margin:0.3em 0 0;padding-left:1.3em;">
+      <li style="margin:0.2em 0;">We call $G^{\mathrm{geom}} = \operatorname{Gal}(L/K\mathbb{F}_q)$ is the <b>geometric Galois group</b>.</li>
+      <li style="margin:0.2em 0;">For any $x_0\in U(\mathbb{F}_q)$, $\pi(\operatorname{Frob}_{x_0}) = \sigma_q$</li>
+  </ul>
+</div>
+<div style="flex:1;text-align:center;">
+<img class="fragment" src="/imgs/Commuting_Diagram.png" style="width:100%;height:auto;transform:scale(1.6);transform-origin:center;">
+</div>
+</div>
+
+<div class="tblock fragment" data-title="Theorem (Fundamental Exact Sequence)">
+  \[1\to \pi_1^{\mathrm{et}}(X_{\overline{\mathbb{F}_q}}, \overline{x})\to \pi_1^{\mathrm{et}}(X, \overline{x}) \to \operatorname{Gal}(\overline{\mathbb{F}_q}/\mathbb{F}_q) \to 1\]
+</div>
+
+---
+
+<div class="slide-title">
+  Chebotarev Density Theorem
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.9em;margin-bottom:0.3em;">
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\mathfrak{C}\subset G$</td><td>a conjugacy class in $G = \operatorname{Gal}(L/K)$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$G^{\mathrm{geom}}$</td><td>the geometric Galois group $\operatorname{Gal}(L/K\mathbb{F}_q)$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$m = [\mathbb{F}_{q^m}:\mathbb{F}_q]$</td><td>degree of the constant field extension</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$U\subset X$</td><td>dense open subset over which $Y\to X$ is étale</td></tr>
+</table>
+<div class="tblock" data-title="Theorem (Chebotarev Density)">
+  If $\pi(\mathfrak{C}) = \sigma_q$, then
+  \[\frac{\bigl|\{x_0\in U(\mathbb{F}_q) : \operatorname{Frob}_{x_0}\in\mathfrak{C}\}\bigr|}{|U(\mathbb{F}_q)|}
+  = \frac{|\mathfrak{C}|}{|G^{\mathrm{geom}}|} + O\!\left(q^{-1/2}\right),\]
+  where the implied constant is independent of $q$. <br>
+  If $\pi(\mathfrak{C})\neq\sigma_q$, the density is zero.
+</div>
+
+---
+
+<div class="slide-title">
+  Kummer Cover and Shift Parameter
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.9em;margin-bottom:0.35em;">
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$n\geq 2$, $\gcd(n,q)=1$</td><td>study the splitting of $t^n - f(x)$ over $\mathbb{F}_q$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$f\in\mathbb{F}_q[X]$</td><td>not a perfect $m$-th power for any $m\mid n$, $m>1$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$L = K(\mu_n,\sqrt[n]{f})$</td><td>splitting field of $t^n-f(x)$ over $K$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$m = \mathrm{ord}_n(q)$</td><td>order of $q$ mod $n$; $L\cap\overline{\mathbb{F}_q} = \mathbb{F}_q(\mu_n) = \mathbb{F}_{q^m}$</td></tr>
+</table>
+<div class="tblock-def fragment" data-title="Definition (Shift Parameter &amp; Affine Permutation)">
+Index the roots of $t^n-f(x_0)$ as $\alpha_k = \zeta^k\sqrt[n]{f(x_0)}$, $k\in\mathbb{Z}/n\mathbb{Z}$. There is a unique $c\in\mathbb{Z}/n\mathbb{Z}$ such that $\operatorname{Frob}_{x_0}(\alpha_k) = \alpha_{qk+c}$.
+We call $c$ the <strong>shift parameter</strong> and $\sigma_{q,c}: k\mapsto qk+c\pmod{n}$ the <strong>affine permutation</strong>.
+</div>
+
+---
+
+<div class="slide-title">
+  Splitting of Kummer Families
+</div>
+
+<div class="tblock" data-title="Theorem (Splitting of Kummer Families)">
+Under the above setup, the splitting type of $t^n - f(x_0)$ equals the cycle type of the affine permutation $\sigma_{q,c}$. Moreover, for each $c\in\mathbb{Z}/n\mathbb{Z}$,
+\[\frac{\bigl|\{x_0\in U(\mathbb{F}_q) : \text{shift parameter of }x_0 = c\}\bigr|}{|U(\mathbb{F}_q)|} = \frac{1}{n} + O(q^{-1/2}),\]
+where the implied constant is independent of $q$.
+</div>
+
+---
+
+<div class="slide-title">
+  Example: Splitting of $t^3 - x_0$ over $\mathbb{F}_q$
+</div>
+
+<div style="font-size:0.9em;margin-bottom:0.4em;">
+$X = \mathbb{A}^1/{\mathbb{F}_q}$, $f(x)=x$, $n=3$, $\gcd(q,3)=1$. Affine permutation: $\sigma_{q,c}: k\mapsto qk+c\pmod 3$.
+</div>
+<div style="display:flex;gap:2em;">
+<div style="flex:1;">
+<div class="tblock-rmk fragment" data-title="Case 1: q ≡ 1 (mod 3)">
+$m=1$; affine permutation $\sigma_{1,c}: k\mapsto k+c\pmod 3$.
+<ul style="margin:0.35em 0 0.3em;padding-left:1.2em;line-height:1.6;">
+  <li>$c=0$: cycle type $(1,1,1)$ — three roots in $\mathbb{F}_q$</li>
+  <li>$c=1,2$: cycle type $(3)$ — irreducible over $\mathbb{F}_q$</li>
+</ul>
+About $\tfrac{1}{3}$ of $x_0$ split completely; $\tfrac{2}{3}$ remain irreducible.
+</div>
+</div>
+<div style="flex:1;">
+<div class="tblock-rmk fragment" data-title="Case 2: q ≡ −1 (mod 3)">
+$m=2$; affine permutation $\sigma_{-1,c}: k\mapsto -k+c\pmod 3$.
+<ul style="margin:0.35em 0 0.3em;padding-left:1.2em;line-height:1.6;">
+  <li>$c=0,1,2$: all give cycle type $(1,2)$</li>
+</ul>
+For all $x_0\neq 0$, $t^3-x_0$ has one root in $\mathbb{F}_q$ and two conjugate $\mathbb{F}_{q^2}$-roots.
+</div>
+</div>
+</div>
+
+
+---
+
+
+<div class="slide-title">
+  The $n$-th Power Character ($q\equiv 1\pmod n$)
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.25em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$q\equiv 1\pmod n$</td><td>$\mu_n\subset\mathbb{F}_q^\times$; affine permutation simplifies to $\sigma_{1,c}: k\mapsto k+c\pmod n$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\chi_n:\mathbb{F}_q^\times\to\mu_n$</td><td>$n$-th power character defined by $\chi_n(a) = a^{(q-1)/n}$</td></tr>
+</table>
+<div class="tblock-def fragment" data-title="Connection to Shift Parameter" style="font-size:0.82em;">
+For $x_0\in U(\mathbb{F}_q)$, the Frobenius acts as $\operatorname{Frob}_{x_0}(\alpha_0) = \alpha_0^q = f(x_0)^{(q-1)/n}\alpha_0$. Hence the shift parameter $c$ satisfies $\zeta^c = \chi_n(f(x_0))$.
+</div>
+<div class="tblock fragment" data-title="Theorem (Equidistribution of n-th Power Characters)" style="margin-top:0.3em;font-size:0.82em;">
+If $q\equiv 1\pmod n$, then for any $\zeta^c\in\mu_n$,
+\[\frac{|\{x_0\in U(\mathbb{F}_q) : \chi_n(f(x_0)) = \zeta^c\}|}{|U(\mathbb{F}_q)|} = \frac{1}{n} + O(q^{-1/2}).\]
+</div>
+
+---
+
+<div class="slide-title">
+  Simultaneous Splitting of Polynomials
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.25em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$p_1,\ldots,p_m\in K[t]$</td><td>separable polynomials with splitting fields $L_1,\ldots,L_m$ over $K$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$L = L_1\cdots L_m$</td><td>the compositum; natural map $\operatorname{Gal}(L/K)\hookrightarrow G_1\times\cdots\times G_m$</td></tr>
+</table>
+<div class="tblock-def fragment" data-title="Definition (Mutual Linear Disjointness)" style="font-size:0.82em;">
+$L_1,\ldots,L_m$ are <strong>mutually linearly disjoint</strong> over $K$ if $\operatorname{Gal}(L/K)\cong G_1\times\cdots\times G_m$, equivalently, $L_i\cap(L_1\cdots L_{i-1}) = K$ for all $i\geq 2$.
+</div>
+<div class="tblock fragment" data-title="Theorem (Independence of Splitting Types)" style="margin-top:0.3em;font-size:0.82em;">
+Suppose $L_1,\ldots,L_m$ are mutually linearly disjoint. Then $\operatorname{Frob}_{x_0} = (\operatorname{Frob}_{x_0,1},\ldots,\operatorname{Frob}_{x_0,m})\in G_1\times\cdots\times G_m$, and the simultaneous splitting type of $(p_1(x_0,t),\ldots,p_m(x_0,t))$ is determined componentwise — the splitting types are <strong>asymptotically independent</strong>.
+</div>
+
+---
+
+<div class="slide-title">
+  Joint Distribution of $n$-th Power Characters
+</div>
+
+<div class="tblock-def" data-title="Independence Condition" style="font-size:0.82em;">
+$f_1,\ldots,f_m\in K^\times$ satisfy the <strong>independence condition</strong> if $[f_1],\ldots,[f_m]\in K^\times/(K^\times)^n$ are $\mathbb{Z}/n\mathbb{Z}$-linearly independent: no non-trivial product $\lambda\prod f_i^{\varepsilon_i}$ lies in $(K^\times)^n$. This implies $L_1,\ldots,L_m$ are mutually linearly disjoint and $G^{\mathrm{geom}}\cong(\mathbb{Z}/n\mathbb{Z})^m$.
+</div>
+<div class="tblock" data-title="Theorem (Joint Equidistribution of n-th Power Character — Generalization of Slavov)" style="margin-top:0.3em;font-size:0.82em;">
+Let $q\equiv 1\pmod n$ and $f_1,\ldots,f_m$ satisfy the independence condition. For any $g\in\mu_n^m$,
+\[\frac{|\{x_0\in U(\mathbb{F}_q) : (\chi_n(f_1(x_0)),\ldots,\chi_n(f_m(x_0))) = g\}|}{|U(\mathbb{F}_q)|} = \frac{1}{n^m} + O(q^{-1/2}).\]
+</div>
+
+---
+
+<div class="slide-title">
+  Poncelet's Construction
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.2em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$(\mathcal{A},\mathcal{B})$</td><td>smooth plane conics with transveral intersection</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$E = \{(P,\xi)\in\mathcal{A}\times\mathcal{B}^* : P\in\xi\}$, </td><td> the incidence variety</td></tr>
+</table>
+<div class="tblock-def fragment" data-title="Poncelet's Construction" style="font-size:0.82em;">
+Define involutions $i_1,i_2:E\to E$ and the composition $j = i_2\circ i_1$:
+\[i_1:(P,\xi)\mapsto (P',\xi)\qquad P'\text{ = other intersection of }\xi\text{ with }\mathcal{A}\]
+\[i_2:(P',\xi)\mapsto (P',\xi')\qquad \xi'\text{ = other tangent line from }P'\text{ to }\mathcal{B}\]
+We obtain a <strong>Poncelet $n$-gon</strong> if $j^n(P_0,\xi_0) = (P_0,\xi_0)$.
+</div>
+
+<div class="tblock-ques fragment" data-title="Question" style="font-size:0.82em;">
+What is the Probability that a randomly choosen pair of smooth conics over $\mathbb{F}_q$ has a Poncelet $n$-gon.
+</div>
+
+---
+
+<div class="slide-title">
+  Poncelet's Porism and a Theorem of Griffths-Harris
+</div>
+
+<div class="tblock" data-title="Theorem (Griffiths–Harris)">
+  $E = \{(P, \xi)\in \mathcal{A}\times \mathcal{B}^*: P\in \xi\}$ is birationally equivalent to the elliptic curve 
+  \[E: y^2 = \det(xA+B).\]
+  Also, $j^n (P_0, \xi_0) = (P_0, \xi_0)$ if and only if the point $(0, \sqrt{\det B})$ is an $n$ torsion point of this elliptic curve. 
+</div>
+
+</textarea>
+</section>
+
+<!-- Conic visualizer: must live outside the markdown textarea -->
 {% include conic-visualizer.html %}
 
 <section data-markdown>
 <textarea data-template>
 
-- $X$: a geometrically integral scheme of finite type over $\mathbb{Z}$ or $\mathbb{F}_q$. 
-- $x_0\in |X|$: a closed point with finite residue field $\kappa(x_0)$. 
-- $\overline{\eta}$: a geometric generic point of $X$. 
-- $\overline{x}_0$: a geometric point above $x_0$, together with a choice of specialization $\overline{\eta}\leadsto \overline{x}_0$, which induces
-
-$$ \operatorname{sp}_{x_0}: \operatorname{Gal}\bigl(\overline{\kappa(x_0)}/\kappa(x_0)\bigr) \longrightarrow \pi_1(X,\overline{\eta}). $$
-
----
-
-## Fragments
-
-Click forward to reveal items one by one:
-
-- First point <!-- .element: class="fragment" -->
-- Second point <!-- .element: class="fragment" -->
-- Third point  <!-- .element: class="fragment" -->
-
----
-
-## HTML Components
-
-Columns via inline HTML:
-
-<div style="display:flex; gap:2rem; font-size:0.8em;">
-  <div style="flex:1; background:#f5f5f5; padding:1rem; border-radius:4px;">
-    <strong>Left</strong><br>Any HTML works here
-  </div>
-  <div style="flex:1; background:#eef; padding:1rem; border-radius:4px;">
-    <strong>Right</strong><br>Mix with Markdown below
-  </div>
+<div class="slide-title">
+  Chipalkatti's Result on $n=3$
 </div>
 
-Some **Markdown** after the HTML block
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.3em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\Psi$</td><td>pairs $(\mathcal{A},\mathcal{B})$ of smooth conics over $\mathbb{F}_q$ with transversal intersection</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\Gamma_n$</td><td>pairs $(\mathcal{A},\mathcal{B})\in\Psi$ that have a Poncelet $n$-gon</td></tr>
+</table>
+
+<div class="tblock fragment" data-title="Theorem (Chipalkatti)" style="font-size:0.82em;">
+If $\operatorname{char}(\mathbb{F}_q) \neq 2, 3$, then
+\[\frac{q-16}{q(q+1)}\leq \frac{|\Gamma_3|}{|\Psi|}\leq \frac{q+5}{(q-2)(q-3)}\]
+\[\frac{|\Gamma_3|}{|\Psi|} = \begin{cases} q^{-1}+O(q^{-2}) & \operatorname{char}(\mathbb{F}_q) \neq 2,3 \\ 2q^{-1}+O(q^{-2}) & \operatorname{char}(\mathbb{F}_q) = 3 \end{cases}\]
+</div>
+
 
 ---
 
-## Code
+<div class="slide-title">
+  Counting Strategy: Pencil of Conics
+</div>
 
-```python
-def euler(n):
-    return sum(1 for k in range(1, n) if gcd(k, n) == 1)
-```
+<div class="tblock-def fragment" data-title="Definition (Pencil of Conics)" style="font-size:0.82em;">
+Let $\mathcal{F}, \mathcal{G}$ be two distinct conics over $\mathbb{F}_q$ with defining equations $F(x,y,z)=0$, $G(x,y,z)=0$.
+The family \[\{\eta F+G = 0 : \eta\in\mathbb{P}^1(\mathbb{F}_q)\}\] is called a <strong>pencil of conics</strong>; $F,G$ are called <strong>generators</strong>.
+</div>
+
+<p class="fragment" style="font-size:0.84em;margin:0.4em 0 0.2em;"><strong>Idea:</strong> count the density in each pencil, then assemble.</p>
+<table class="fragment" style="border-collapse:collapse;font-size:0.80em;margin:0.2em auto 0;">
+  <thead>
+    <tr style="border-bottom:2px solid #555;">
+      <th style="padding:0.2em 1.2em;text-align:center;">Intersection Type</th>
+      <th style="padding:0.2em 1.2em;text-align:center;"># of Pencils</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.15em 1.2em;text-align:center;">$(1,1,1,1)$</td><td style="padding:0.15em 1.2em;text-align:center;">$\frac{1}{24}(q^8-q^6-q^5+q^3)$</td></tr>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.15em 1.2em;text-align:center;">$(2,1,1)$</td><td style="padding:0.15em 1.2em;text-align:center;">$\frac{1}{4}(q^8-q^6-q^5+q^3)$</td></tr>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.15em 1.2em;text-align:center;">$(2,2)$</td><td style="padding:0.15em 1.2em;text-align:center;">$\frac{1}{8}(q^8-q^6-q^5+q^3)$</td></tr>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.15em 1.2em;text-align:center;">$(3,1)$</td><td style="padding:0.15em 1.2em;text-align:center;">$\frac{1}{3}(q^8-q^6-q^5+q^3)$</td></tr>
+    <tr><td style="padding:0.15em 1.2em;text-align:center;">$(4)$</td><td style="padding:0.15em 1.2em;text-align:center;">$\frac{1}{4}(q^8-q^6-q^5+q^3)$</td></tr>
+  </tbody>
+</table>
 
 ---
 
-## Speaker Notes
+<div class="slide-title">
+  Result for $n=3$ and $n=4$
+</div>
 
-Press `S` to open the speaker view.
+<div class="tblock-rmk fragment" data-title="Theorem (W.) — n=3" style="font-size:0.75em;">
+If $\operatorname{char}(\mathbb{F}_q) \neq 2, 3$, then
+\[\frac{|\Gamma_3|}{|\Psi|} = \frac{q-1}{q^2-q+1}, \qquad |\Gamma_3| = (q^5-q^2)(q^2-1)(q^2-q)\]
+</div>
 
-Note:
-These notes are only visible in the speaker view.
-You can write anything here.
+<div class="tblock-rmk fragment" data-title="Theorem (W.) — n=4" style="font-size:0.75em;">
+If $\operatorname{char}(\mathbb{F}_q) \neq 2$, then $\dfrac{|\Gamma_4|}{|\Psi|} = q^{-1} + O(q^{-3/2})$, with asymptotic densities per class:
+<table style="border-collapse:collapse;font-size:0.92em;margin:0.2em auto 0;">
+  <thead>
+    <tr style="border-bottom:2px solid #555;">
+      <th style="padding:0.1em 1em;text-align:center;">Intersection Type</th>
+      <th style="padding:0.1em 1em;text-align:center;">Asymptotic Density of Poncelet Tetragon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.08em 1em;text-align:center;">$(1,1,1,1)$</td><td style="padding:0.08em 1em;text-align:center;">$3/q$</td></tr>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.08em 1em;text-align:center;">$(2,1,1)$</td><td style="padding:0.08em 1em;text-align:center;">$1/q$</td></tr>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.08em 1em;text-align:center;">$(2,2)$</td><td style="padding:0.08em 1em;text-align:center;">$3/q$</td></tr>
+    <tr style="border-bottom:1px solid #bbb;"><td style="padding:0.08em 1em;text-align:center;">$(3,1)$</td><td style="padding:0.08em 1em;text-align:center;">$0$</td></tr>
+    <tr><td style="padding:0.08em 1em;text-align:center;">$(4)$</td><td style="padding:0.08em 1em;text-align:center;">$1/q$</td></tr>
+  </tbody>
+</table>
+</div>
+
+---
+
+<div class="slide-title">
+  Key Lemma: Counting via Family of Elliptic Curves
+</div>
+
+<div class="tblock fragment" data-title="Lemma" style="font-size:0.76em;">
+Let $\mathcal{P}$ be a pencil with intersection type $(1,1,1,1)$ or $(2,2)$, and $E_\lambda$ the <strong>Legendre family</strong> $E_\lambda: y^2 = x(x-1)(x-\lambda)$.
+Let $E_{\lambda_0}$ denote the reduction at $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)$. Then the number of smooth conic pairs in $\mathcal{P}$ satisfying the Poncelet $n$-gon condition is
+\[n^\mathcal{P} = \frac{1}{2}\sum_{\lambda_0 \in \mathbb{F}_q \setminus \{0,1\}} \bigl|\{P \in E_{\lambda_0}[n] \setminus E_{\lambda_0}[2] : x(P) \in \mathbb{F}_q\}\bigr|.\]
+</div>
+
+<div class="tblock-rmk fragment" data-title="Other Intersection Types" style="font-size:0.76em;">
+Similar formulas hold for the remaining types, with the following elliptic families:
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.92em;margin:0.3em 0 0;">
+  <tr><td style="padding:0.05em 0.8em 0.05em 0;white-space:nowrap;vertical-align:top;">$(2,1,1),\,(4)$</td><td>$E_\lambda: y^2 = (x-\lambda)(x^2-b)$, $\quad b\in\mathbb{F}_q$ a non-square</td></tr>
+  <tr><td style="padding:0.05em 0.8em 0.05em 0;white-space:nowrap;vertical-align:top;">$(3,1)$</td><td>$E_\lambda: y^2 = \bigl(x-\tfrac{\alpha}{\alpha+\lambda}\bigr)\bigl(x-\tfrac{\alpha'}{\alpha'+\lambda}\bigr)\bigl(x-\tfrac{\alpha''}{\alpha''+\lambda}\bigr)$, $\quad\alpha\in\mathbb{F}_{q^3}\setminus\mathbb{F}_q$</td></tr>
+</table>
+</div>
+
+---
+
+<div class="slide-title">
+  The $n$-Torsion Representation
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.3em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$K=\mathbb{F}_q(\lambda)$</td><td>function field of $\mathbb{P}^1$, $\operatorname{char}(\mathbb{F}_q)>3$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$E_\lambda: y^2=x(x-1)(x-\lambda)$</td><td>Legendre elliptic curve over $K$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$n$ coprime to $q$</td><td>$E_\lambda[n]\cong(\mathbb{Z}/n\mathbb{Z})^2$; $K(E_\lambda[n])$ the $n$-torsion field</td></tr>
+</table>
+
+<div class="tblock fragment" data-title="Galois Representation" style="font-size:0.80em;">
+The action of $\operatorname{Gal}(K^{\mathrm{sep}}/K)$ on $E_\lambda[n]$ induces
+\[\rho_{E,n}: \operatorname{Gal}(K(E_\lambda[n])/K) \hookrightarrow \operatorname{Aut}(E_\lambda[n]) \cong \operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z}).\]
+For $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)\setminus\{0,1,\infty\}$ (good reduction), the Frobenius $\operatorname{Frob}_{\lambda_0}$ is well-defined and encodes the arithmetic of $E_{\lambda_0}[n]$ via its conjugacy class in $\operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z})$.
+</div>
+
+<div class="tblock-def fragment" data-title="Lemma (Weil Pairing)" style="font-size:0.80em;">
+$K(\mu_n)\subset K(E_\lambda[n])$, and every $\sigma\in\operatorname{Gal}(K(E_\lambda[n])/K)$ acts on $\zeta\in\mu_n$ via $\zeta^\sigma = \zeta^{\det\sigma}$.
+In particular, $\det(\operatorname{Frob}_{\lambda_0})\equiv q\pmod{n}$.
+</div>
+
+---
+
+<div class="slide-title">
+  Geometric Galois Group of $K(E_\lambda[n])/K$
+</div>
+
+<div class="tblock fragment" data-title="Theorem (Hall and Yu)" style="font-size:0.80em;">
+Let $n$ be an odd integer coprime to $q$. The field of constants of $K(E_\lambda[n])$ is $K(\mu_n)$, and
+\[G^{\mathrm{geom}} = \operatorname{Gal}(K(E_\lambda[n])/K(\mu_n)) = \operatorname{SL}_2(\mathbb{Z}/n\mathbb{Z}).\]
+Letting $\langle q\rangle\subset(\mathbb{Z}/n\mathbb{Z})^\times$ denote the subgroup generated by $q$, we have the exact sequence
+\[1\to\operatorname{SL}_2(\mathbb{Z}/n\mathbb{Z})\to\operatorname{Gal}(K(E_\lambda[n])/K)\xrightarrow{\;\det\;}\langle q\rangle\to 1.\]
+</div>
+
+<div class="tblock-rmk fragment" data-title="Key Consequences" style="font-size:0.80em;">
+<ul style="margin:0.2em 0;padding-left:1.2em;line-height:1.5;">
+<li>$\operatorname{Gal}(K(E_\lambda[n])/K)$ embeds into $\operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z})$ via $\rho_{E,n}$.</li>
+<li>Geometric Galois group $=\operatorname{SL}_2(\mathbb{Z}/n\mathbb{Z})$; field of constants $= K(\mu_n)$.</li>
+<li>Frobenius constraint: $\det(\operatorname{Frob}_{\lambda_0})\equiv q\pmod{n}$.</li>
+</ul>
+</div>
+
+---
+
+<div class="slide-title">
+  Main Result
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.25;font-size:0.72em;margin-bottom:0.15em;">
+  <tr><td style="padding:0.02em 0.5em 0.02em 0;white-space:nowrap;vertical-align:top;">$\Lambda_n(x,\lambda_0)\in\mathbb{F}_q[x]$</td><td>the $n$-th division polynomial of $E_{\lambda_0}$; roots are $x$-coordinates of points in $E_{\lambda_0}[n]$</td></tr>
+  <tr><td style="padding:0.02em 0.5em 0.02em 0;white-space:nowrap;vertical-align:top;">$r(n,\lambda_0)$</td><td>number of $\mathbb{F}_q$-roots of $\Lambda_n(x,\lambda_0)$</td></tr>
+  <tr><td style="padding:0.02em 0.5em 0.02em 0;white-space:nowrap;vertical-align:top;">$d(n)$</td><td>number of positive divisors of $n$</td></tr>
+</table>
+
+<div class="tblock fragment" data-title="Theorem (W.)" style="font-size:0.70em;">
+Let $n$ be an odd integer coprime to $q$. Summing over all $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)$ where $E_\lambda$ has good reduction,
+\[\sum_{\lambda_0} r(n,\lambda_0) = (d(n)-1)\,q + O(\sqrt{q}).\]
+</div>
+
+<div class="tblock fragment" data-title="Main Theorem (W.) — Poncelet n-gon Density" style="font-size:0.70em;">
+Let $\mathbb{F}_q$ have characteristic greater than $3$, and $n$ be an odd integer coprime to $q$. Then
+\[\frac{|\Gamma_n|}{|\Psi|} = \frac{d(n)-1}{q} + O(q^{-3/2}).\]
+</div>
 
 </textarea>
+</section>
+
+<section>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1.2em;text-align:center;">
+    <div style="font-size:2em;font-weight:600;color:#2d318f;letter-spacing:0.02em;">Thank You</div>
+    <div style="width:5em;height:2px;background:#2d318f;opacity:0.3;"></div>
+    <div style="font-size:0.9em;color:#444;line-height:1.8;">
+      <p style="margin:0;">Tianhao Wang</p>
+      <p style="margin:0;">University of California, Irvine</p>
+      <p style="margin:0.4em 0 0;color:#888;font-size:0.9em;">tianhw11@uci.edu</p>
+    </div>
+    <div style="font-size:0.75em;color:#666;max-width:28em;line-height:1.7;margin-top:0.5em;">
+      <em>Frobenius Equidistribution and Arithmetic of Fibers in Algebraic Families</em>
+    </div>
+  </div>
 </section>

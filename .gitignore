@@ -3,3 +3,4 @@ Gemfile
 Gemfile.lock
 /%USERPROFILE/
 /_site/
+.claude/
