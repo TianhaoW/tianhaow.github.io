@@ -1,7 +1,10 @@
+{% assign vis_id = include.id | default: "pon" %}
+{% assign vis_fn = vis_id | replace: "-", "_" %}
+{% if include.show_ec == false %}{% assign show_ec = false %}{% else %}{% assign show_ec = true %}{% endif %}
 <section>
 <div style="font-size:0.55em; text-align:left;">
   <div class="slide-title">
-    Poncelet&rsquo;s Porism &amp; Griffiths&#8211;Harris Theorem
+    {{ include.title | default: "Poncelet&rsquo;s Porism &amp; Griffiths&#8211;Harris Theorem" }}
   </div>
   <!-- Control panel: two-line horizontal layout above the canvases -->
   <div style="display:flex; align-items:flex-end; gap:1.2em; margin-bottom:0.7em;">
@@ -10,7 +13,7 @@
       <div style="font-weight:600;">
         Outer ellipse <em>A</em> <span style="color:#2d318f; font-weight:normal;">(blue)</span>
       </div>
-      <input id="eq1" type="text" value="X^2+Y^2-4Z^2"
+      <input id="{{ vis_id }}-eq1" type="text" value="X^2+Y^2-4Z^2"
              placeholder="aX^2+bY^2+cZ^2+dXY+eXZ+fYZ"
              style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
                     font-family:monospace;font-size:0.95em;
@@ -21,7 +24,7 @@
       <div style="font-weight:600;">
         Inner ellipse <em>B</em> <span style="color:#c03030; font-weight:normal;">(red)</span>
       </div>
-      <input id="eq2" type="text" value="X^2+Y^2-Z^2"
+      <input id="{{ vis_id }}-eq2" type="text" value="X^2+Y^2-Z^2"
              placeholder="aX^2+bY^2+cZ^2+dXY+eXZ+fYZ"
              style="width:100%;box-sizing:border-box;padding:0.3em 0.5em;
                     font-family:monospace;font-size:0.95em;
@@ -29,13 +32,13 @@
     </div>
     <!-- Buttons stacked vertically -->
     <div style="display:flex; flex-direction:column; gap:0.35em; flex-shrink:0;">
-      <button onclick="drawConics()"
+      <button onclick="{{ vis_fn }}_drawConics()"
               style="padding:0.38em 1.2em;background:#2d318f;color:#fff;
                      border:none;border-radius:5px;cursor:pointer;
                      font-size:1em;font-weight:600;">
         Draw
       </button>
-      <button onclick="resetConstruction()"
+      <button onclick="{{ vis_fn }}_resetConstruction()"
               style="padding:0.38em 1.2em;background:#e8e8f0;color:#2d318f;
                      border:1.5px solid #2d318f;border-radius:5px;cursor:pointer;
                      font-size:1em;font-weight:600;">
@@ -45,40 +48,55 @@
   </div>
 
   <!-- Warning + status below controls -->
-  <div id="pon-warning"
+  <div id="{{ vis_id }}-warning"
        style="display:none; margin-bottom:0.3em; font-size:0.88em; line-height:1.5;
               color:#b02020; background:#fff0f0;
               border:1px solid #f0c0c0; border-radius:4px; padding:0.4em 0.6em;">
   </div>
-  <div id="pon-status"
+  <div id="{{ vis_id }}-status"
        style="margin-bottom:0.4em; font-size:0.92em; line-height:1.8; color:#333;">
   </div>
 
   <!-- Canvases side by side -->
   <div style="display:flex; gap:1.4em; align-items:flex-start;">
 
-    <canvas id="conicCanvas" width="400" height="400"
+    <canvas id="{{ vis_id }}-conicCanvas" width="400" height="400"
             style="border:1px solid #ddd;border-radius:6px;flex-shrink:0;
                    box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
     </canvas>
 
-    <div id="ec-panel" style="display:none;flex-direction:column;align-items:center;flex-shrink:0;">
-      <canvas id="ecCanvas" width="400" height="400"
+    {% if show_ec %}
+    <div id="{{ vis_id }}-ec-panel" style="display:none;flex-direction:column;align-items:center;flex-shrink:0;">
+      <canvas id="{{ vis_id }}-ecCanvas" width="400" height="400"
               style="border:1px solid #ddd;border-radius:6px;
                      box-shadow:2px 2px 10px rgba(0,0,0,0.1);">
       </canvas>
     </div>
+    {% else %}
+    <div style="flex:1;padding-left:0.5em;display:flex;flex-direction:column;gap:1.1em;">
+      <div class="tblock-def" data-title="Poncelet's Construction" style="font-size:1.16em;">
+        Involutions \(i_1,i_2:E\to E\) and composition \(j=i_2\circ i_1\):
+        \[i_1:(P,\xi)\mapsto (P',\xi), \qquad i_2:(P',\xi)\mapsto (P',\xi')\]
+        <strong>Poncelet \(n\)-gon</strong>: \(j^n(P_0,\xi_0)=(P_0,\xi_0)\).
+      </div>
+      <div class="tblock" data-title="Theorem (Poncelet's Porism)" style="font-size:1.16em;">
+        If \((\mathcal{A},\mathcal{B})\) admits a Poncelet \(n\)-gon for <em>some</em> starting point \((P_0, \xi_0)\), then it admits one for <em>every</em> starting point on \(\mathcal{A}\).
+      </div>
+    </div>
+    {% endif %}
 
   </div>
 </div>
 <script>
-(function () {
+(function (pfx, fnPfx) {
   const R = 3;
 
   // module-level state shared between draw(), click handler, and animation
   let state = { cA: null, cB: null, startPt: null, clickReady: false, clickHandler: null,
                 result: null, animIdx: 0, animTimer: null,
                 ecPoly: null, ecView: null, ecImageData: null, ecP: null, ecCurrent: null };
+
+  function el(id)  { return document.getElementById(pfx + '-' + id); }
 
   // ── parsing ─────────────────────────────────────────────────────────────────
   function parse(raw) {
@@ -118,8 +136,6 @@
   }
 
   // ── check if conic is a real ellipse ────────────────────────────────────────
-  // Conditions: quadratic part positive definite (4ab−d²>0, a>0)
-  // AND ev at center has opposite sign to a (so the ellipse has real points).
   function isEllipse(co) {
     if (4*co.a*co.b - co.d*co.d <= 0) return false;
     if (co.a <= 0) return false;
@@ -128,13 +144,10 @@
   }
 
   // ── check ellipse B is strictly inside ellipse A ────────────────────────────
-  // Two checks: (1) center of B is in interior of A; (2) A and B don't intersect.
   function isBInsideA(cA, cB) {
     const [aCx, aCy] = centerOf(cA);
     const [bCx, bCy] = centerOf(cB);
-    // Interior of A has ev < 0 (since a>0 and ev(center_A)<0 by isEllipse)
     if (ev(cA, bCx, bCy) >= 0) return false;
-    // No real intersections
     return findPts(cA, cB).length === 0;
   }
 
@@ -149,14 +162,14 @@
 
   // ── UI helpers ───────────────────────────────────────────────────────────────
   function setWarning(msg) {
-    const w = document.getElementById('pon-warning');
+    const w = el('warning');
     if (!w) return;
     if (msg) { w.textContent = msg; w.style.display = 'block'; }
     else     { w.textContent = '';  w.style.display = 'none';  }
   }
 
   function setStatus(html) {
-    const s = document.getElementById('pon-status');
+    const s = el('status');
     if (s) s.innerHTML = html;
   }
 
@@ -195,9 +208,6 @@
 
   // ══ Griffiths-Harris: matrix, pencil polynomial, group law ══════════════════
 
-  // ── conic {a,b,c,d,e,f} → negated 3×3 symmetric matrix ─────────────────────
-  // Negating the standard matrix flips det sign: det(M_eff) > 0 for real ellipses,
-  // which guarantees f(0) = det(M_B_eff) > 0, so P = (0, √f(0)) is always real.
   function conicToMatrix(co) {
     return [
       [-co.a,      -co.d/2, -co.e/2],
@@ -206,7 +216,6 @@
     ];
   }
 
-  // ── polynomial arithmetic (coefficients: [p0, p1, p2, …] for p0+p1·x+…) ────
   function polyMul(a, b) {
     const r = new Array(a.length + b.length - 1).fill(0);
     for (let i = 0; i < a.length; i++)
@@ -228,13 +237,10 @@
     return v;
   }
 
-  // ── symbolic det of 3×3 pencil xmA+mB via cofactor expansion ────────────────
-  // Each entry (i,j) is the linear poly [mB[i][j], mA[i][j]].
   function pencilPoly(mA, mB) {
     const M = mA.map((row, i) => row.map((v, j) => [mB[i][j], v]));
     const sub = (r1, c1, r2, c2) => polySub(polyMul(M[r1][c1], M[r2][c2]),
                                              polyMul(M[r1][c2], M[r2][c1]));
-    // det = M00·(M11·M22−M12·M21) − M01·(M10·M22−M12·M20) + M02·(M10·M21−M11·M20)
     return polyAdd(
       polySub(polyMul(M[0][0], sub(1,1,2,2)),
               polyMul(M[0][1], sub(1,0,2,2))),
@@ -242,8 +248,6 @@
     );
   }
 
-  // ── check pencil polynomial is a non-degenerate cubic ───────────────────────
-  // Δ > 0 ↔ three distinct real roots ↔ smooth elliptic curve over ℝ.
   function isNonDegenerate(p) {
     if (Math.abs(p[3] || 0) < 1e-9) return false;
     const [p0, p1, p2, p3] = p;
@@ -251,8 +255,6 @@
     return Delta > 1e-6;
   }
 
-  // ── GH Step 2: coordinate system for the E canvas ───────────────────────────
-  // Scans f to locate all real roots; sets x-range to cover them plus x=0 (where P is).
   function computeEcView(poly) {
     const W = 400, H = 400;
     const N = 800, scanMin = -12, scanMax = 1.5;
@@ -283,18 +285,15 @@
     return { xMin, xMax, yMax, W, H, toCanvasX, toCanvasY, toMathX, toMathY };
   }
 
-  // ── pre-render y²=f(x) onto an ImageData (reused every animation tick) ──────
   function buildEcImageData(ctx, poly, view) {
     const { W, H, toMathX, toMathY, xMin, xMax, yMax } = view;
     const img  = ctx.createImageData(W, H);
     const data = img.data;
     const dxPx = (xMax - xMin) / W;
     const dyPx = 2 * yMax / H;
-    // White background
     for (let i = 0; i < data.length; i += 4) {
       data[i] = 255; data[i+1] = 255; data[i+2] = 255; data[i+3] = 255;
     }
-    // Light blue tint where the curve has real points (f(x) > 0)
     for (let px = 0; px < W; px++) {
       const fx = evalPoly(poly, toMathX(px));
       if (fx <= 0) continue;
@@ -306,7 +305,6 @@
         data[idx] = 232; data[idx+1] = 238; data[idx+2] = 255; data[idx+3] = 255;
       }
     }
-    // Curve pixels via sign-change raster on g(x,y) = y² − f(x)
     for (let px = 0; px < W; px++) {
       const x   = toMathX(px);
       const fx  = evalPoly(poly, x);
@@ -325,7 +323,6 @@
     return img;
   }
 
-  // ── draw axes and grid over the curve raster ─────────────────────────────────
   function drawEcBackground(ctx, view) {
     const { xMin, xMax, yMax, W, H, toCanvasX, toCanvasY } = view;
     ctx.save();
@@ -356,7 +353,6 @@
     ctx.restore();
   }
 
-  // ── draw one point on the E canvas (null = skip) ────────────────────────────
   function drawEcPoint(ctx, view, Q, color, ring, label) {
     if (!Q) return;
     const px = view.toCanvasX(Q.x), py = view.toCanvasY(Q.y);
@@ -375,13 +371,11 @@
     ctx.restore();
   }
 
-  // ── full E canvas redraw: raster + axes + P (gold) + currentPt (blue) ───────
   function drawEcFrame(ctx, view, imageData, currentPt, P, kLabel) {
     ctx.putImageData(imageData, 0, 0);
     drawEcBackground(ctx, view);
     if (P)         drawEcPoint(ctx, view, P,         '#c8860a', true,  'P');
     if (currentPt) drawEcPoint(ctx, view, currentPt, '#2d318f', false, kLabel || null);
-    // title drawn inside the canvas
     ctx.save();
     ctx.font = 'italic 12px sans-serif';
     ctx.fillStyle = '#555';
@@ -390,7 +384,6 @@
     ctx.restore();
   }
 
-  // ── O = ∞ indicator at top of E canvas ──────────────────────────────────────
   function drawInfinity(ctx) {
     ctx.save();
     ctx.fillStyle = '#2d318f'; ctx.font = 'bold 13px sans-serif';
@@ -398,45 +391,24 @@
     ctx.restore();
   }
 
-  // ── GH Step 3: group law on E: y² = p₃x³ + p₂x² + p₁x + p₀ ────────────────
-  // Finite points are {x, y}; null represents O (identity = point at infinity).
-
-  // The fixed increment point P lives at x=0; f(0)=poly[0]>0 by our matrix convention.
-  function pointP(poly) {
-    return { x: 0, y: Math.sqrt(poly[0]) };
-  }
-
-  // Negate a point: -(x,y) = (x,-y).
-  function negPoint(Q) {
-    return Q ? { x: Q.x, y: -Q.y } : null;
-  }
-
-  // Chord-and-tangent addition on y² = p₃x³ + p₂x² + p₁x + p₀.
-  // Returns null when the sum is O (point at infinity).
   function addPoints(poly, Q1, Q2) {
     if (!Q1) return Q2;
     if (!Q2) return Q1;
     const [p0, p1, p2, p3] = poly;
     const EPS = 1e-9;
-    // Q1 = −Q2 → O
     if (Math.abs(Q1.x - Q2.x) < EPS && Math.abs(Q1.y + Q2.y) < EPS) return null;
     let m;
     if (Math.abs(Q1.x - Q2.x) < EPS) {
-      // Tangent case (Q1 = Q2): slope = f′(x) / (2y)
-      if (Math.abs(Q1.y) < EPS) return null;  // 2-torsion: 2Q = O
+      if (Math.abs(Q1.y) < EPS) return null;
       m = (3*p3*Q1.x*Q1.x + 2*p2*Q1.x + p1) / (2 * Q1.y);
     } else {
       m = (Q2.y - Q1.y) / (Q2.x - Q1.x);
     }
-    // Third intersection x via Vieta: x1+x2+x3 = (m²−p2)/p3
     const x3 = m*m/p3 - p2/p3 - Q1.x - Q2.x;
     const y3 = m*(x3 - Q1.x) + Q1.y;
     return { x: x3, y: -y3 };
   }
 
-  // ── snap click to outer conic A via ray from center ─────────────────────────
-  // Ray: (Px + t·Dx, Py + t·Dy). Since P is A's center the linear term vanishes,
-  // leaving ev(A, P+tD) = Q·t² + C = 0, so t = √(−C/Q).
   function snapToA(mx, my, cA) {
     const [Px, Py] = centerOf(cA);
     const Dx = mx - Px, Dy = my - Py;
@@ -447,7 +419,6 @@
     return [Px + t*Dx, Py + t*Dy];
   }
 
-  // ── draw the selected starting point (orange dot + ring) ────────────────────
   function drawStartPoint(ctx, pt) {
     const W = ctx.canvas.width, H = ctx.canvas.height;
     const cx = x => (x + R) / (2*R) * W;
@@ -459,9 +430,6 @@
     ctx.fillStyle = '#e67e00'; ctx.fill();
   }
 
-  // ── polar line of P=(px,py) w.r.t. conic co: returns {lA,lB,lC} s.t. lA·x+lB·y+lC=0 ──
-  // This is the locus of points whose tangent lines pass through P;
-  // intersecting this line with co gives the two tangency contact points.
   function polarLine(co, px, py) {
     return {
       lA: co.a*px + co.d/2*py + co.e/2,
@@ -470,12 +438,10 @@
     };
   }
 
-  // ── intersect line lA·x+lB·y+lC=0 with conic co; returns 0 or 2 points ─────
   function lineConicIntersect(line, co) {
     const {lA, lB, lC} = line;
     let alpha, beta, gamma;
     if (Math.abs(lB) >= Math.abs(lA)) {
-      // parametrize x=t, y = s·t + off
       const s = -lA/lB, off = -lC/lB;
       alpha = co.a + co.b*s*s + co.d*s;
       beta  = 2*co.b*s*off + co.d*off + co.e + co.f*s;
@@ -486,7 +452,6 @@
       const t1 = (-beta + sq) / (2*alpha), t2 = (-beta - sq) / (2*alpha);
       return [[t1, s*t1+off], [t2, s*t2+off]];
     } else {
-      // parametrize y=t, x = s·t + off
       const s = -lB/lA, off = -lC/lA;
       alpha = co.a*s*s + co.b + co.d*s;
       beta  = 2*co.a*s*off + co.d*off + co.e*s + co.f;
@@ -499,12 +464,10 @@
     }
   }
 
-  // ── two tangency contact points on B from external point P ──────────────────
   function tangentPointsOnB(P, cB) {
     return lineConicIntersect(polarLine(cB, P[0], P[1]), cB);
   }
 
-  // ── draw a line through two math-coord points, extended across the canvas ───
   function drawLine(ctx, P, Q, color, dashed) {
     const W = ctx.canvas.width, H = ctx.canvas.height;
     const toX = x => (x + R) / (2*R) * W;
@@ -522,7 +485,6 @@
     ctx.restore();
   }
 
-  // ── line through two math-coord points P, Q → {lA,lB,lC} s.t. lA·x+lB·y+lC=0 ─
   function lineThroughPoints(P, Q) {
     return {
       lA: Q[1] - P[1],
@@ -531,8 +493,6 @@
     };
   }
 
-  // ── one Poncelet step: P on A, prevQ is the tangency point used to arrive at P ─
-  // Returns { nextP, Q, line } or null if the geometry fails.
   function ponceletStep(P, prevQ, cA, cB) {
     const tPts = tangentPointsOnB(P, cB);
     if (tPts.length < 2) return null;
@@ -553,7 +513,6 @@
     return { nextP, Q, line };
   }
 
-  // ── draw a filled circle at a math-coord point ───────────────────────────────
   function drawVertex(ctx, pt, color) {
     const W = ctx.canvas.width, H = ctx.canvas.height;
     const toX = x => (x + R) / (2*R) * W;
@@ -562,7 +521,6 @@
     ctx.fillStyle = color || '#e67e00'; ctx.fill();
   }
 
-  // ── draw a segment between two math-coord points ─────────────────────────────
   function drawSegment(ctx, P, Q) {
     const W = ctx.canvas.width, H = ctx.canvas.height;
     const toX = x => (x + R) / (2*R) * W;
@@ -573,25 +531,18 @@
     ctx.strokeStyle = '#2d318f'; ctx.lineWidth = 2; ctx.stroke();
   }
 
-  // ── draw one step: tangency dot on B + edge + new vertex, all at given alpha ─
-  // ctx.globalAlpha is saved/restored so callers are unaffected.
   function drawStep(ctx, step, alpha) {
     const toX = x => (x + R) / (2*R) * ctx.canvas.width;
     const toY = y => (R - y) / (2*R) * ctx.canvas.height;
     ctx.save();
     ctx.globalAlpha = (alpha === undefined) ? 1 : alpha;
-
     ctx.beginPath(); ctx.arc(toX(step.Q[0]), toY(step.Q[1]), 3, 0, 2*Math.PI);
     ctx.fillStyle = '#2a8a2a'; ctx.fill();
-
     drawSegment(ctx, step.point, step.nextP);
     drawVertex(ctx, step.nextP);
-
     ctx.restore();
   }
 
-  // ── full Poncelet construction loop with closure detection ──────────────────
-  // Returns { steps, closed } where each step is { point, nextP, Q }.
   function buildConstruction(startP, cA, cB, maxSteps = 10) {
     const results = [];
     let P = startP, prevQ = null;
@@ -608,20 +559,16 @@
     return { steps: results, closed: false };
   }
 
-  // ── draw the full static construction using drawStep ────────────────────────
   function drawConstruction(ctx, startP, result) {
     const { steps, closed } = result;
     const n = steps.length;
     steps.forEach((s, i) => {
-      // Snap last edge endpoint to startP for a pixel-perfect close
       const s2 = (closed && i === n - 1) ? { point: s.point, nextP: startP, Q: s.Q } : s;
       drawStep(ctx, s2, 1);
     });
-    // Start point ring drawn last so it sits on top of the closing vertex dot
     drawStartPoint(ctx, startP);
   }
 
-  // ── display result message after construction completes ─────────────────────
   function showResult(result) {
     const n = result.steps.length;
     if (result.closed) {
@@ -638,13 +585,11 @@
     }
   }
 
-  // ── animate construction: one step every 600 ms ──────────────────────────────
   function startAnimation(canvas, ctx, startP, result) {
     if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
     state.result    = result;
     state.animIdx   = 0;
     state.clickReady = false;
-    // GH: reset EC animation — start at O (identity), will advance by P each tick
     state.ecCurrent = null;
     setStatus('Building construction…');
     drawStartPoint(ctx, startP);
@@ -652,23 +597,21 @@
     const { steps, closed } = result;
     const n = steps.length;
 
-    // Helper: advance EC point and redraw the E canvas
     function stepEc() {
       if (!state.ecPoly || !state.ecView || !state.ecImageData || !state.ecP) return;
-      const ecCanvas = document.getElementById('ecCanvas');
+      const ecCanvas = el('ecCanvas');
       if (!ecCanvas) return;
       const ecCtx = ecCanvas.getContext('2d');
       state.ecCurrent = addPoints(state.ecPoly, state.ecCurrent, state.ecP);
-      // state.animIdx was just incremented, so it equals the current multiple of P
       const kLabel = state.ecCurrent ? state.animIdx + 'P' : null;
       drawEcFrame(ecCtx, state.ecView, state.ecImageData, state.ecCurrent, state.ecP, kLabel);
-      if (!state.ecCurrent) drawInfinity(ecCtx);  // reached O = ∞
+      if (!state.ecCurrent) drawInfinity(ecCtx);
     }
 
     function tick() {
       const i = state.animIdx;
       if (i >= n) {
-        if (closed) drawStartPoint(ctx, startP);  // ring on top of closing dot
+        if (closed) drawStartPoint(ctx, startP);
         showResult(result);
         state.clickReady = true;
         state.animTimer = null;
@@ -678,23 +621,21 @@
       const s2 = (closed && i === n - 1) ? { point: s.point, nextP: startP, Q: s.Q } : s;
       drawStep(ctx, s2, 1);
       state.animIdx++;
-      stepEc();  // advance kP on the E canvas in sync with this Poncelet edge
+      stepEc();
       state.animTimer = setTimeout(tick, 600);
     }
 
     state.animTimer = setTimeout(tick, 600);
   }
 
-  // ── reset: clear construction, keep ellipses, wait for new click ─────────────
   function resetConstruction() {
     if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
     state.result = null; state.animIdx = 0; state.startPt = null;
-    const canvas = document.getElementById('conicCanvas');
+    const canvas = el('conicCanvas');
     if (!canvas || !state.cA || !state.cB) return;
     const ctx = canvas.getContext('2d');
     drawBackground(ctx, state.cA, state.cB);
-    // GH: restore E canvas to initial state (curve + P, no current point)
-    const ecCanvas = document.getElementById('ecCanvas');
+    const ecCanvas = el('ecCanvas');
     if (ecCanvas && state.ecImageData && state.ecView) {
       state.ecCurrent = null;
       drawEcFrame(ecCanvas.getContext('2d'), state.ecView, state.ecImageData, null, state.ecP);
@@ -703,16 +644,13 @@
     setStatus('<em style="color:#666;">Click on the outer ellipse to start.</em>');
   }
 
-  // ── canvas click handler ──────────────────────────────────────────────────────
   function onCanvasClick(e) {
     if (!state.clickReady) return;
-    const canvas = document.getElementById('conicCanvas');
+    const canvas = el('conicCanvas');
     if (!canvas) return;
-    // Correct for Reveal.js CSS scaling
     const rect = canvas.getBoundingClientRect();
     const px = (e.clientX - rect.left) * (canvas.width  / rect.width);
     const py = (e.clientY - rect.top)  * (canvas.height / rect.height);
-    // Canvas pixels → math coords
     const mx = px / canvas.width  * 2*R - R;
     const my = R - py / canvas.height * 2*R;
     const pt = snapToA(mx, my, state.cA);
@@ -724,7 +662,6 @@
     startAnimation(canvas, ctx, pt, result);
   }
 
-  // ── draw background: grid, axes, both ellipses ───────────────────────────────
   function drawBackground(ctx, cA, cB) {
     const W = ctx.canvas.width, H = ctx.canvas.height;
     const cx = x => (x + R) / (2*R) * W;
@@ -768,16 +705,15 @@
     ctx.putImageData(img, 0, 0);
   }
 
-  // ── main entry point (Draw button) ──────────────────────────────────────────
   function draw() {
     if (state.animTimer) { clearTimeout(state.animTimer); state.animTimer = null; }
-    const canvas = document.getElementById('conicCanvas');
+    const canvas = el('conicCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let cA, cB;
     try {
-      cA = parse(document.getElementById('eq1').value);
-      cB = parse(document.getElementById('eq2').value);
+      cA = parse(el('eq1').value);
+      cB = parse(el('eq2').value);
     } catch (e) {
       setWarning('Could not parse equation.');
       return;
@@ -789,7 +725,7 @@
       setStatus('');
       ctx.fillStyle = '#f8f8f8';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      const ecPanelErr = document.getElementById('ec-panel');
+      const ecPanelErr = el('ec-panel');
       if (ecPanelErr) ecPanelErr.style.display = 'none';
       return;
     }
@@ -806,8 +742,7 @@
 
     drawBackground(ctx, cA, cB);
 
-    // GH: build and draw the elliptic curve E on the second canvas
-    const ecCanvas = document.getElementById('ecCanvas');
+    const ecCanvas = el('ecCanvas');
     if (ecCanvas) {
       const ecCtx = ecCanvas.getContext('2d');
       state.ecPoly      = pencilPoly(conicToMatrix(cA), conicToMatrix(cB));
@@ -824,14 +759,14 @@
                        state.ecView.W / 2, state.ecView.H - 6);
         ecCtx.restore();
       }
-      const ecPanel = document.getElementById('ec-panel');
+      const ecPanel = el('ec-panel');
       if (ecPanel) ecPanel.style.display = 'flex';
     }
   }
 
-  window.drawConics = draw;
-  window.resetConstruction = resetConstruction;
+  window[fnPfx + '_drawConics'] = draw;
+  window[fnPfx + '_resetConstruction'] = resetConstruction;
   setTimeout(draw, 0);
-})();
+})('{{ vis_id }}', '{{ vis_fn }}');
 </script>
 </section>

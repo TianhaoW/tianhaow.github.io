@@ -48,15 +48,183 @@ theme: white
 <textarea data-template>
 
 <div class="slide-title">
+   Outline of the Slides
+</div>
+
+<div class="tblock-ques" data-title="Main Philosophy" style="font-size:0.88em;margin-bottom:0.6em;">
+<strong>Frobenius</strong> controls the arithmetic of the fiber.<br>
+Frobenius classes are equidistributed — <strong>Chebotarev Density Theorem</strong>.
+</div>
+
+<table style="border:none;border-collapse:collapse;font-size:0.88em;line-height:1.6;width:100%;">
+  <tr>
+    <td colspan="2" style="padding:0.3em 0 0.05em 0;font-size:0.75em;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:#999;">Motivation</td>
+  </tr>
+  <tr>
+    <td style="padding:0.05em 0.6em 0.05em 1.2em;white-space:nowrap;vertical-align:top;font-weight:600;color:#2d318f;">I.</td>
+    <td style="padding:0.05em 0 0.05em 0.2em;vertical-align:top;"><strong>Splitting of Polynomial Families</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding:0.5em 0 0.05em 0;font-size:0.75em;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:#999;">Applications</td>
+  </tr>
+  <tr>
+    <td style="padding:0.05em 0.6em 0.05em 1.2em;white-space:nowrap;vertical-align:top;font-weight:600;color:#2d318f;">II.</td>
+    <td style="padding:0.05em 0 0.05em 0.2em;vertical-align:top;"><strong>Joint Distribution of $n$-th Power Characters</strong>
+  </tr>
+  <tr>
+    <td style="padding:0.05em 0.6em 0.05em 1.2em;white-space:nowrap;vertical-align:top;font-weight:600;color:#2d318f;">III.</td>
+    <td style="padding:0.05em 0 0.05em 0.2em;vertical-align:top;"><strong>The Poncelet $n$-gon Problem</strong> 
+  </tr>
+</table>
+
+---
+
+<div class="slide-title">
+   Motivation: Quadratic Character
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.86em;margin-bottom:0.5em;">
+  <tr><td style="padding:0.03em 0.6em 0.03em 0;white-space:nowrap;vertical-align:top;">$q\equiv 1\pmod n$</td><td>$\mu_n\subset\mathbb{F}_q^\times$: the $n$-th roots of unity with exactly $n$ elements</td></tr>
+  <tr><td style="padding:0.03em 0.6em 0.03em 0;white-space:nowrap;vertical-align:top;">$\chi_n:\mathbb{F}_q^\times\to\mu_n$</td><td>$n$-th power character: $\chi_n(a)=a^{(q-1)/n}$</td></tr>
+</table>
+
+<div class="tblock" data-title="Classical Fact" style="font-size:0.86em;margin-bottom:0.5em;">
+In $\mathbb{F}_q^\times$: exactly $\tfrac{q-1}{2}$ squares and $\tfrac{q-1}{2}$ non-squares <br>
+<strong>$\chi_2(x)$ is uniform on $\{\pm 1\}$</strong>.
+</div>
+
+<div class="tblock" data-title="Theorem (Weil bound for character sums)" style="font-size:0.86em;">
+Let $f\in\mathbb{F}_q[t]^\times$ be a non-square polynomial. For each $\zeta\in\{\pm 1\} = \mu_2$,
+\[\frac{\#\{x_0\in\mathbb{F}_q : f(x_0)\neq 0, \chi_2(f(x_0))=\zeta\}}{|\mathbb{F}_q|} = \frac{1}{2} + O\!\left(q^{-1/2}\right).\]
+</div>
+
+---
+
+<div class="slide-title">
+  Equidistribution of n-th Power Characters
+</div>
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.25em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$X/\mathbb{F}_q$</td><td>an geometrically integral variety over $\mathbb{F}_q$ with function field $K$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$f\in K^\times$</td><td>a non-zero rational function on $X$, not a perfect $d$-th power for all $d\mid n$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$U\subset X$</td><td>the open dense subset of $X$ where $f$ is regular and non-zero</td></tr>
+
+</table>
+
+<div class="tblock" data-title="Theorem (Equidistribution of n-th Power Characters)" style="margin-top:0.3em;font-size:0.82em;">
+If $q\equiv 1\pmod n$, then for any $\zeta^c\in\mu_n$,
+\[\frac{|\{x_0\in U(\mathbb{F}_q) : \chi_n(f(x_0)) = \zeta^c\}|}{|U(\mathbb{F}_q)|} = \frac{1}{n} + O(q^{-1/2}).\]
+</div>
+
+<div class="tblock-ques fragment" data-title = "Question">
+  For $f_1,\ldots, f_m\in K^\times$, under what condition will $\chi_n(f_1),\ldots, \chi_n(f_m)$ be jointly equidistributed?
+</div>
+
+---
+
+<div class="slide-title">
+   Joint Distribution of $n$-th Power Characters
+</div>
+
+<div class="tblock-def" data-title="Independence Condition" style="font-size:0.69em;margin-bottom:0.35em;">
+$[f_1],\ldots,[f_m]\in K^\times/(K^\times)^n$ are <strong>independent</strong> if:
+\[\lambda f_1^{\varepsilon_1}\cdots f_m^{\varepsilon_m}\in (K^\times)^n \implies \varepsilon_1\equiv\cdots\equiv \varepsilon_m\equiv 0\pmod{n}, \lambda\in (\mathbb{F}_q^\times)^n.\]
+</div>
+
+<div class="tblock" data-title="Theorem (Slavov)" style="margin-top:0.3em;font-size:0.69em;margin-bottom:0.35em;">
+Let $q$ be odd and $f_1,\ldots,f_m\in \mathbb{F}_q[x_1,\ldots,x_n]$ satisfies the independence condition above. For any $g\in\{\pm 1\}^m$,
+\[\frac{|\{x_0\in \mathbb{F}_q^n : (\chi_2(f_1(x_0)),\ldots,\chi_2(f_m(x_0))) = g\}|}{q^n} = \frac{1}{2^m} + O(q^{-1/2}).\]
+</div>
+
+<div class="tblock" data-title="Theorem (W.)" style="margin-top:0.3em;font-size:0.69em;">
+Let $q\equiv 1\pmod n$ and $f_1,\ldots,f_m\in K^\times$ be independent. For any $g\in\mu_n^m$,
+\[\frac{|\{x_0\in U(\mathbb{F}_q) : (\chi_n(f_1(x_0)),\ldots,\chi_n(f_m(x_0))) = g\}|}{|U(\mathbb{F}_q)|} = \frac{1}{n^m} + O(q^{-1/2}).\]
+</div>
+
+</textarea>
+</section>
+
+{% include conic-visualizer.html id="pon-ngon" title="Poncelet $n$-gon and Poncelet Porism" show_ec=false %}
+
+<section data-markdown>
+<textarea data-template>
+
+<div class="slide-title">
+   Poncelet n-gon Problem
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.75em;margin-bottom:0.3em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\Psi$</td><td>pairs $(\mathcal{A},\mathcal{B})$ of smooth conics over $\mathbb{F}_q$ with transversal intersection</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\Gamma_n$</td><td>pairs $(\mathcal{A},\mathcal{B})\in\Psi$ that have a Poncelet $n$-gon</td></tr>
+</table>
+
+<div class="tblock" data-title="Theorem (Chipalkatti)" style="font-size:0.75em;">
+If $\operatorname{char}(\mathbb{F}_q) \neq 2, 3$, then
+\[\frac{q-16}{q(q+1)}\leq \frac{|\Gamma_3|}{|\Psi|}\leq \frac{q+5}{(q-2)(q-3)}\]
+\[\frac{|\Gamma_3|}{|\Psi|} = \begin{cases} q^{-1}+O(q^{-2}) & \operatorname{char}(\mathbb{F}_q) \neq 2,3 \\ 2q^{-1}+O(q^{-2}) & \operatorname{char}(\mathbb{F}_q) = 3 \end{cases}\]
+</div>
+
+<div class="tblock" data-title="Theorem (W.)" style="font-size:0.75em;">
+If $\operatorname{char}(\mathbb{F}_q) \neq 2, 3$, then
+\[\frac{|\Gamma_3|}{|\Psi|} = \frac{q-1}{q^2-q+1}, \qquad |\Gamma_3| = (q^5-q^2)(q^2-1)(q^2-q)\]
+</div>
+
+---
+
+<div class="slide-title">
+   Poncelet n-gon Problem
+</div>
+
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.70em;margin-bottom:0.3em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$K=\mathbb{F}_q(\lambda)$</td><td>function field of $\mathbb{P}^1$, $\operatorname{char}(\mathbb{F}_q)>3$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$E_\lambda$</td><td>a non-isotrivial elliptic curve $K$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$E_{\lambda_0}$</td><td>the reduction of $E_\lambda$ at a good place $\lambda_0\in \mathbb{P}^1(\mathbb{F}_q)$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\Lambda_n(x,\lambda_0)\in\mathbb{F}_q[x]$</td><td>the $n$-th division polynomial of $E_{\lambda_0}$; roots are $x$-coordinates of points in $E_{\lambda_0}[n]$</td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$r(n,\lambda_0)$</td><td>number of $\mathbb{F}_q$-roots of $\Lambda_n(x,\lambda_0)$</td></tr>
+</table>
+
+<div class="tblock" data-title="Theorem (W.)" style="font-size:0.70em;">
+Summing over all $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)$ where $E_\lambda$ has good reduction,
+\[\sum_{\lambda_0} r(n,\lambda_0) = (d(n)-1)\,q + O(\sqrt{q}) \qquad \text{for all but finitely many odd n coprime to q}.\]
+</div>
+
+<div class="tblock" data-title="Theorem (W.) — Poncelet n-gon Density" style="font-size:0.70em;">
+For an odd integer $n$ coprime to $q$, we have
+\[\frac{|\Gamma_n|}{|\Psi|} = \frac{d(n)-1}{q} + O(q^{-3/2}).\]
+</div>
+
+---
+
+<div style="position:relative;width:100%;height:520px;">
+  <div style="position:absolute;top:0;left:0;font-size:0.57em;line-height:1.8;text-align:left;">
+    <div style="font-size:0.8em;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#ccc;margin-bottom:0.1em;">Motivation</div>
+    <div style="color:#2d318f;font-weight:700;padding-left:0.4em;">I. Splitting of Polynomial Families</div>
+    <div style="font-size:0.8em;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#ccc;margin:0.35em 0 0.1em;">Applications</div>
+    <div style="color:#ccc;padding-left:0.4em;">II. Joint Distribution of $\chi_n$</div>
+    <div style="color:#ccc;padding-left:0.4em;">III. The Poncelet $n$-gon Problem</div>
+  </div>
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="font-size:0.72em;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#bbb;margin-bottom:1em;">Motivation</div>
+    <div style="display:inline-flex;align-items:baseline;gap:0.55em;margin-bottom:0.6em;">
+      <span style="font-size:1.5em;font-weight:700;color:#2d318f;">I.</span>
+      <span style="font-size:1.5em;font-weight:700;color:#2d318f;">Splitting of Polynomial Families</span>
+    </div>
+    <div style="font-size:0.9em;color:#777;margin-top:0.5em;">via Galois Theory</div>
+    <div style="font-size:0.82em;color:#999;font-style:italic;margin-top:1.1em;">How Frobenius controls the arithmetic (splitting type) of a fiber</div>
+  </div>
+</div>
+
+---
+
+<div class="slide-title">
    The Setup
 </div>
 
 <table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.95em;">
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$X/\mathbb{F}_q$</td><td>an affine geometrically integral variety over $\mathbb{F}_q$</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$K = \mathbb{F}_q(x)$</td><td>the function field of $X$</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$A = \mathbb{F}_q[X]$</td><td>the coordinate ring of $X$</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$p(x,t) \in A[t]$</td><td>a separable polynomial</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$L/K$</td><td>the splitting field of $p(x,t)$ over $K$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$X/\mathbb{F}_q$</td><td>an affine geometrically integral variety over $\mathbb{F}_q$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$K = \mathbb{F}_q(X)$</td><td>the function field of $X$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$A = \mathbb{F}_q[X]$</td><td>the coordinate ring of $X$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$p(x,t) \in A[t]$</td><td>a separable polynomial</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$L/K$</td><td>the splitting field of $p(x,t)$ over $K$</td></tr>
 </table>
 
 <div class="tblock-ques fragment" data-title="Question">
@@ -70,13 +238,13 @@ theme: white
 </div>
 
 <table style="border:none;border-collapse:collapse;line-height:1.4;font-size:0.95em;">
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$Y$</td><td>the variety $\{p(x,t)=0\}\subset X\times\mathbb{A}^1$</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\pi: Y\to X$</td><td>the natural projection $(x,t)\mapsto x$</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\pi^{-1}(x_0)$</td><td>the fiber over $x_0$ (= roots of $p(x_0,t)$)</td></tr>
-  <tr class="fragment"><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$U\subset X$</td><td>open subset of $X$ where $p(x_0,t)$ has distinct roots</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$Y$</td><td>the variety $\{p(x,t)=0\}\subset X\times\mathbb{A}^1$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\pi: Y\to X$</td><td>the natural projection $(x,t)\mapsto x$</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$\pi^{-1}(x_0)$</td><td>the fiber over $x_0$ (= roots of $p(x_0,t)$)</td></tr>
+  <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$U\subset X$</td><td>open subset of $X$ where $p(x_0,t)$ has distinct roots</td></tr>
 </table>
 
-<div class="fragment" style="display:flex;gap:3.5em;justify-content:center;align-items:flex-start;margin-top:0.9em;">
+<div style="display:flex;gap:3.5em;justify-content:center;align-items:flex-start;margin-top:0.9em;">
 
 <div style="text-align:center;">
 <svg width="295" height="215" viewBox="0 0 295 215" xmlns="http://www.w3.org/2000/svg">
@@ -247,7 +415,7 @@ theme: white
   Splitting of Polynomial via Galois Theory
 </div>
 
-<div class="tblock fragment" data-title="Theorem" style="font-size:0.84em;">
+<div class="tblock" data-title="Theorem" style="font-size:0.84em;">
 <table style="border:none;border-collapse:collapse;margin:0 0 0.45em;line-height:1.4;">
   <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$X/\mathbb{F}_q$</td><td>an affine geometrically integral variety with coordinate ring $A$ and function field $K$</td></tr>
   <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$p(x,t)\in A[t]$</td><td>a separable polynomial</td></tr>
@@ -269,7 +437,7 @@ Then:
 </div>
 
 <div style="display:flex;gap:2em;align-items:center;margin-top:0.4em;">
-<div class="tblock fragment" data-title="Theorem (Fundamental Exact Sequence)" style="flex:4;font-size:0.84em;">
+<div class="tblock" data-title="Theorem (Fundamental Exact Sequence)" style="flex:4;font-size:0.84em;">
   Let $\mathbb{F}_{q^m} = L\cap \overline{\mathbb{F}_q}$. We have the exact sequence
   \[1\to \operatorname{Gal}(L/K\mathbb{F}_q)\to \operatorname{Gal}(L/K) \xrightarrow{\pi} \operatorname{Gal}(\mathbb{F}_{q^m}/\mathbb{F}_q) \to 1.\]
   <ul style="margin:0.3em 0 0;padding-left:1.3em;">
@@ -278,7 +446,7 @@ Then:
   </ul>
 </div>
 <div style="flex:1;text-align:center;">
-<img class="fragment" src="/imgs/Commuting_Diagram.png" style="width:100%;height:auto;transform:scale(1.6);transform-origin:center;">
+<img src="/imgs/Commuting_Diagram.png" style="width:100%;height:auto;transform:scale(1.6);transform-origin:center;">
 </div>
 </div>
 
@@ -298,7 +466,7 @@ Then:
   <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$m = [\mathbb{F}_{q^m}:\mathbb{F}_q]$</td><td>degree of the constant field extension</td></tr>
   <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$U\subset X$</td><td>dense open subset over which $Y\to X$ is étale</td></tr>
 </table>
-<div class="tblock" data-title="Theorem (Chebotarev Density)">
+<div class="tblock" data-title="Theorem (Chebotarev Density Theorem)">
   If $\pi(\mathfrak{C}) = \sigma_q$, then
   \[\frac{\bigl|\{x_0\in U(\mathbb{F}_q) : \operatorname{Frob}_{x_0}\in\mathfrak{C}\}\bigr|}{|U(\mathbb{F}_q)|}
   = \frac{|\mathfrak{C}|}{|G^{\mathrm{geom}}|} + O\!\left(q^{-1/2}\right),\]
@@ -318,9 +486,22 @@ Then:
   <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$L = K(\mu_n,\sqrt[n]{f})$</td><td>splitting field of $t^n-f(x)$ over $K$</td></tr>
   <tr><td style="padding:0.05em 0.5em 0.05em 0;white-space:nowrap;vertical-align:top;">$m = \mathrm{ord}_n(q)$</td><td>order of $q$ mod $n$; $L\cap\overline{\mathbb{F}_q} = \mathbb{F}_q(\mu_n) = \mathbb{F}_{q^m}$</td></tr>
 </table>
-<div class="tblock-def fragment" data-title="Definition (Shift Parameter &amp; Affine Permutation)">
-Index the roots of $t^n-f(x_0)$ as $\alpha_k = \zeta^k\sqrt[n]{f(x_0)}$, $k\in\mathbb{Z}/n\mathbb{Z}$. There is a unique $c\in\mathbb{Z}/n\mathbb{Z}$ such that $\operatorname{Frob}_{x_0}(\alpha_k) = \alpha_{qk+c}$.
-We call $c$ the <strong>shift parameter</strong> and $\sigma_{q,c}: k\mapsto qk+c\pmod{n}$ the <strong>affine permutation</strong>.
+<div class="tblock-def" data-title="Definition (Shift Parameter &amp; Affine Permutation)" style="font-size:0.82em;line-height:1.7;">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0.04em 0;">
+    <span>$\alpha_k = \zeta^k\sqrt[n]{f(x_0)}$</span>
+    <span style="text-align:right;padding-left:1.5em;">roots of $t^n-f(x_0)$, indexed by $k\in\mathbb{Z}/n\mathbb{Z}$</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0.04em 0;">
+    <span>$\operatorname{Frob}_{x_0}(\alpha_0) = \zeta^c\alpha_0 = \alpha_c$</span>
+    <span style="text-align:right;padding-left:1.5em;"><strong>shift parameter</strong> $c\in\mathbb{Z}/n\mathbb{Z}$</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0.04em 0;">
+    <span>$\operatorname{Frob}_{x_0}(\alpha_k) = \operatorname{Frob}_{x_0}(\zeta)^k\cdot\operatorname{Frob}_{x_0}(\alpha_0) = \zeta^{qk+c}\alpha_0 = \alpha_{qk+c}$</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0.04em 0;">
+    <span>$\sigma_{q,c}: k\mapsto qk+c\pmod{n}$</span>
+    <span style="text-align:right;padding-left:1.5em;"><strong>affine permutation</strong> of $\mathbb{Z}/n\mathbb{Z}$</span>
+  </div>
 </div>
 
 ---
@@ -329,10 +510,17 @@ We call $c$ the <strong>shift parameter</strong> and $\sigma_{q,c}: k\mapsto qk+
   Splitting of Kummer Families
 </div>
 
-<div class="tblock" data-title="Theorem (Splitting of Kummer Families)">
-Under the above setup, the splitting type of $t^n - f(x_0)$ equals the cycle type of the affine permutation $\sigma_{q,c}$. Moreover, for each $c\in\mathbb{Z}/n\mathbb{Z}$,
-\[\frac{\bigl|\{x_0\in U(\mathbb{F}_q) : \text{shift parameter of }x_0 = c\}\bigr|}{|U(\mathbb{F}_q)|} = \frac{1}{n} + O(q^{-1/2}),\]
-where the implied constant is independent of $q$.
+<div class="tblock" data-title="Theorem (Splitting of Kummer Families)" style="font-size:0.88em;">
+  <div style="display:flex;align-items:baseline;gap:0.6em;margin-bottom:0.3em;">
+    <span style="color:#2d318f;font-weight:700;white-space:nowrap;">(i)</span>
+    <span>The splitting type of $t^n - f(x_0)$ equals the cycle type of the affine permutation $\sigma_{q,c}$.</span>
+  </div>
+  <div style="display:flex;align-items:baseline;gap:0.6em;">
+    <span style="color:#2d318f;font-weight:700;white-space:nowrap;">(ii)</span>
+    <span>For each $c\in\mathbb{Z}/n\mathbb{Z}$,
+      \[\frac{\bigl|\{x_0\in U(\mathbb{F}_q) : \text{shift parameter of }x_0 = c\}\bigr|}{|U(\mathbb{F}_q)|} = \frac{1}{n} + O(q^{-1/2}),\]
+      where the implied constant is independent of $q$.</span>
+  </div>
 </div>
 
 ---
@@ -341,34 +529,64 @@ where the implied constant is independent of $q$.
   Example: Splitting of $t^3 - x_0$ over $\mathbb{F}_q$
 </div>
 
-<div style="font-size:0.9em;margin-bottom:0.4em;">
-$X = \mathbb{A}^1/{\mathbb{F}_q}$, $f(x)=x$, $n=3$, $\gcd(q,3)=1$. Affine permutation: $\sigma_{q,c}: k\mapsto qk+c\pmod 3$.
-</div>
-<div style="display:flex;gap:2em;">
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.86em;margin-bottom:0.6em;">
+  <tr><td style="padding:0.03em 0.6em 0.03em 0;white-space:nowrap;vertical-align:top;">$X=\mathbb{A}^1/\mathbb{F}_q$, $f(x)=x$, $n=3$</td><td>with $\gcd(q,3)=1$</td></tr>
+  <tr><td style="padding:0.03em 0.6em 0.03em 0;white-space:nowrap;vertical-align:top;">$\sigma_{q,c}: k\mapsto qk+c\pmod 3$</td><td>affine permutation of $\mathbb{Z}/3\mathbb{Z}$</td></tr>
+</table>
+<div style="display:flex;gap:0.5em;">
 <div style="flex:1;">
-<div class="tblock-rmk fragment" data-title="Case 1: q ≡ 1 (mod 3)">
-$m=1$; affine permutation $\sigma_{1,c}: k\mapsto k+c\pmod 3$.
-<ul style="margin:0.35em 0 0.3em;padding-left:1.2em;line-height:1.6;">
-  <li>$c=0$: cycle type $(1,1,1)$ — three roots in $\mathbb{F}_q$</li>
-  <li>$c=1,2$: cycle type $(3)$ — irreducible over $\mathbb{F}_q$</li>
-</ul>
-About $\tfrac{1}{3}$ of $x_0$ split completely; $\tfrac{2}{3}$ remain irreducible.
+<div class="tblock-rmk" data-title="Case 1: q ≡ 1 (mod 3)" style="font-size:0.75em;">
+<div style="border-bottom:1px solid #ccc;padding-bottom:0.3em;margin-bottom:0.1em;">$m=1$; $\sigma_{1,c}: k\mapsto k+c\pmod 3$</div>
+<table style="border:none;border-collapse:collapse;line-height:1.5;width:100%;">
+  <tr style="border-bottom:1px solid #e0e0e0;">
+    <td style="padding:0.2em 0.7em 0.2em 0;white-space:nowrap;color:#2d318f;font-weight:600;">$c=0$</td>
+    <td style="padding:0.2em 0.7em 0.2em 0;white-space:nowrap;">cycle type $(1,1,1)$</td>
+  </tr>
+  <tr style="border-bottom:1px solid #ccc;">
+    <td style="padding:0.2em 0.7em 0.2em 0;white-space:nowrap;color:#2d318f;font-weight:600;">$c=1,2$</td>
+    <td style="padding:0.2em 0.7em 0.2em 0;white-space:nowrap;">cycle type $(3)$</td>
+  </tr>
+</table>
+<div style="padding-top:0.3em;">For $\tfrac{1}{3}$ of $x_0$, $t^3-x_0$ split completely; <br>
+  For $\tfrac{2}{3}$ of $x_0$, $t^3-x_0$ is irreducible.
+</div>
 </div>
 </div>
 <div style="flex:1;">
-<div class="tblock-rmk fragment" data-title="Case 2: q ≡ −1 (mod 3)">
-$m=2$; affine permutation $\sigma_{-1,c}: k\mapsto -k+c\pmod 3$.
-<ul style="margin:0.35em 0 0.3em;padding-left:1.2em;line-height:1.6;">
-  <li>$c=0,1,2$: all give cycle type $(1,2)$</li>
-</ul>
-For all $x_0\neq 0$, $t^3-x_0$ has one root in $\mathbb{F}_q$ and two conjugate $\mathbb{F}_{q^2}$-roots.
+<div class="tblock-rmk" data-title="Case 2: q ≡ −1 (mod 3)" style="font-size:0.75em;">
+<div style="border-bottom:1px solid #ccc;padding-bottom:0.3em;margin-bottom:0.1em;">$m=2$; $\sigma_{-1,c}: k\mapsto -k+c\pmod 3$</div>
+<table style="border:none;border-collapse:collapse;line-height:1.5;width:100%; margin-top: 1.14em;">
+  <tr style="border-bottom:1px solid #ccc;">
+    <td style="padding:0.2em 0.7em 1.14em 0;white-space:nowrap;color:#2d318f;font-weight:600;">$c=0,1,2$</td>
+    <td style="padding:0.2em 0.7em 1.14em 0;white-space:nowrap;">cycle type $(1,2)$</td>
+  </tr>
+</table>
+<div style="padding-top:0.3em;">For all $x_0\neq 0$, $t^3-x_0$ always has a $\mathbb{F}_q$ root and two $\mathbb{F}_{q^2}$ conjugate roots.</div>
 </div>
 </div>
 </div>
-
 
 ---
 
+<div style="position:relative;width:100%;height:520px;">
+  <div style="position:absolute;top:0;left:0;font-size:0.57em;line-height:1.8;text-align:left;">
+    <div style="font-size:0.8em;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#ccc;margin-bottom:0.1em;">Motivation</div>
+    <div style="color:#ccc;padding-left:0.4em;">I. Splitting of Polynomial Families</div>
+    <div style="font-size:0.8em;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#ccc;margin:0.35em 0 0.1em;">Applications</div>
+    <div style="color:#2d318f;font-weight:700;padding-left:0.4em;">II. Joint Distribution of $\chi_n$</div>
+    <div style="color:#ccc;padding-left:0.4em;">III. The Poncelet $n$-gon Problem</div>
+  </div>
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="font-size:0.72em;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#bbb;margin-bottom:1em;">Application</div>
+    <div style="display:inline-flex;align-items:baseline;gap:0.55em;margin-bottom:0.6em;">
+      <span style="font-size:1.5em;font-weight:700;color:#2d318f;">II.</span>
+      <span style="font-size:1.5em;font-weight:700;color:#2d318f;">Joint Distribution of $n$-th Power Characters</span>
+    </div>
+    <div style="font-size:0.82em;color:#999;font-style:italic;margin-top:1.1em;">Via Kummer Theory and linearly disjoint extensions</div>
+  </div>
+</div>
+
+---
 
 <div class="slide-title">
   The $n$-th Power Character ($q\equiv 1\pmod n$)
@@ -378,10 +596,10 @@ For all $x_0\neq 0$, $t^3-x_0$ has one root in $\mathbb{F}_q$ and two conjugate 
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$q\equiv 1\pmod n$</td><td>$\mu_n\subset\mathbb{F}_q^\times$; affine permutation simplifies to $\sigma_{1,c}: k\mapsto k+c\pmod n$</td></tr>
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\chi_n:\mathbb{F}_q^\times\to\mu_n$</td><td>$n$-th power character defined by $\chi_n(a) = a^{(q-1)/n}$</td></tr>
 </table>
-<div class="tblock-def fragment" data-title="Connection to Shift Parameter" style="font-size:0.82em;">
+<div class="tblock-def" data-title="Connection to Shift Parameter" style="font-size:0.82em;">
 For $x_0\in U(\mathbb{F}_q)$, the Frobenius acts as $\operatorname{Frob}_{x_0}(\alpha_0) = \alpha_0^q = f(x_0)^{(q-1)/n}\alpha_0$. Hence the shift parameter $c$ satisfies $\zeta^c = \chi_n(f(x_0))$.
 </div>
-<div class="tblock fragment" data-title="Theorem (Equidistribution of n-th Power Characters)" style="margin-top:0.3em;font-size:0.82em;">
+<div class="tblock" data-title="Theorem (Equidistribution of n-th Power Characters)" style="margin-top:0.3em;font-size:0.82em;">
 If $q\equiv 1\pmod n$, then for any $\zeta^c\in\mu_n$,
 \[\frac{|\{x_0\in U(\mathbb{F}_q) : \chi_n(f(x_0)) = \zeta^c\}|}{|U(\mathbb{F}_q)|} = \frac{1}{n} + O(q^{-1/2}).\]
 </div>
@@ -392,15 +610,19 @@ If $q\equiv 1\pmod n$, then for any $\zeta^c\in\mu_n$,
   Simultaneous Splitting of Polynomials
 </div>
 
-<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.25em;">
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.8em;margin-bottom:0.25em;">
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$p_1,\ldots,p_m\in K[t]$</td><td>separable polynomials with splitting fields $L_1,\ldots,L_m$ over $K$</td></tr>
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$L = L_1\cdots L_m$</td><td>the compositum; natural map $\operatorname{Gal}(L/K)\hookrightarrow G_1\times\cdots\times G_m$</td></tr>
 </table>
-<div class="tblock-def fragment" data-title="Definition (Mutual Linear Disjointness)" style="font-size:0.82em;">
-$L_1,\ldots,L_m$ are <strong>mutually linearly disjoint</strong> over $K$ if $\operatorname{Gal}(L/K)\cong G_1\times\cdots\times G_m$, equivalently, $L_i\cap(L_1\cdots L_{i-1}) = K$ for all $i\geq 2$.
+<div class="tblock-def" data-title="Definition (Mutual Linear Disjointness)" style="font-size:0.8em;">
+$L_1,\ldots,L_m$ are <strong>mutually linearly disjoint</strong> over $K$ if 
+\[\operatorname{Gal}(L/K)\cong G_1\times\cdots\times G_m.\]
+Equivalently, $L_i\cap(L_1\cdots L_{i-1}) = K$ for all $i\geq 2$.
 </div>
-<div class="tblock fragment" data-title="Theorem (Independence of Splitting Types)" style="margin-top:0.3em;font-size:0.82em;">
-Suppose $L_1,\ldots,L_m$ are mutually linearly disjoint. Then $\operatorname{Frob}_{x_0} = (\operatorname{Frob}_{x_0,1},\ldots,\operatorname{Frob}_{x_0,m})\in G_1\times\cdots\times G_m$, and the simultaneous splitting type of $(p_1(x_0,t),\ldots,p_m(x_0,t))$ is determined componentwise — the splitting types are <strong>asymptotically independent</strong>.
+<div class="tblock fragment" data-title="Theorem (Independence of Splitting Types)" style="margin-top:0.3em;font-size:0.8em;">
+Suppose $L_1,\ldots,L_m$ are mutually linearly disjoint. Then 
+\[\operatorname{Frob}_{x_0} = (\operatorname{Frob}_{x_0,1},\ldots,\operatorname{Frob}_{x_0,m})\in G_1\times\cdots\times G_m.\] 
+The simultaneous splitting type of $(p_1(x_0,t),\ldots,p_m(x_0,t))$ are determined componentwisely and their distributions are <strong>asymptotically independent</strong>.
 </div>
 
 ---
@@ -410,7 +632,9 @@ Suppose $L_1,\ldots,L_m$ are mutually linearly disjoint. Then $\operatorname{Fro
 </div>
 
 <div class="tblock-def" data-title="Independence Condition" style="font-size:0.82em;">
-$f_1,\ldots,f_m\in K^\times$ satisfy the <strong>independence condition</strong> if $[f_1],\ldots,[f_m]\in K^\times/(K^\times)^n$ are $\mathbb{Z}/n\mathbb{Z}$-linearly independent: no non-trivial product $\lambda\prod f_i^{\varepsilon_i}$ lies in $(K^\times)^n$. This implies $L_1,\ldots,L_m$ are mutually linearly disjoint and $G^{\mathrm{geom}}\cong(\mathbb{Z}/n\mathbb{Z})^m$.
+$[f_1],\ldots,[f_m]\in K^\times/(K^\times)^n$ are <strong>independent</strong> if:
+\[\lambda f_1^{\varepsilon_1}\cdots f_m^{\varepsilon_m}\in (K^\times)^n \implies \varepsilon_1\equiv\cdots\equiv \varepsilon_m\equiv 0\pmod{n}, \lambda\in (\mathbb{F}_q^\times)^n.\]
+This implies $L_1,\ldots,L_m$ are mutually linearly disjoint and $G^{\mathrm{geom}}\cong(\mathbb{Z}/n\mathbb{Z})^m$.
 </div>
 <div class="tblock" data-title="Theorem (W. — Generalization of a Result of Slavov)" style="margin-top:0.3em;font-size:0.82em;">
 Let $q\equiv 1\pmod n$ and $f_1,\ldots,f_m$ satisfy the independence condition. For any $g\in\mu_n^m$,
@@ -419,22 +643,42 @@ Let $q\equiv 1\pmod n$ and $f_1,\ldots,f_m$ satisfy the independence condition. 
 
 ---
 
+<div style="position:relative;width:100%;height:520px;">
+  <div style="position:absolute;top:0;left:0;font-size:0.57em;line-height:1.8;text-align:left;">
+    <div style="font-size:0.8em;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#ccc;margin-bottom:0.1em;">Motivation</div>
+    <div style="color:#ccc;padding-left:0.4em;">I. Splitting of Polynomial Families</div>
+    <div style="font-size:0.8em;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#ccc;margin:0.35em 0 0.1em;">Applications</div>
+    <div style="color:#ccc;padding-left:0.4em;">II. Joint Distribution of $\chi_n$</div>
+    <div style="color:#2d318f;font-weight:700;padding-left:0.4em;">III. The Poncelet $n$-gon Problem</div>
+  </div>
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="font-size:0.72em;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#bbb;margin-bottom:1em;">Application</div>
+    <div style="display:inline-flex;align-items:baseline;gap:0.55em;margin-bottom:0.6em;">
+      <span style="font-size:1.5em;font-weight:700;color:#2d318f;">III.</span>
+      <span style="font-size:1.5em;font-weight:700;color:#2d318f;">The Poncelet $n$-gon Problem</span>
+    </div>
+    <div style="font-size:0.82em;color:#999;font-style:italic;margin-top:1.1em;">Density of Poncelet $n$-gons via $n$-torsion points to a family of elliptic curves</div>
+  </div>
+</div>
+
+---
+
 <div class="slide-title">
   Poncelet's Construction
 </div>
 
-<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.2em;">
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.75em;margin-bottom:0.2em;">
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$(\mathcal{A},\mathcal{B})$</td><td>smooth plane conics with transveral intersection</td></tr>
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$E = \{(P,\xi)\in\mathcal{A}\times\mathcal{B}^* : P\in\xi\}$, </td><td> the incidence variety</td></tr>
 </table>
-<div class="tblock-def fragment" data-title="Poncelet's Construction" style="font-size:0.82em;">
+<div class="tblock-def" data-title="Poncelet's Construction" style="font-size:0.82em;">
 Define involutions $i_1,i_2:E\to E$ and the composition $j = i_2\circ i_1$:
 \[i_1:(P,\xi)\mapsto (P',\xi)\qquad P'\text{ = other intersection of }\xi\text{ with }\mathcal{A}\]
 \[i_2:(P',\xi)\mapsto (P',\xi')\qquad \xi'\text{ = other tangent line from }P'\text{ to }\mathcal{B}\]
 We obtain a <strong>Poncelet $n$-gon</strong> if $j^n(P_0,\xi_0) = (P_0,\xi_0)$.
 </div>
 
-<div class="tblock-ques fragment" data-title="Question" style="font-size:0.82em;">
+<div class="tblock-ques" data-title="Question" style="font-size:0.82em;">
 What is the Probability that a randomly choosen pair of smooth conics over $\mathbb{F}_q$ has a Poncelet $n$-gon.
 </div>
 
@@ -468,7 +712,7 @@ What is the Probability that a randomly choosen pair of smooth conics over $\mat
   <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$\Gamma_n$</td><td>pairs $(\mathcal{A},\mathcal{B})\in\Psi$ that have a Poncelet $n$-gon</td></tr>
 </table>
 
-<div class="tblock fragment" data-title="Theorem (Chipalkatti)" style="font-size:0.82em;">
+<div class="tblock" data-title="Theorem (Chipalkatti)" style="font-size:0.82em;">
 If $\operatorname{char}(\mathbb{F}_q) \neq 2, 3$, then
 \[\frac{q-16}{q(q+1)}\leq \frac{|\Gamma_3|}{|\Psi|}\leq \frac{q+5}{(q-2)(q-3)}\]
 \[\frac{|\Gamma_3|}{|\Psi|} = \begin{cases} q^{-1}+O(q^{-2}) & \operatorname{char}(\mathbb{F}_q) \neq 2,3 \\ 2q^{-1}+O(q^{-2}) & \operatorname{char}(\mathbb{F}_q) = 3 \end{cases}\]
@@ -509,12 +753,12 @@ The family \[\{\eta F+G = 0 : \eta\in\mathbb{P}^1(\mathbb{F}_q)\}\] is called a 
   Result for $n=3$ and $n=4$
 </div>
 
-<div class="tblock-rmk fragment" data-title="Theorem (W.) — n=3" style="font-size:0.75em;">
+<div class="tblock-rmk" data-title="Theorem (W.) — n=3" style="font-size:0.75em;">
 If $\operatorname{char}(\mathbb{F}_q) \neq 2, 3$, then
 \[\frac{|\Gamma_3|}{|\Psi|} = \frac{q-1}{q^2-q+1}, \qquad |\Gamma_3| = (q^5-q^2)(q^2-1)(q^2-q)\]
 </div>
 
-<div class="tblock-rmk fragment" data-title="Theorem (W.) — n=4" style="font-size:0.75em;">
+<div class="tblock-rmk" data-title="Theorem (W.) — n=4" style="font-size:0.75em;">
 If $\operatorname{char}(\mathbb{F}_q) \neq 2$, then $\dfrac{|\Gamma_4|}{|\Psi|} = q^{-1} + O(q^{-3/2})$, with asymptotic densities per class:
 <table style="border-collapse:collapse;font-size:0.92em;margin:0.2em auto 0;">
   <thead>
@@ -539,9 +783,13 @@ If $\operatorname{char}(\mathbb{F}_q) \neq 2$, then $\dfrac{|\Gamma_4|}{|\Psi|} 
   Key Lemma: Counting via Family of Elliptic Curves
 </div>
 
-<div class="tblock fragment" data-title="Lemma" style="font-size:0.76em;">
-Let $\mathcal{P}$ be a pencil with intersection type $(1,1,1,1)$ or $(2,2)$, and $E_\lambda$ the <strong>Legendre family</strong> $E_\lambda: y^2 = x(x-1)(x-\lambda)$.
-Let $E_{\lambda_0}$ denote the reduction at $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)$. Then the number of smooth conic pairs in $\mathcal{P}$ satisfying the Poncelet $n$-gon condition is
+<div class="tblock" data-title="Lemma" style="font-size:0.76em;">
+<table style="border:none;border-collapse:collapse;line-height:1.45;width:100%;margin-bottom:0.4em;">
+  <tr><td style="padding:0.04em 0.7em 0.04em 0;white-space:nowrap;vertical-align:top;">$\mathcal{P}$</td><td>a pencil with intersection type $(1,1,1,1)$ or $(2,2)$</td></tr>
+  <tr><td style="padding:0.04em 0.7em 0.04em 0;white-space:nowrap;vertical-align:top;">$E_\lambda$</td><td>the <strong>Legendre family</strong> $E_\lambda: y^2 = x(x-1)(x-\lambda)$</td></tr>
+  <tr><td style="padding:0.04em 0.7em 0.04em 0;white-space:nowrap;vertical-align:top;">$E_{\lambda_0}$</td><td>the reduction at $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)$</td></tr>
+</table>
+Then the number of smooth conic pairs in $\mathcal{P}$ satisfying the Poncelet $n$-gon condition is
 \[n^\mathcal{P} = \frac{1}{2}\sum_{\lambda_0 \in \mathbb{F}_q \setminus \{0,1\}} \bigl|\{P \in E_{\lambda_0}[n] \setminus E_{\lambda_0}[2] : x(P) \in \mathbb{F}_q\}\bigr|.\]
 </div>
 
@@ -559,21 +807,24 @@ Similar formulas hold for the remaining types, with the following elliptic famil
   The $n$-Torsion Representation
 </div>
 
-<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.84em;margin-bottom:0.3em;">
-  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$K=\mathbb{F}_q(\lambda)$</td><td>function field of $\mathbb{P}^1$, $\operatorname{char}(\mathbb{F}_q)>3$</td></tr>
-  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$E_\lambda: y^2=x(x-1)(x-\lambda)$</td><td>Legendre elliptic curve over $K$</td></tr>
-  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$n$ coprime to $q$</td><td>$E_\lambda[n]\cong(\mathbb{Z}/n\mathbb{Z})^2$; $K(E_\lambda[n])$ the $n$-torsion field</td></tr>
+<table style="border:none;border-collapse:collapse;line-height:1.35;font-size:0.76em;margin-bottom:0.3em;">
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$n$ coprime to $q$</td><td>we have $E_\lambda[n]\cong\mathbb{Z}/n\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$; </td></tr>
+  <tr><td style="padding:0.03em 0.5em 0.03em 0;white-space:nowrap;vertical-align:top;">$K(E_\lambda[n])$</td><td>the $n$-torsion field obtained by adjointing $x,y$-coordinates of $P\in E_\lambda[n]$</td></tr>
 </table>
 
-<div class="tblock fragment" data-title="Galois Representation" style="font-size:0.80em;">
+<div class="tblock" data-title="Galois Representation" style="font-size:0.76em;">
 The action of $\operatorname{Gal}(K^{\mathrm{sep}}/K)$ on $E_\lambda[n]$ induces
 \[\rho_{E,n}: \operatorname{Gal}(K(E_\lambda[n])/K) \hookrightarrow \operatorname{Aut}(E_\lambda[n]) \cong \operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z}).\]
-For $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)\setminus\{0,1,\infty\}$ (good reduction), the Frobenius $\operatorname{Frob}_{\lambda_0}$ is well-defined and encodes the arithmetic of $E_{\lambda_0}[n]$ via its conjugacy class in $\operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z})$.
+For $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)\setminus\{0,1,\infty\}$, the Frobenius $\operatorname{Frob}_{\lambda_0}$ is well-defined, 
+and its conjugacy class in $\operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z})$ represents the action of $\sigma_q$ on $E_{\lambda_0}[n]$.
 </div>
 
-<div class="tblock-def fragment" data-title="Lemma (Weil Pairing)" style="font-size:0.80em;">
-$K(\mu_n)\subset K(E_\lambda[n])$, and every $\sigma\in\operatorname{Gal}(K(E_\lambda[n])/K)$ acts on $\zeta\in\mu_n$ via $\zeta^\sigma = \zeta^{\det\sigma}$.
-In particular, $\det(\operatorname{Frob}_{\lambda_0})\equiv q\pmod{n}$.
+<div class="tblock-def" data-title="Lemma (Weil Pairing)" style="font-size:0.76em;">
+<table style="border:none;border-collapse:collapse;line-height:1.45;width:100%;">
+  <tr><td style="padding:0.04em 0.7em 0.04em 0;white-space:nowrap;vertical-align:top;">Field of constant</td><td>$K(\mu_n)\subset K(E_\lambda[n])$</td></tr>
+  <tr><td style="padding:0.04em 0.7em 0.04em 0;white-space:nowrap;vertical-align:top;">Galois action</td><td>every $\sigma\in\operatorname{Gal}(K(E_\lambda[n])/K)$ acts on $\zeta\in\mu_n$ via $\zeta^\sigma = \zeta^{\det\sigma}$</td></tr>
+  <tr><td style="padding:0.04em 0.7em 0.04em 0;white-space:nowrap;vertical-align:top;">Frobenius constraint</td><td>$\det(\operatorname{Frob}_{\lambda_0})\equiv q\pmod{n}$</td></tr>
+</table>
 </div>
 
 ---
@@ -582,14 +833,14 @@ In particular, $\det(\operatorname{Frob}_{\lambda_0})\equiv q\pmod{n}$.
   Geometric Galois Group of $K(E_\lambda[n])/K$
 </div>
 
-<div class="tblock fragment" data-title="Theorem (Hall and Yu)" style="font-size:0.80em;">
+<div class="tblock" data-title="Theorem (Hall and Yu)" style="font-size:0.80em;">
 Let $n$ be an odd integer coprime to $q$. The field of constants of $K(E_\lambda[n])$ is $K(\mu_n)$, and
 \[G^{\mathrm{geom}} = \operatorname{Gal}(K(E_\lambda[n])/K(\mu_n)) = \operatorname{SL}_2(\mathbb{Z}/n\mathbb{Z}).\]
 Letting $\langle q\rangle\subset(\mathbb{Z}/n\mathbb{Z})^\times$ denote the subgroup generated by $q$, we have the exact sequence
 \[1\to\operatorname{SL}_2(\mathbb{Z}/n\mathbb{Z})\to\operatorname{Gal}(K(E_\lambda[n])/K)\xrightarrow{\;\det\;}\langle q\rangle\to 1.\]
 </div>
 
-<div class="tblock-rmk fragment" data-title="Key Consequences" style="font-size:0.80em;">
+<div class="tblock-rmk" data-title="Key Consequences" style="font-size:0.80em;">
 <ul style="margin:0.2em 0;padding-left:1.2em;line-height:1.5;">
 <li>$\operatorname{Gal}(K(E_\lambda[n])/K)$ embeds into $\operatorname{GL}_2(\mathbb{Z}/n\mathbb{Z})$ via $\rho_{E,n}$.</li>
 <li>Geometric Galois group $=\operatorname{SL}_2(\mathbb{Z}/n\mathbb{Z})$; field of constants $= K(\mu_n)$.</li>
@@ -609,12 +860,12 @@ Letting $\langle q\rangle\subset(\mathbb{Z}/n\mathbb{Z})^\times$ denote the subg
   <tr><td style="padding:0.02em 0.5em 0.02em 0;white-space:nowrap;vertical-align:top;">$d(n)$</td><td>number of positive divisors of $n$</td></tr>
 </table>
 
-<div class="tblock fragment" data-title="Theorem (W.)" style="font-size:0.70em;">
+<div class="tblock" data-title="Theorem (W.)" style="font-size:0.70em;">
 Let $n$ be an odd integer coprime to $q$. Summing over all $\lambda_0\in\mathbb{P}^1(\mathbb{F}_q)$ where $E_\lambda$ has good reduction,
 \[\sum_{\lambda_0} r(n,\lambda_0) = (d(n)-1)\,q + O(\sqrt{q}).\]
 </div>
 
-<div class="tblock fragment" data-title="Main Theorem (W.) — Poncelet n-gon Density" style="font-size:0.70em;">
+<div class="tblock" data-title="Theorem (W.) — Poncelet n-gon Density" style="font-size:0.70em;">
 Let $\mathbb{F}_q$ have characteristic greater than $3$, and $n$ be an odd integer coprime to $q$. Then
 \[\frac{|\Gamma_n|}{|\Psi|} = \frac{d(n)-1}{q} + O(q^{-3/2}).\]
 </div>
