@@ -3,10 +3,9 @@ title: Tianhao's Homepage
 ---
 
 ## About me
-I am a fifth-year Ph.D. student in Mathematics at UC Irvine, specializing in 
-Arithmetic Algebraic Geometry. I expect to graduate in June 2026 and am 
-currently seeking internship opportunities in quantitative finance and data science.
-You can view my [résumé (PDF)]({{ "/resources/CV.pdf" | relative_url }}).
+I am a sixth-year Ph.D. student in Mathematics at UC Irvine, specializing in 
+Arithmetic Algebraic Geometry. I expect to graduate in June 2026
+You can view my [résumé (PDF)]({{ "/resources/CV.pdf" | relative_url }}), and my [defense slides]({{ "/slides/defense" | relative_url }}).
 
 ## Education
 - **University of California, Irvine**  
@@ -65,15 +64,15 @@ Spatially aggregated weather data using KNN near the crop regions.
 - **Teaching Assistant**, *2016 - 2026*  
   Teaching assistant for Calculus, Linear Algebra, Abstract Algebra, Number Theory and Math Finance
   - Received *Excellent Teaching Award* (2018).
-  - Nominated for *Most Promising Future Faculty Award* (2024)
+  - Nominated for *Most Promising Future Faculty Award* (2024, 2026)
 
 ## Preprints/Publications
 - T. Wang, *Counting pairs of conics over finite fields that satisfy the 
-  Poncelet $n$-gon condition*. 29 pp. Submitted to JTNB. 
+  Poncelet $n$-gon condition*. 29 pp. Accepted by JTNB. 
   [arxiv link](https://arxiv.org/abs/2309.16978).
 
 ## Honors and Awards
-- Nominated for the *Most Promising Future Faculty Award* (June 2024, UC Irvine)
+- Nominated for the *Most Promising Future Faculty Award* (June 2024 and June 2026, UC Irvine)
 - Finalist in the *Alibaba Global Mathematics Competition* (June 2023)
 - *Dean's Award for Excellence* (June 2018, UC San Diego)
 - *Excellent Teaching Award* (June 2018, UC San Diego)
