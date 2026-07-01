@@ -11,7 +11,8 @@ You can view my [résumé (PDF)]({{ "/resources/CV.pdf" | relative_url }}), and 
 - **University of California, Irvine**  
   *Ph.D. in Mathematics*, *Sept 2020 – June 2026 (expected)*  
   Advisor: Nathan Kaplan  
-  Research focus: Arithmetic Algebraic Geometry
+  Research focus: Arithmetic Algebraic Geometry  
+  Thesis: Frobenius Equidistribution and Arithmetic of Fibers in Algebraic Families
 
 - **University of California, San Diego**   
   *B.S. in Mathematics*, *M.A. in Mathematics*, *Sept 2014 – Dec 2019*  
@@ -67,6 +68,9 @@ Spatially aggregated weather data using KNN near the crop regions.
   - Nominated for *Most Promising Future Faculty Award* (2024, 2026)
 
 ## Preprints/Publications
+- T. Wang, *An Exact Counting Formula for the Mutual Position of Two Plane Conics*. In Preparation.
+- L. Zhang, X. Zhuang, T. Wang and N. Kaplan, *Geometry-aware MCTS for extremal problems in combinatorial geometry*. Submitted to Transactions on Machine Learning Research.
+- T. Wang, *Splitting of Polynomial Families via Galois Theory*. 24 pp. Submitted to Finite Fields and Their Applications. [arxiv link](https://arxiv.org/abs/2309.16978). 
 - T. Wang, *Counting pairs of conics over finite fields that satisfy the 
   Poncelet $n$-gon condition*. 29 pp. Accepted by JTNB. 
   [arxiv link](https://arxiv.org/abs/2309.16978).
