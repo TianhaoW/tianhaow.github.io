@@ -7,6 +7,10 @@ permalink: /teaching
 
 | Term         | Courses                                                                    |
 |--------------|----------------------------------------------------------------------------|
+| Spring 2026  | Math 3A: Linear Algebra                                                    |
+| Winter 2026  | Math 3A: Linear Algebra                                                    |
+| Fall 2026    | Math 3A: Linear Algebra                                                    |
+| Summer 2025  | Jumpstart Algebra (Ph.D qualifying exam prepration course)                 |
 | Spring 2025  | Math 180B: Number Theory, Math 120C: Galois Theory                         |
 | Winter 2024  | Math 120B: Ring Theory                                                     |
 | Fall 2024    | Math 120A: Group Theory                                                    |
