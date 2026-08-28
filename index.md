@@ -19,9 +19,9 @@ You can view my [résumé (PDF)]({{ "/resources/CV.pdf" | relative_url }}), and 
   Honors: Cum Laude, Dean’s Award for Excellence
 
 ## Preprints/Publications
-- T. Wang, *An Exact Counting Formula for the Mutual Position of Two Plane Conics*. In Preparation.
+- T. Wang, *An Exact Counting Formula for the Mutual Position of Two Plane Conics*. 11pp. Submitted to Designs, Codes and Cryptography. [arxiv link](https://arxiv.org/abs/2608.22961).
 - L. Zhang, X. Zhuang, T. Wang and N. Kaplan, *Geometry-aware MCTS for extremal problems in combinatorial geometry*. Submitted to TMLR. [arxiv link](https://arxiv.org/abs/2606.26399).
-- T. Wang, *Splitting of Polynomial Families via Galois Theory*. 24 pp. Submitted to Finite Fields and Their Applications. [arxiv link](https://arxiv.org/abs/2309.16978). 
+- T. Wang, *Splitting of Polynomial Families via Galois Theory*. 24 pp. Submitted to Expositiones Mathematicae. [arxiv link](https://arxiv.org/abs/2309.16978). 
 - T. Wang, *Counting pairs of conics over finite fields that satisfy the 
   Poncelet $n$-gon condition*. 29 pp. Accepted by JTNB. 
   [arxiv link](https://arxiv.org/abs/2309.16978).
